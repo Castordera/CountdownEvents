@@ -24,7 +24,7 @@ import com.example.domain.models.CountdownDate
 fun CountDownRoute(
     toolbarActions: List<TopBarItem> = emptyList(),
     viewModel: CountdownViewModel = viewModel(),
-    onNavigateToDetail: (String) -> Unit
+    onNavigateToDetail: (CountdownDate) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -40,7 +40,7 @@ fun CountDownRoute(
 fun CountdownMainScreen(
     items: List<CountdownDate>?,
     toolbarActions: List<TopBarItem>,
-    onNavigateToDetail: (String) -> Unit
+    onNavigateToDetail: (CountdownDate) -> Unit
 ) {
     Scaffold(
         topBar = { Toolbar(
@@ -62,7 +62,7 @@ fun CountdownMainScreen(
                     modifier = Modifier.animateItemPlacement(),
                     item = it,
                     onLongClick = {},
-                    onClick = { onNavigateToDetail(it.name) }
+                    onClick = { onNavigateToDetail(it) }
                 )
                 Divider(color = Color.LightGray)
             }
@@ -79,11 +79,11 @@ fun PrevCountDownScreen() {
             items = listOf(
                 CountdownDate(
                     name = "Bebecita",
-                    dateToCountdown = "2023-05-29T23:25:14.697982"
+                    dateToCountdown = "2023-05-29T00:00:00"
                 ),
                 CountdownDate(
                     name = "Birth Day",
-                    dateToCountdown = "2023-12-08T23:25:14.697982"
+                    dateToCountdown = "2023-12-08T00:00:00"
                 )
             ),
             toolbarActions = emptyList(),

@@ -17,7 +17,7 @@ get() {
     )
 }
 
-val CountdownDate.remainingTime: String
+val CountdownDate.remainingTime: Long
 get() {
     return runCatching {
         val today = LocalDateTime.now()
@@ -30,8 +30,8 @@ get() {
             else -> duration.toMinutes()
         }
     }.fold(
-        onSuccess = { it.toString() },
-        onFailure = { "Error decoding $this" }
+        onSuccess = { it },
+        onFailure = { 0L }
     )
 }
 
