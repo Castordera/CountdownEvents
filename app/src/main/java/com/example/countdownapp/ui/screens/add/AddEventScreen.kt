@@ -64,19 +64,29 @@ fun AddEventScreen(
                 .padding(16.dp)
         ) {
             Column(
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                TextField(
+                OutlinedTextField(
                     value = uiState.eventName,
                     onValueChange = onUpdateEventName,
                     label = { Text("Event Name") },
+                    singleLine = true,
                     modifier = Modifier.fillMaxWidth()
                 )
-                OutlinedButton(onClick = { calendarDialog.show() }) {
+                Text(
+                    text = uiState.date,
+                    fontSize = 50.sp,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
+                )
+                OutlinedButton(
+                    onClick = { calendarDialog.show() },
+                    border = null
+                ) {
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.fillMaxWidth()
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_calendar),
@@ -85,12 +95,6 @@ fun AddEventScreen(
                         Text(text = "Change day")
                     }
                 }
-                Text(
-                    text = uiState.date,
-                    fontSize = 50.sp,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth()
-                )
                 Spacer(modifier = Modifier.weight(1f))
                 Button(onClick = onSaveEvent) {
                     Text(

@@ -1,92 +1,160 @@
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+
 package com.example.countdownapp.ui.screens.main
 
-import android.content.res.Configuration
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.*
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.countdownapp.R
 import com.example.countdownapp.ui.common.TopBarItem
-import com.example.countdownapp.ui.components.CountDownItem
+import com.example.countdownapp.ui.components.CountDownItemGrid
+import com.example.countdownapp.ui.components.CountDownItemList
 import com.example.countdownapp.ui.components.Toolbar
+import com.example.countdownapp.ui.screens.utils.listItemsPreview
 import com.example.countdownapp.ui.theme.CountdownAppTheme
 import com.example.domain.models.CountdownDate
 
 @Composable
 fun CountDownRoute(
     toolbarActions: List<TopBarItem> = emptyList(),
-    viewModel: CountdownViewModel = viewModel(),
+    viewModel: CountdownViewModel = hiltViewModel(),
     onNavigateToDetail: (CountdownDate) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    CountdownMainScreen(
-        items = uiState.countdownItems,
-        toolbarActions = toolbarActions,
-        onNavigateToDetail = { onNavigateToDetail(it) }
-    )
+    Scaffold(
+        topBar = {
+            Toolbar(
+                title = "Events",
+                actions = toolbarActions + listOf(
+                    TopBarItem(
+                        "",
+                        if (!uiState.isGrid) R.drawable.ic_grid_view else R.drawable.ic_view_list,
+                        viewModel::onListChangeAdapter
+                    )
+                )
+            )
+        }
+    ) { padding ->
+        if (uiState.countdownItems.isNullOrEmpty()) {
+            Text("No items")
+        } else {
+            CountdownMainScreen(
+                modifier = Modifier.padding(padding),
+                items = uiState.countdownItems!!,
+                onNavigateToDetail = onNavigateToDetail,
+                isGrid = uiState.isGrid
+            )
+        }
+    }
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun CountdownMainScreen(
-    items: List<CountdownDate>?,
-    toolbarActions: List<TopBarItem>,
+    modifier: Modifier = Modifier,
+    items: List<CountdownDate>,
+    onNavigateToDetail: (CountdownDate) -> Unit,
+    isGrid: Boolean = false
+) {
+    if (!isGrid) {
+        CountDownList(
+            modifier = modifier,
+            items = items,
+            onNavigateToDetail = { onNavigateToDetail(it) },
+        )
+    } else {
+        CountDownGridList(
+            modifier = modifier,
+            items = items,
+            onNavigateToDetail = { onNavigateToDetail(it) },
+        )
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+private fun CountDownList(
+    modifier: Modifier = Modifier,
+    items: List<CountdownDate>,
     onNavigateToDetail: (CountdownDate) -> Unit
 ) {
-    Scaffold(
-        topBar = { Toolbar(
-            title = "Events",
-            actions = toolbarActions
-        ) }
-    ) { padding ->
-        if (items.isNullOrEmpty()) {
-            return@Scaffold
-        }
-        LazyColumn(
-            modifier = Modifier.padding(padding)
+    LazyColumn(
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 16.dp),
+        modifier = modifier
+    ) {
+        items(
+            items = items,
+            key = { "${it.name}_${it.id}" }
         ) {
-            items(
-                items = items,
-                key = { "${it.name}_${it.id}" }
-            ) {
-                CountDownItem(
-                    modifier = Modifier.animateItemPlacement(),
-                    item = it,
-                    onLongClick = {},
-                    onClick = { onNavigateToDetail(it) }
-                )
-                Divider(color = Color.LightGray)
-            }
+            CountDownItemList(
+                modifier = Modifier.animateItemPlacement(),
+                item = it,
+                onClick = onNavigateToDetail
+            )
+        }
+    }
+}
+
+@Composable
+private fun CountDownGridList(
+    modifier: Modifier = Modifier,
+    items: List<CountdownDate>,
+    onNavigateToDetail: (CountdownDate) -> Unit
+) {
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 16.dp),
+        modifier = modifier
+    ) {
+        items(
+            items = items,
+            key = { "${it.name}_${it.id}" }
+        ) {
+            CountDownItemGrid(
+                item = it,
+                onClick = onNavigateToDetail
+            )
         }
     }
 }
 
 @Preview(showSystemUi = true)
-@Preview(showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun PrevCountDownScreen() {
     CountdownAppTheme {
         CountdownMainScreen(
-            items = listOf(
-                CountdownDate(
-                    name = "Bebecita",
-                    dateToCountdown = "2023-05-29T00:00:00"
-                ),
-                CountdownDate(
-                    name = "Birth Day",
-                    dateToCountdown = "2023-12-08T00:00:00"
-                )
-            ),
-            toolbarActions = emptyList(),
+            items = listItemsPreview,
+            onNavigateToDetail = {}
+        )
+    }
+}
+
+@Preview(showSystemUi = true)
+@Composable
+fun PrevCountDownScreenGrid() {
+    CountdownAppTheme {
+        CountdownMainScreen(
+            isGrid = true,
+            items = listItemsPreview,
             onNavigateToDetail = {}
         )
     }

@@ -1,16 +1,11 @@
 package com.example.domain.models
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
-import java.util.*
+import java.time.LocalDateTime
+import java.util.Date
 
-@Serializable
-@SerialName("CountdownDate")
 data class CountdownDate(
     val id: String = "${Date().time}",
     val name: String,
-    val dateToCountdown: String
-) : NavClass
-
-@Serializable
-sealed interface NavClass
+    val createdAt: String,
+    val dateToCountdown: LocalDateTime
+)

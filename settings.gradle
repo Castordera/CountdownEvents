@@ -15,3 +15,5 @@ dependencyResolutionManagement {
 rootProject.name = "CountdownApp"
 include ':app'
 include ':domain'
+include ':usecase'
+include ':data'

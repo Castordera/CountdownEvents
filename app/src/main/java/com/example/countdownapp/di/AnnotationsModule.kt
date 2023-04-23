@@ -20,4 +20,9 @@ object AnnotationsModule {
     @Singleton
     @HumanReadableFormat
     fun provideHumanReadableFormat(): DateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+
+    @Provides
+    @Singleton
+    @DatabaseCounterName
+    fun provideCounterDatabaseName(): String = "counter-database"
 }

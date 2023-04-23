@@ -5,5 +5,6 @@ import com.example.domain.models.CountdownDate
 data class MainUiState(
     val loading: Boolean = true,
     val countdownItems: List<CountdownDate>? = null,
-    val error: Boolean = false
+    val error: Boolean = false,
+    val isGrid: Boolean = false
 )
