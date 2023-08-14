@@ -2,6 +2,7 @@ package com.example.countdownapp.ui.screens.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ulises.usecase.countdown.DeleteCountdownUseCase
 import com.ulises.usecase.countdown.GetAllCountdownUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +16,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CountdownViewModel @Inject constructor(
-    private val getAllCountdownUseCase: GetAllCountdownUseCase
+    private val getAllCountdownUseCase: GetAllCountdownUseCase,
+    private val deleteCountdownUseCase: DeleteCountdownUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(MainUiState())
@@ -42,5 +44,15 @@ class CountdownViewModel @Inject constructor(
 
     fun onListChangeAdapter() {
         _uiState.update { it.copy(isGrid = !it.isGrid) }
+    }
+
+    fun onDeleteCountdownItem(id: String) {
+        viewModelScope.launch {
+            runCatching {
+                deleteCountdownUseCase(id)
+            }.onFailure {
+                Timber.e(it, "Error deleting countdown")
+            }
+        }
     }
 }

@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@file:OptIn(ExperimentalFoundationApi::class)
 
 package com.example.countdownapp.ui.screens.main
 
@@ -11,9 +11,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -61,6 +59,7 @@ fun CountDownRoute(
                 modifier = Modifier.padding(padding),
                 items = uiState.countdownItems!!,
                 onNavigateToDetail = onNavigateToDetail,
+                onDeleteItem = viewModel::onDeleteCountdownItem,
                 isGrid = uiState.isGrid
             )
         }
@@ -72,29 +71,32 @@ fun CountdownMainScreen(
     modifier: Modifier = Modifier,
     items: List<CountdownDate>,
     onNavigateToDetail: (CountdownDate) -> Unit,
+    onDeleteItem: (String) -> Unit,
     isGrid: Boolean = false
 ) {
     if (!isGrid) {
         CountDownList(
             modifier = modifier,
             items = items,
-            onNavigateToDetail = { onNavigateToDetail(it) },
+            onNavigateToDetail = onNavigateToDetail,
+            onDeleteItem = onDeleteItem
         )
     } else {
         CountDownGridList(
             modifier = modifier,
             items = items,
-            onNavigateToDetail = { onNavigateToDetail(it) },
+            onNavigateToDetail = onNavigateToDetail,
+            onDeleteItem = onDeleteItem
         )
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun CountDownList(
     modifier: Modifier = Modifier,
     items: List<CountdownDate>,
-    onNavigateToDetail: (CountdownDate) -> Unit
+    onNavigateToDetail: (CountdownDate) -> Unit,
+    onDeleteItem: (String) -> Unit
 ) {
     LazyColumn(
         contentPadding = PaddingValues(vertical = 16.dp),
@@ -107,7 +109,8 @@ private fun CountDownList(
             CountDownItemList(
                 modifier = Modifier.animateItemPlacement(),
                 item = it,
-                onClick = onNavigateToDetail
+                onClick = onNavigateToDetail,
+                onDelete = onDeleteItem
             )
         }
     }
@@ -117,7 +120,8 @@ private fun CountDownList(
 private fun CountDownGridList(
     modifier: Modifier = Modifier,
     items: List<CountdownDate>,
-    onNavigateToDetail: (CountdownDate) -> Unit
+    onNavigateToDetail: (CountdownDate) -> Unit,
+    onDeleteItem: (String) -> Unit
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -144,7 +148,8 @@ fun PrevCountDownScreen() {
     CountdownAppTheme {
         CountdownMainScreen(
             items = listItemsPreview,
-            onNavigateToDetail = {}
+            onNavigateToDetail = {},
+            onDeleteItem = {}
         )
     }
 }
@@ -156,7 +161,8 @@ fun PrevCountDownScreenGrid() {
         CountdownMainScreen(
             isGrid = true,
             items = listItemsPreview,
-            onNavigateToDetail = {}
+            onNavigateToDetail = {},
+            onDeleteItem = {}
         )
     }
 }

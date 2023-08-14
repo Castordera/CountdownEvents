@@ -29,7 +29,8 @@ import com.example.domain.models.DateHandler
 fun CountDownItemList(
     modifier: Modifier = Modifier,
     item: CountdownDate,
-    onClick: (CountdownDate) -> Unit
+    onClick: (CountdownDate) -> Unit,
+    onDelete: (String) -> Unit
 ) {
     var dateHandler by remember { mutableStateOf(DateHandler(false, "", "")) }
 
@@ -44,6 +45,7 @@ fun CountDownItemList(
                 .fillMaxWidth()
                 .combinedClickable(
                     onClick = { onClick(item) },
+                    onLongClick = { onDelete(item.id) }
                 )
                 .padding(
                     horizontal = 16.dp,
@@ -132,11 +134,12 @@ fun PrevCountDownItem() {
         ) {
             CountDownItemList(
                 item = listItemsPreview[0],
-                onClick = {}
+                onClick = {},
+                onDelete = {}
             )
             CountDownItemGrid(
                 item = listItemsPreview[1],
-                onClick = {}
+                onClick = {},
             )
         }
     }
