@@ -16,6 +16,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.countdownapp.R
+import com.example.countdownapp.ui.common.TopBarItem
 import com.example.countdownapp.ui.components.Toolbar
 import com.example.countdownapp.ui.theme.CountdownAppTheme
 
@@ -24,25 +26,34 @@ fun CountdownDetailRoute(
     viewModel: CountdownDetailViewModel = viewModel(),
     onBackPress: () -> Unit
 ) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
-    CountDownDetailScreen(
-        uiState = uiState,
-        onBackPress = { onBackPress() }
-    )
+//    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+//
+//    CountDownDetailScreen(
+//        uiState = uiState,
+//        onBackPress = { onBackPress() },
+//        actions = listOf(
+//            TopBarItem(
+//                description = "",
+//                icon = R.drawable.ic_refresh,
+//                onClick = viewModel::onRefreshTimeClick
+//            )
+//        )
+//    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CountDownDetailScreen(
     uiState: DetailUiState,
+    actions: List<TopBarItem> = emptyList(),
     onBackPress: () -> Unit
 ) {
     Scaffold(
         topBar = {
             Toolbar(
                 title = uiState.eventName,
-                onBackPress = { onBackPress() }
+                onBackPress = { onBackPress() },
+                actions = actions
             )
         }
     ) {
@@ -79,8 +90,8 @@ fun PrevCountDownDetailScreen() {
             uiState = DetailUiState(
                 eventName = "Event Name",
                 remainingPeriod = "Period",
-                remainingTime = "20"
-            )
+                remainingTime = "20",
+            ),
         ) {}
     }
 }

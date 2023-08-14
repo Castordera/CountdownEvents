@@ -32,21 +32,20 @@ fun CountDownNavHost(
                         navController.navigate(Screens.AddCountDown.route)
                     }
                 ),
-                viewModel = hiltViewModel(),
                 onNavigateToDetail = { item ->
-                    navController.navigate(Screens.DetailCountDown.createRoute(item))
+//                    navController.navigate(Screens.DetailCountDown.createRoute(item))
                 }
             )
         }
-        composable(
-            route = Screens.DetailCountDown.route,
-            arguments = listOf(navArgument(NavArgs.Detail.key) { type = NavType.StringType })
-        ) {
-            CountdownDetailRoute(
-                viewModel = hiltViewModel(),
-                onBackPress = { navController.popBackStack() }
-            )
-        }
+//        composable(
+//            route = Screens.DetailCountDown.route,
+//            arguments = listOf(navArgument(NavArgs.Detail.key) { type = NavType.StringType })
+//        ) {
+//            CountdownDetailRoute(
+//                viewModel = hiltViewModel(),
+//                onBackPress = { navController.popBackStack() }
+//            )
+//        }
         composable(
             route = Screens.AddCountDown.route
         ) {

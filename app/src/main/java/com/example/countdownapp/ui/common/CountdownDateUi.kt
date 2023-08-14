@@ -22,13 +22,13 @@ enum class PeriodRemaining {
     MINUTES
 }
 
-fun CountdownDate.toUi() = CountdownDateUi(
-    id = id,
-    title = name,
-    date = dateToCountdown,
-    detailCountdown = DetailCountdown(
-        readableDate = "",
-        periodRemaining = PeriodRemaining.DAYS,
-        timeRemaining = 0
-    )
-)
+//fun CountdownDate.toUi() = CountdownDateUi(
+//    id = id,
+//    title = name,
+//    date = dateToCountdown,
+//    detailCountdown = DetailCountdown(
+//        readableDate = "",
+//        periodRemaining = PeriodRemaining.DAYS,
+//        timeRemaining = 0
+//    )
+//)

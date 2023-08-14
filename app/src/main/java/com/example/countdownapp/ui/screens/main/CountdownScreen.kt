@@ -53,7 +53,9 @@ fun CountDownRoute(
         }
     ) { padding ->
         if (uiState.countdownItems.isNullOrEmpty()) {
-            Text("No items")
+            NoEventsScreen(
+                modifier = Modifier.padding(padding)
+            )
         } else {
             CountdownMainScreen(
                 modifier = Modifier.padding(padding),
@@ -95,8 +97,7 @@ private fun CountDownList(
     onNavigateToDetail: (CountdownDate) -> Unit
 ) {
     LazyColumn(
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 16.dp),
+        contentPadding = PaddingValues(vertical = 16.dp),
         modifier = modifier
     ) {
         items(

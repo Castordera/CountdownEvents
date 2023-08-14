@@ -6,10 +6,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Card
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,13 +31,13 @@ fun CountDownItemList(
     item: CountdownDate,
     onClick: (CountdownDate) -> Unit
 ) {
-    var dateHandler by remember { mutableStateOf(DateHandler(false, "xx", "xx")) }
+    var dateHandler by remember { mutableStateOf(DateHandler(false, "", "")) }
 
     LaunchedEffect(Unit) {
         dateHandler = item.remainingTime
     }
 
-    Card {
+    Column {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = modifier
@@ -55,7 +57,10 @@ fun CountDownItemList(
                     text = item.name,
                     fontSize = 20.sp
                 )
-                Text(text = item.toReadableDate)
+                Text(
+                    text = item.toReadableDate,
+                    fontStyle = FontStyle.Italic
+                )
             }
             Column(
                 horizontalAlignment = Alignment.End
@@ -71,6 +76,7 @@ fun CountDownItemList(
                 )
             }
         }
+        Divider(modifier = Modifier.padding(horizontal = 8.dp))
     }
 }
 
@@ -81,7 +87,7 @@ fun CountDownItemGrid(
     onClick: (CountdownDate) -> Unit
 ) {
 
-    var dateHandler by remember { mutableStateOf(DateHandler(false, "xx", "xx")) }
+    var dateHandler by remember { mutableStateOf(DateHandler(false, "", "")) }
 
     LaunchedEffect(Unit) {
         dateHandler = item.remainingTime
