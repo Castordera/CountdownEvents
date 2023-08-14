@@ -1,0 +1,49 @@
+[versions]
+#kotlin = ""
+androidCore = "1.10.1"
+compose = "1.5.0"
+activityCompose = "1.7.2"
+lifecycleRuntimeCompose = "2.6.1"
+lifecycleRuntime = "2.6.1"
+material3 = "1.1.1"
+navigationCompose = "2.7.0"
+dataStore = "1.0.0"
+timber = "5.0.1"
+room = "2.5.2"
+hilt = "2.46.1"
+hiltNavigationCompose = "1.0.0"
+kotlinxSerializationJson = "1.5.0"
+javaxInject = "1"
+coroutinesCore = "1.6.4"
+
+[libraries]
+#Android
+android-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidCore" }
+android-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleRuntime" }
+# Compose
+compose-activity = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
+compose-navigation = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
+compose-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
+compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
+lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycleRuntimeCompose" }
+# Room
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-coompiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+# Hilt
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt"}
+hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt"}
+hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose"}
+# Coroutines
+coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutinesCore"}
+#
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+data-store = { module = "androidx.datastore:datastore-preferences", version.ref = "dataStore" }
+timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
+javax-inject = { module = "javax.inject:javax.inject", version.ref = "javaxInject" }
+
+[bundles]
+compose = ["compose-ui", "compose-preview"]
+room-core = ["room-runtime", "room-ktx"]
+hilt-core = ["hilt-android", "hilt-navigation-compose"]
