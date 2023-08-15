@@ -20,12 +20,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.countdownapp.R
-import com.example.countdownapp.ui.common.TopBarItem
+import com.ulises.components.toolbars.TopBarItem
 import com.example.countdownapp.ui.components.CountDownItemGrid
 import com.example.countdownapp.ui.components.CountDownItemList
-import com.example.countdownapp.ui.components.Toolbar
+import com.ulises.components.toolbars.Toolbar
 import com.example.countdownapp.ui.screens.utils.listItemsPreview
-import com.example.countdownapp.ui.theme.CountdownAppTheme
+import com.ulises.theme.CountdownAppTheme
 import com.example.domain.models.CountdownDate
 
 @Composable

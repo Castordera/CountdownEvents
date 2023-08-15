@@ -1,12 +1,11 @@
-package com.example.countdownapp.ui.components
+package com.ulises.components.toolbars
 
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.countdownapp.R
-import com.example.countdownapp.ui.common.TopBarItem
-import com.example.countdownapp.ui.theme.CountdownAppTheme
+import com.ulises.components.R
+import com.ulises.theme.CountdownAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

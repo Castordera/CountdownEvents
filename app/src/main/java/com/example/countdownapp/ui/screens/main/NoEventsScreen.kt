@@ -13,7 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.countdownapp.ui.theme.CountdownAppTheme
+import com.ulises.theme.CountdownAppTheme
 
 @Composable
 fun NoEventsScreen(
@@ -37,7 +37,7 @@ fun NoEventsScreen(
 @Preview
 @Composable
 fun PrevNoEventsScreen() {
-    CountdownAppTheme {
+    com.ulises.theme.CountdownAppTheme {
         NoEventsScreen()
     }
 }

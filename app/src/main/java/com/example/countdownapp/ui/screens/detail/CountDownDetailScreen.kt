@@ -9,17 +9,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.countdownapp.R
-import com.example.countdownapp.ui.common.TopBarItem
-import com.example.countdownapp.ui.components.Toolbar
-import com.example.countdownapp.ui.theme.CountdownAppTheme
+import com.ulises.components.toolbars.TopBarItem
+import com.ulises.components.toolbars.Toolbar
+import com.ulises.theme.CountdownAppTheme
 
 @Composable
 fun CountdownDetailRoute(

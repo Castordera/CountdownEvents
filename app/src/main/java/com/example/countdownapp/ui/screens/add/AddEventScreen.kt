@@ -19,8 +19,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.countdownapp.R
 import com.example.countdownapp.ui.common.createCalendarDialog
-import com.example.countdownapp.ui.components.Toolbar
-import com.example.countdownapp.ui.theme.CountdownAppTheme
+import com.ulises.components.toolbars.Toolbar
+import com.ulises.theme.CountdownAppTheme
 
 @Composable
 fun AddEventRoute(
@@ -92,7 +92,10 @@ fun AddEventScreen(
                     border = null
                 ) {
                     Row(
-                        horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
+                        horizontalArrangement = Arrangement.spacedBy(
+                            8.dp,
+                            Alignment.CenterHorizontally
+                        ),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Icon(

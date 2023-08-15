@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.sp
 import com.example.countdownapp.ui.common.remainingTime
 import com.example.countdownapp.ui.common.toReadableDate
 import com.example.countdownapp.ui.screens.utils.listItemsPreview
-import com.example.countdownapp.ui.theme.CountdownAppTheme
+import com.ulises.theme.CountdownAppTheme
 import com.example.domain.models.CountdownDate
 import com.example.domain.models.DateHandler
 
