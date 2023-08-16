@@ -1,16 +1,13 @@
-@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
-    alias(libs.plugins.com.android.library)
-    alias(libs.plugins.org.jetbrains.kotlin.android)
+    id("countdown.android.library.compose")
+    id("countdown.android.kotlin")
+    id("countdown.android.common")
 }
 
 android {
     namespace = "com.ulises.theme"
-    compileSdk = 34
 
     defaultConfig {
-        minSdk = 28
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
@@ -24,21 +21,6 @@ android {
             )
         }
     }
-    composeOptions.kotlinCompilerExtensionVersion = "1.4.3"
-
-    packaging.resources {
-        excludes += "'/META-INF/{AL2.0,LGPL2.1}'"
-    }
-    buildFeatures {
-        compose = true
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
-    }
 }
 
 dependencies {
@@ -47,9 +29,8 @@ dependencies {
     implementation(libs.appcompat)
 
     //  Compose
-    implementation(libs.bundles.compose)
     implementation(libs.compose.material3)
-    implementation(libs.lifecycle.runtime.compose)
+    implementation(libs.compose.lifecycle.runtime)
     implementation(libs.compose.activity)
     implementation(libs.compose.navigation)
 
