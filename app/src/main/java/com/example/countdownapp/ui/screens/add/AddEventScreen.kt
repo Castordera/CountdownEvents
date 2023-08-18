@@ -1,6 +1,5 @@
 package com.example.countdownapp.ui.screens.add
 
-import android.app.DatePickerDialog
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -9,7 +8,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -18,9 +16,12 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.countdownapp.R
-import com.example.countdownapp.ui.common.createCalendarDialog
+import com.example.countdownapp.ui.common.AppDatePicker
+import com.example.countdownapp.ui.common.toHumanReadable
+import com.example.countdownapp.ui.common.toMillis
 import com.ulises.components.toolbars.Toolbar
 import com.ulises.theme.CountdownAppTheme
+import java.time.LocalDateTime
 
 @Composable
 fun AddEventRoute(
@@ -29,10 +30,6 @@ fun AddEventRoute(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    val dialog = createCalendarDialog(LocalContext.current) { year, month, day ->
-        viewModel.onDatePicked(year, month, day)
-    }
-
     if (uiState.goBack) {
         LaunchedEffect(Unit) {
             onBackPress()
@@ -40,19 +37,21 @@ fun AddEventRoute(
     }
 
     AddEventScreen(
-        calendarDialog = dialog,
         uiState = uiState,
+        onCalendarDateSelected = viewModel::onDateSelected,
+        onCalendarChangeVisibility = viewModel::onChangeCalendarVisibility,
         onUpdateEventName = viewModel::onEventNameChanged,
         onSaveEvent = viewModel::onSaveEvent,
-        onBackPress = { onBackPress() }
+        onBackPress = onBackPress
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddEventScreen(
-    calendarDialog: DatePickerDialog,
     uiState: AddUiState,
+    onCalendarDateSelected: (Long?) -> Unit,
+    onCalendarChangeVisibility: (Boolean) -> Unit,
     onUpdateEventName: (String) -> Unit,
     onSaveEvent: () -> Unit,
     onBackPress: () -> Unit
@@ -61,7 +60,7 @@ fun AddEventScreen(
         topBar = {
             Toolbar(
                 title = "Add new Countdown",
-                onBackPress = { onBackPress() }
+                onBackPress = onBackPress
             )
         }
     ) {
@@ -70,6 +69,14 @@ fun AddEventScreen(
                 .padding(it)
                 .padding(16.dp)
         ) {
+            AppDatePicker(
+                datePickerState = rememberDatePickerState(
+                    initialSelectedDateMillis = uiState.dateTime.toMillis()
+                ),
+                isVisible = uiState.dateDialogVisible,
+                onCancelClick = { onCalendarChangeVisibility(false) },
+                onDateSelected = onCalendarDateSelected
+            )
             Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -82,13 +89,13 @@ fun AddEventScreen(
                     modifier = Modifier.fillMaxWidth()
                 )
                 Text(
-                    text = uiState.date,
+                    text = uiState.dateTime.toHumanReadable(),
                     fontSize = 50.sp,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth()
                 )
                 OutlinedButton(
-                    onClick = { calendarDialog.show() },
+                    onClick = { onCalendarChangeVisibility(true) },
                     border = null
                 ) {
                     Row(
@@ -124,11 +131,12 @@ fun AddEventScreen(
 fun PrevAddEventScreen() {
     CountdownAppTheme {
         AddEventScreen(
-            calendarDialog = createCalendarDialog(LocalContext.current) { _, _, _ -> },
             uiState = AddUiState(
-                date = "Hoy mero"
+                dateTime = LocalDateTime.now()
             ),
             onUpdateEventName = {},
+            onCalendarDateSelected = {},
+            onCalendarChangeVisibility = {},
             onSaveEvent = {},
             onBackPress = {}
         )

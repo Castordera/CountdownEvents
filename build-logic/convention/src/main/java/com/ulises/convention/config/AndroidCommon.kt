@@ -1,5 +1,6 @@
 package com.ulises.convention.config
 
+import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.Project
 
@@ -18,6 +19,16 @@ internal fun Project.configureAndroidCommon(
 
         packaging.resources {
             excludes += "'/META-INF/{AL2.0,LGPL2.1}'"
+        }
+    }
+}
+
+internal fun Project.configureAndroidAppCommon(
+    extension: ApplicationExtension
+) {
+    extension.apply {
+        defaultConfig {
+            targetSdk = 33
         }
     }
 }

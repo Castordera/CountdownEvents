@@ -41,5 +41,9 @@ gradlePlugin {
             id = "countdown.android.common"
             implementationClass = "AndroidCommonConventionPlugin"
         }
+        register("kotlinLibraryCommon") {
+            id = "countdown.kotlin.library"
+            implementationClass = "KotlinLibraryCommonConventionPlugin"
+        }
     }
 }

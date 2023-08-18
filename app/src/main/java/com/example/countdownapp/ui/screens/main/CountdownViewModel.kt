@@ -22,6 +22,8 @@ class CountdownViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(MainUiState())
     val uiState = _uiState.asStateFlow()
+    //
+    private var deleteItemId: String? = null
 
     init {
         onLoadData()
@@ -46,12 +48,25 @@ class CountdownViewModel @Inject constructor(
         _uiState.update { it.copy(isGrid = !it.isGrid) }
     }
 
-    fun onDeleteCountdownItem(id: String) {
+    fun onChangeDialogVisibility(visible: Boolean) {
+        if (!visible) deleteItemId = null
+        _uiState.update { it.copy(dialogDeleteVisible = visible) }
+    }
+
+    fun onRequestDeleteItem(id: String) {
+        deleteItemId = id
+        onChangeDialogVisibility(true)
+    }
+
+    fun onDeleteCountdownItem() {
         viewModelScope.launch {
             runCatching {
-                deleteCountdownUseCase(id)
+                checkNotNull(deleteItemId)
+                deleteCountdownUseCase(deleteItemId!!)
             }.onFailure {
                 Timber.e(it, "Error deleting countdown")
+            }.onSuccess {
+                onChangeDialogVisibility(false)
             }
         }
     }

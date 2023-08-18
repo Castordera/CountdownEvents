@@ -29,6 +29,7 @@ fun Toolbar(
         },
         actions = {
             actions.forEach { item ->
+                if (!item.isVisible) return@forEach
                 IconButton(onClick = { item.onClick() }) {
                     Icon(
                         painter = painterResource(id = item.icon),
@@ -47,7 +48,7 @@ fun PrevToolbar() {
             title = "Screen name",
             actions = listOf(
                 TopBarItem("Description", R.drawable.ic_add_24) {},
-                TopBarItem("Description", R.drawable.ic_add_24) {},
+                TopBarItem("Description", R.drawable.ic_add_24, false) {},
                 TopBarItem("Description", R.drawable.ic_add_24) {}
             )
         )

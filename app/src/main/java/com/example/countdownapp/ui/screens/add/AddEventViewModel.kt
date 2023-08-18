@@ -3,6 +3,8 @@ package com.example.countdownapp.ui.screens.add
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.countdownapp.di.HumanReadableFormat
+import com.example.countdownapp.ui.common.toLocalDateTime
+import com.example.countdownapp.ui.common.zero
 import com.example.domain.models.CountdownDate
 import com.ulises.usecase.countdown.AddCountdownUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,29 +26,23 @@ class AddEventViewModel @Inject constructor(
     private val addCountdownUseCase: AddCountdownUseCase
 ) : ViewModel() {
 
-    private lateinit var dateSelected: LocalDateTime
-    private val _uiState = MutableStateFlow(AddUiState())
+    private val _uiState = MutableStateFlow(AddUiState(dateTime = LocalDateTime.now().zero()))
     val uiState = _uiState.asStateFlow()
-
-    init {
-        updateLocalDate(
-            LocalDateTime.now()
-                .withHour(0)
-                .withMinute(0)
-                .withSecond(0)
-        )
-    }
 
     private fun updateLocalDate(date: LocalDateTime) {
         viewModelScope.launch(Dispatchers.Default) {
-            dateSelected = date
-            Timber.d("Current date: $date")
-            _uiState.update { it.copy(date = date.format(humanReadableFormat)) }
+            Timber.d("New Selected date: $date")
+            _uiState.update {
+                it.copy(
+                    dateTime = date,
+                    dateDialogVisible = false
+                )
+            }
         }
     }
 
-    fun onDatePicked(year: Int, month: Int, day: Int) {
-        updateLocalDate(LocalDateTime.of(year, month + 1, day, 0, 0, 0))
+    fun onDateSelected(timeMs: Long?) {
+        timeMs?.also { updateLocalDate(it.toLocalDateTime()) }
     }
 
     fun onEventNameChanged(value: String) {
@@ -61,7 +57,7 @@ class AddEventViewModel @Inject constructor(
                     id = "${Date().time}",
                     name = _uiState.value.eventName,
                     createdAt = LocalDate.now().format(DateTimeFormatter.ISO_DATE),
-                    dateToCountdown = dateSelected
+                    dateToCountdown = _uiState.value.dateTime
                 )
                 addCountdownUseCase(event)
             }.fold(
@@ -76,7 +72,7 @@ class AddEventViewModel @Inject constructor(
         }
     }
 
-    fun demo(visible: Boolean) {
+    fun onChangeCalendarVisibility(visible: Boolean) {
         _uiState.update { it.copy(dateDialogVisible = visible) }
     }
 }

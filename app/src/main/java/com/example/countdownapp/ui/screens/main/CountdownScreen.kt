@@ -15,6 +15,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -27,6 +28,7 @@ import com.ulises.components.toolbars.Toolbar
 import com.example.countdownapp.ui.screens.utils.listItemsPreview
 import com.ulises.theme.CountdownAppTheme
 import com.example.domain.models.CountdownDate
+import com.ulises.components.dialogs.SimpleAlertDialog
 
 @Composable
 fun CountDownRoute(
@@ -39,12 +41,13 @@ fun CountDownRoute(
     Scaffold(
         topBar = {
             Toolbar(
-                title = "Events",
+                title = stringResource(id = R.string.main_screen_title),
                 actions = toolbarActions + listOf(
                     TopBarItem(
-                        "",
-                        if (!uiState.isGrid) R.drawable.ic_grid_view else R.drawable.ic_view_list,
-                        viewModel::onListChangeAdapter
+                        description = "Change View",
+                        icon = if (!uiState.isGrid) R.drawable.ic_grid_view else R.drawable.ic_view_list,
+                        onClick = viewModel::onListChangeAdapter,
+                        isVisible = !uiState.countdownItems.isNullOrEmpty()
                     )
                 )
             )
@@ -55,11 +58,21 @@ fun CountDownRoute(
                 modifier = Modifier.padding(padding)
             )
         } else {
+            SimpleAlertDialog(
+                isVisible = uiState.dialogDeleteVisible,
+                title = stringResource(id = R.string.dialog_delete_event_title),
+                message = stringResource(id = R.string.dialog_delete_event_message),
+                positiveTextButton = stringResource(id = R.string.dialog_delete_event_positive_text),
+                positiveClickButton = { viewModel.onDeleteCountdownItem() },
+                negativeTextButton = stringResource(id = R.string.dialog_delete_event_negative_text),
+                negativeClickButton = { viewModel.onChangeDialogVisibility(false) },
+                onDismissDialog = { viewModel.onChangeDialogVisibility(false) }
+            )
             CountdownMainScreen(
                 modifier = Modifier.padding(padding),
                 items = uiState.countdownItems!!,
                 onNavigateToDetail = onNavigateToDetail,
-                onDeleteItem = viewModel::onDeleteCountdownItem,
+                onDeleteItem = viewModel::onRequestDeleteItem,
                 isGrid = uiState.isGrid
             )
         }

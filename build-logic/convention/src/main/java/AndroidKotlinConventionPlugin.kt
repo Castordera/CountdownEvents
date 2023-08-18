@@ -1,6 +1,6 @@
 import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.dsl.LibraryExtension
-import com.ulises.convention.config.configureKotlin
+import com.ulises.convention.config.configureAndroidKotlin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.findByType
@@ -11,11 +11,11 @@ class AndroidKotlinConventionPlugin : Plugin<Project> {
             pluginManager.apply("org.jetbrains.kotlin.android")
 
             extensions.findByType<ApplicationExtension>()?.apply {
-                configureKotlin(this)
+                configureAndroidKotlin(this)
             }
 
             extensions.findByType<LibraryExtension>()?.apply {
-                configureKotlin(this)
+                configureAndroidKotlin(this)
             }
         }
     }
