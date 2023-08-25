@@ -2,20 +2,31 @@ package com.example.countdownapp.ui.screens.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.countdownapp.data.datastore.DataStorePreferences
+import com.example.countdownapp.di.DataStoreListViewType
+import com.example.domain.models.CountdownDate
 import com.ulises.usecase.countdown.DeleteCountdownUseCase
 import com.ulises.usecase.countdown.GetAllCountdownUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class CountdownViewModel @Inject constructor(
+    @DataStoreListViewType
+    private val dataStore: DataStorePreferences<Boolean>,
     private val getAllCountdownUseCase: GetAllCountdownUseCase,
     private val deleteCountdownUseCase: DeleteCountdownUseCase
 ) : ViewModel() {
@@ -33,6 +44,7 @@ class CountdownViewModel @Inject constructor(
         viewModelScope.launch {
             getAllCountdownUseCase()
                 .onStart { _uiState.update { it.copy(loading = true) } }
+                .transform { emit(sortList(it)) }
                 .catch { error ->
                     Timber.e(error)
                     _uiState.update { it.copy(loading = false) }
@@ -42,10 +54,36 @@ class CountdownViewModel @Inject constructor(
                     _uiState.update { it.copy(loading = false, countdownItems = items) }
                 }
         }
+        viewModelScope.launch {
+            dataStore.getValue()
+                .catch { Timber.e(it, "Error getting data store value") }
+                .collect { value -> _uiState.update { it.copy(isGrid = value) } }
+        }
+    }
+
+    private fun sortList(list: List<CountdownDate>): List<CountdownDate> {
+        Timber.d("$list")
+        return if (_uiState.value.sortType == CountdownSortType.DATE) {
+            list.sortedBy { it.dateToCountdown }
+        } else {
+            list.sortedBy { it.id }
+        }
+    }
+
+    fun onChangeSortType(option: CountdownSortType) {
+        Timber.d("Sort type: $option")
+        val list = _uiState.value.countdownItems
+        if (list != null) {
+            _uiState.update { it.copy(sortType = option, countdownItems = sortList(list)) }
+        }
     }
 
     fun onListChangeAdapter() {
-        _uiState.update { it.copy(isGrid = !it.isGrid) }
+        viewModelScope.launch {
+            runCatching {
+                dataStore.save(!_uiState.value.isGrid)
+            }.onFailure { Timber.e(it, "Error updating view type") }
+        }
     }
 
     fun onChangeDialogVisibility(visible: Boolean) {
@@ -53,9 +91,15 @@ class CountdownViewModel @Inject constructor(
         _uiState.update { it.copy(dialogDeleteVisible = visible) }
     }
 
-    fun onRequestDeleteItem(id: String) {
-        deleteItemId = id
+    fun onRequestDeleteItem(item: CountdownDate) {
+        deleteItemId = item.id
         onChangeDialogVisibility(true)
+    }
+
+    fun onChangeCountdownItemDisplayType(countdownDate: CountdownDate) {
+        viewModelScope.launch {
+
+        }
     }
 
     fun onDeleteCountdownItem() {

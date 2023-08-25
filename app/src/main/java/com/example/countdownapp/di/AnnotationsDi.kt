@@ -13,3 +13,7 @@ annotation class HumanReadableFormat
 @Retention(AnnotationRetention.BINARY)
 @Qualifier
 annotation class DatabaseCounterName
+
+@Retention(AnnotationRetention.BINARY)
+@Qualifier
+annotation class DataStoreListViewType

@@ -7,5 +7,6 @@ data class MainUiState(
     val countdownItems: List<CountdownDate>? = null,
     val dialogDeleteVisible: Boolean = false,
     val error: Boolean = false,
-    val isGrid: Boolean = false
+    val isGrid: Boolean = false,
+    val sortType: CountdownSortType = CountdownSortType.NORMAL
 )

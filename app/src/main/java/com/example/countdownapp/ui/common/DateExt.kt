@@ -19,6 +19,6 @@ fun LocalDateTime.zero(): LocalDateTime {
 }
 
 fun LocalDateTime.toHumanReadable(): String {
-    val format = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+    val format = DateTimeFormatter.ofPattern("dd MMM yyyy")
     return this.format(format)
 }

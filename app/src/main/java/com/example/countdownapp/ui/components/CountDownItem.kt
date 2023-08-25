@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalFoundationApi::class)
+
 package com.example.countdownapp.ui.components
 
 import android.content.res.Configuration
@@ -30,7 +32,7 @@ fun CountDownItemList(
     modifier: Modifier = Modifier,
     item: CountdownDate,
     onClick: (CountdownDate) -> Unit,
-    onDelete: (String) -> Unit
+    onDelete: (CountdownDate) -> Unit
 ) {
     var dateHandler by remember { mutableStateOf(DateHandler(false, "", "")) }
 
@@ -45,7 +47,7 @@ fun CountDownItemList(
                 .fillMaxWidth()
                 .combinedClickable(
                     onClick = { onClick(item) },
-                    onLongClick = { onDelete(item.id) }
+                    onLongClick = { onDelete(item) }
                 )
                 .padding(
                     horizontal = 16.dp,
@@ -68,7 +70,7 @@ fun CountDownItemList(
                 horizontalAlignment = Alignment.End
             ) {
                 Text(
-                    text = (if (dateHandler.isInPast) "Hace " else "") + dateHandler.periodType,
+                    text = dateHandler.periodType + (if (dateHandler.isInPast) " ago" else ""),
                     fontSize = 12.sp
                 )
                 Text(
@@ -86,7 +88,8 @@ fun CountDownItemList(
 fun CountDownItemGrid(
     modifier: Modifier = Modifier,
     item: CountdownDate,
-    onClick: (CountdownDate) -> Unit
+    onClick: (CountdownDate) -> Unit,
+    onDelete: (CountdownDate) -> Unit
 ) {
 
     var dateHandler by remember { mutableStateOf(DateHandler(false, "", "")) }
@@ -100,7 +103,10 @@ fun CountDownItemGrid(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = modifier
                 .fillMaxWidth()
-                .clickable { onClick(item) }
+                .combinedClickable(
+                    onClick = { onClick(item) },
+                    onLongClick = { onDelete(item) }
+                )
                 .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
             Text(
@@ -117,7 +123,7 @@ fun CountDownItemGrid(
                 fontWeight = FontWeight.Bold,
             )
             Text(
-                text = (if (dateHandler.isInPast) "Hace " else "") + dateHandler.periodType,
+                text = dateHandler.periodType + (if (dateHandler.isInPast) " ago" else ""),
                 fontSize = 12.sp
             )
         }
@@ -140,6 +146,7 @@ fun PrevCountDownItem() {
             CountDownItemGrid(
                 item = listItemsPreview[1],
                 onClick = {},
+                onDelete = {}
             )
         }
     }
