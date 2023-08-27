@@ -21,6 +21,10 @@ internal fun Project.configureAndroidCommon(
         packaging.resources {
             excludes += "'/META-INF/{AL2.0,LGPL2.1}'"
         }
+
+        dependencies {
+            add("implementation", libs.get("timber"))
+        }
     }
 }
 
@@ -36,6 +40,6 @@ internal fun Project.configureAndroidAppCommon(
 
 internal fun Project.configureCommonDependencies() {
     dependencies {
-        add("implementation", libs.findLibrary("android-core-ktx").get())
+        add("implementation", libs.get("android-core-ktx"))
     }
 }

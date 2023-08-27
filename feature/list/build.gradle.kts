@@ -3,6 +3,7 @@ plugins {
     id("countdown.android.kotlin")
     id("countdown.android.common")
     id("countdown.android.test")
+    id("countdown.test")
     id("kotlin-kapt")
 }
 
@@ -41,8 +42,6 @@ dependencies {
     implementation(libs.compose.lifecycle.runtime)
     //
     implementation(libs.bundles.coil)
-    implementation(libs.timber)
-    testImplementation(libs.junit)
 }
 
 kapt {

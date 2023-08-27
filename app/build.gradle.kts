@@ -2,6 +2,8 @@ plugins {
     id("countdown.android.app.compose")
     id("countdown.android.kotlin")
     id("countdown.android.common")
+    id("countdown.android.test")
+    id("countdown.test")
     id("com.google.dagger.hilt.android")
     id("kotlin-parcelize")
     id("kotlinx-serialization")
@@ -42,11 +44,7 @@ dependencies {
     //  Hilt
     implementation(libs.bundles.hilt.core)
     kapt(libs.hilt.compiler)
-    //  Coil
-    implementation(libs.bundles.coil)
-
     implementation(libs.kotlinx.serialization.json)
-    implementation(libs.timber)
 
     implementation(project(":domain"))
     implementation(project(":data"))
@@ -56,13 +54,6 @@ dependencies {
     //  Features
     implementation(project(":feature:list"))
     implementation(project(":common:preview-data"))//Todo(Remove it after migrating Event Detail)
-
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    val compose_version = "1.4.2"
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:$compose_version")
-    debugImplementation("androidx.compose.ui:ui-test-manifest:$compose_version")
 }
 
 kapt {

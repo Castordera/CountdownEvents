@@ -49,5 +49,9 @@ gradlePlugin {
             id = "countdown.android.test"
             implementationClass = "AndroidTestConventionPlugin"
         }
+        register("unitTest") {
+            id = "countdown.test"
+            implementationClass = "UnitTestConventionPlugin"
+        }
     }
 }
