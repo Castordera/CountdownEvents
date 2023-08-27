@@ -8,7 +8,7 @@ val listItemsPreview = listOf(
     CountdownDate(
         id = "1111",
         name = "Bebecita",
-        createdAt = "",
+        createdAt = "Lunes 10 de Enero",
         dateToCountdown = LocalDateTime.parse("2023-05-29T00:00:00")
     ),
     CountdownDate(

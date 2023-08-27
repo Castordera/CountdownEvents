@@ -13,7 +13,7 @@ interface CountdownDao {
     fun getAllCounters(): Flow<List<Countdown>>
 
     @Query("SELECT * FROM Countdown WHERE id = :id")
-    suspend fun getCounter(id: String): Countdown
+    fun getCounter(id: String): Flow<Countdown>
 
     @Insert
     suspend fun addNewCountdown(item: Countdown)

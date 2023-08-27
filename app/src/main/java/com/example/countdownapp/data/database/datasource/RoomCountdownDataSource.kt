@@ -17,8 +17,8 @@ class RoomCountdownDataSource @Inject constructor(
         return countdownDao.getAllCounters().map { list -> list.map { it.toDomain() } }
     }
 
-    override suspend fun getCountdown(id: String): CountdownDate {
-        return countdownDao.getCounter(id).toDomain()
+    override fun getCountdown(id: String): Flow<CountdownDate> {
+        return countdownDao.getCounter(id).map { it.toDomain() }
     }
 
     override suspend fun addNewCountdown(item: CountdownDate) {

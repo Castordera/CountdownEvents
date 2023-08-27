@@ -57,7 +57,7 @@ fun CountDownRoute(
         toolbarActions = toolbarActions,
         onSortTypeChange = viewModel::onChangeSortType,
         onListTypeChange = viewModel::onListChangeAdapter,
-        onClickItem = viewModel::onChangeCountdownItemDisplayType,
+        onClickItem = onNavigateToDetail,
         onDeleteItem = viewModel::onRequestDeleteItem
     )
 }

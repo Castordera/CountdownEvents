@@ -1,7 +1,8 @@
 package com.example.countdownapp.ui.screens.detail
 
+import com.example.domain.models.CountdownDate
+
 data class DetailUiState(
-    val eventName: String = "",
-    val remainingTime: String = "",
-    val remainingPeriod: String = ""
+    val error: String? = null,
+    val countdownDate: CountdownDate? = null
 )

@@ -13,7 +13,7 @@ class CountdownRepositoryImpl @Inject constructor(
         return localDataSource.getAllCountdown()
     }
 
-    override suspend fun getCountdown(id: String): CountdownDate {
+    override fun getCountdown(id: String): Flow<CountdownDate> {
         return localDataSource.getCountdown(id)
     }
 

@@ -3,28 +3,44 @@ package com.example.countdownapp.ui.screens.detail
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.countdownapp.ui.common.remainingTime
-import com.example.domain.models.CountdownDate
+import com.example.countdownapp.ui.navigation.NavArgs
+import com.ulises.usecase.countdown.GetCountdownUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class CountdownDetailViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
+    private val getCountdownDate: GetCountdownUseCase
 ) : ViewModel() {
 
-//    private val countdownDate = savedStateHandle.getParam<CountdownDate>(NavArgs.Detail.key)
+    private val countdownDate = savedStateHandle.get<String>(NavArgs.Detail.key) ?: ""
 
-//    private val _uiState = MutableStateFlow(DetailUiState(eventName = countdownDate?.name.orEmpty()))
-//    val uiState = _uiState.asStateFlow()
-//
-//    init {
-//        calculateRemainingDatePeriods(countdownDate!!)
-//    }
+    private val _uiState = MutableStateFlow(DetailUiState())
+    val uiState = _uiState.asStateFlow()
+
+    init {
+        getInitialData()
+    }
+
+    private fun getInitialData() {
+        viewModelScope.launch {
+            getCountdownDate(countdownDate)
+                .catch { error ->
+                    Timber.e(error, "Error getting Countdown item")
+                    _uiState.update { it.copy(error = "This is my error") }
+                }
+                .collect { item ->
+                    _uiState.update { it.copy(countdownDate = item) }
+                }
+        }
+    }
 //
 //    private fun calculateRemainingDatePeriods(countdownDate: CountdownDate) {
 //        viewModelScope.launch {
@@ -36,7 +52,7 @@ class CountdownDetailViewModel @Inject constructor(
 //        }
 //    }
 //
-//    fun onRefreshTimeClick() {
+    fun onRefreshTimeClick() {
 //        calculateRemainingDatePeriods(countdownDate!!)
-//    }
+    }
 }
