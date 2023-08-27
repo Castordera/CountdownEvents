@@ -46,7 +46,7 @@ class AddEventViewModel @Inject constructor(
     }
 
     fun onEventNameChanged(value: String) {
-        _uiState.update { it.copy(eventName = value) }
+        _uiState.update { it.copy(eventName = value, saveButtonEnabled = value.isNotBlank()) }
     }
 
     fun onSaveEvent() {
@@ -55,7 +55,7 @@ class AddEventViewModel @Inject constructor(
             runCatching {
                 val event = CountdownDate(
                     id = "${Date().time}",
-                    name = _uiState.value.eventName,
+                    name = _uiState.value.eventName.trim(),
                     createdAt = LocalDate.now().format(DateTimeFormatter.ISO_DATE),
                     dateToCountdown = _uiState.value.dateTime
                 )

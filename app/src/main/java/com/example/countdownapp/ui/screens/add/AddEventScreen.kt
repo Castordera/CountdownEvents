@@ -9,6 +9,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -59,7 +60,7 @@ fun AddEventScreen(
     Scaffold(
         topBar = {
             Toolbar(
-                title = "Add new Countdown",
+                title = stringResource(id = R.string.add_screen_title),
                 onBackPress = onBackPress
             )
         }
@@ -84,7 +85,7 @@ fun AddEventScreen(
                 OutlinedTextField(
                     value = uiState.eventName,
                     onValueChange = onUpdateEventName,
-                    label = { Text("Event Name") },
+                    label = { Text(stringResource(id = R.string.add_screen_edit_text_event_name_placeholder)) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -109,13 +110,16 @@ fun AddEventScreen(
                             painter = painterResource(id = R.drawable.ic_calendar),
                             contentDescription = null
                         )
-                        Text(text = "Change day")
+                        Text(text = stringResource(id = R.string.add_screen_button_change_date))
                     }
                 }
                 Spacer(modifier = Modifier.weight(1f))
-                Button(onClick = onSaveEvent) {
+                Button(
+                    onClick = onSaveEvent,
+                    enabled = uiState.saveButtonEnabled
+                ) {
                     Text(
-                        text = "Save Event",
+                        text = stringResource(id = R.string.add_screen_button_save_date),
                         textAlign = TextAlign.Center,
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -125,8 +129,8 @@ fun AddEventScreen(
     }
 }
 
-@Preview(showSystemUi = true)
-@Preview(showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun PrevAddEventScreen() {
     CountdownAppTheme {
