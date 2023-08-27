@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalFoundationApi::class)
 
-package com.example.countdownapp.ui.screens.main
+package com.ulises.list.ui
 
 import android.content.res.Configuration
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -24,14 +24,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.countdownapp.R
-import com.example.countdownapp.ui.components.CountDownItemGrid
-import com.example.countdownapp.ui.components.CountDownItemList
-import com.example.countdownapp.ui.screens.utils.listItemsPreview
 import com.example.domain.models.CountdownDate
 import com.ulises.components.dialogs.SimpleAlertDialog
 import com.ulises.components.toolbars.Toolbar
 import com.ulises.components.toolbars.TopBarItem
+import com.ulises.list.R
+import com.ulises.list.common.CountdownSortType
+import com.ulises.list.common.listItemsPreview
 import com.ulises.theme.CountdownAppTheme
 
 @Composable

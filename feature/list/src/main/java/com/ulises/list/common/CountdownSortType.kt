@@ -1,4 +1,4 @@
-package com.example.countdownapp.ui.screens.main
+package com.ulises.list.common
 
 enum class CountdownSortType {
     NORMAL,

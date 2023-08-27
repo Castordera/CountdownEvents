@@ -24,12 +24,6 @@ android {
 }
 
 dependencies {
-    //Todo("Check if all dependencies are necessary")
-    implementation(libs.appcompat)
-
     //  Compose
     implementation(libs.compose.material3)
-    implementation(libs.compose.lifecycle.runtime)
-    implementation(libs.compose.activity)
-    implementation(libs.compose.navigation)
 }

@@ -1,31 +1,26 @@
-package com.example.countdownapp.ui.screens.main
+package com.ulises.list.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.countdownapp.data.datastore.DataStorePreferences
-import com.example.countdownapp.di.DataStoreListViewType
 import com.example.domain.models.CountdownDate
+import com.ulises.data.DataStorePreferences
 import com.ulises.usecase.countdown.DeleteCountdownUseCase
 import com.ulises.usecase.countdown.GetAllCountdownUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class CountdownViewModel @Inject constructor(
-    @DataStoreListViewType
+//    Todo("Extract this into another module probably create a use case for it")
+//    @DataStoreListViewType
     private val dataStore: DataStorePreferences<Boolean>,
     private val getAllCountdownUseCase: GetAllCountdownUseCase,
     private val deleteCountdownUseCase: DeleteCountdownUseCase
@@ -63,14 +58,14 @@ class CountdownViewModel @Inject constructor(
 
     private fun sortList(list: List<CountdownDate>): List<CountdownDate> {
         Timber.d("$list")
-        return if (_uiState.value.sortType == CountdownSortType.DATE) {
+        return if (_uiState.value.sortType == com.ulises.list.common.CountdownSortType.DATE) {
             list.sortedBy { it.dateToCountdown }
         } else {
             list.sortedBy { it.id }
         }
     }
 
-    fun onChangeSortType(option: CountdownSortType) {
+    fun onChangeSortType(option: com.ulises.list.common.CountdownSortType) {
         Timber.d("Sort type: $option")
         val list = _uiState.value.countdownItems
         if (list != null) {

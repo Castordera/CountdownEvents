@@ -1,9 +1,11 @@
-package com.example.countdownapp.ui.screens.utils
+package com.ulises.list.common
 
 import com.example.domain.models.CountdownDate
 import java.time.LocalDateTime
 
-val listItemsPreview = listOf(
+internal val radioOptionsPreview = listOf(CountdownSortType.NORMAL, CountdownSortType.DATE)
+
+internal val listItemsPreview = listOf(
     CountdownDate(
         id = "1111",
         name = "Bebecita",

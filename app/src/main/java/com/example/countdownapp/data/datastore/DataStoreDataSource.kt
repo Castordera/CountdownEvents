@@ -4,6 +4,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import com.ulises.data.DataStorePreferences
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -13,8 +14,7 @@ class DataStoreDataSource @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ): DataStorePreferences<Boolean> {
 
-    override val key: Preferences.Key<Boolean>
-        get() = booleanPreferencesKey(KEY_STORED_VALUES)
+    private val key: Preferences.Key<Boolean> = booleanPreferencesKey(KEY_STORED_VALUES)
 
     override suspend fun save(value: Boolean) {
         dataStore.edit { settings ->
