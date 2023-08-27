@@ -13,7 +13,7 @@ import androidx.navigation.navArgument
 import com.example.countdownapp.R
 import com.example.countdownapp.ui.screens.add.AddEventRoute
 import com.example.countdownapp.ui.screens.detail.CountdownDetailRoute
-import com.example.countdownapp.ui.screens.main.CountDownRoute
+import com.ulises.list.ui.CountDownRoute
 import com.ulises.components.toolbars.TopBarItem
 
 @Composable

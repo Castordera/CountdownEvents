@@ -1,4 +1,4 @@
-package com.example.countdownapp.ui.screens.main
+package com.ulises.list.ui
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.example.countdownapp.R
+import com.ulises.list.R
 import com.ulises.theme.CountdownAppTheme
 
 @Composable

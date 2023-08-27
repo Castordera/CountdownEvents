@@ -1,6 +1,7 @@
-package com.example.countdownapp.ui.screens.main
+package com.ulises.list.ui
 
 import com.example.domain.models.CountdownDate
+import com.ulises.list.common.CountdownSortType
 
 data class MainUiState(
     val loading: Boolean = true,

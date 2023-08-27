@@ -25,8 +25,6 @@ android {
 }
 
 dependencies {
-    //Todo("Check if all dependencies are necessary")
-    implementation(libs.appcompat)
     //  Material
     implementation(libs.compose.material3)
     //  Projects

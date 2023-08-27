@@ -1,10 +1,9 @@
 @file:OptIn(ExperimentalFoundationApi::class)
 
-package com.example.countdownapp.ui.components
+package com.ulises.list.ui
 
 import android.content.res.Configuration
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Card
@@ -19,12 +18,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.countdownapp.ui.common.remainingTime
-import com.example.countdownapp.ui.common.toReadableDate
-import com.example.countdownapp.ui.screens.utils.listItemsPreview
-import com.ulises.theme.CountdownAppTheme
 import com.example.domain.models.CountdownDate
 import com.example.domain.models.DateHandler
+import com.ulises.list.common.listItemsPreview
+import com.ulises.list.common.remainingTime
+import com.ulises.list.common.toReadableDate
+import com.ulises.theme.CountdownAppTheme
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
