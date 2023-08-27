@@ -31,6 +31,8 @@
             <option value="$PROJECT_DIR$/design/components" />
             <option value="$PROJECT_DIR$/design/theme" />
             <option value="$PROJECT_DIR$/domain" />
+            <option value="$PROJECT_DIR$/feature" />
+            <option value="$PROJECT_DIR$/feature/list" />
             <option value="$PROJECT_DIR$/usecase" />
           </set>
         </option>
