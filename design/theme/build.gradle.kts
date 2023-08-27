@@ -25,7 +25,6 @@ android {
 
 dependencies {
     //Todo("Check if all dependencies are necessary")
-    implementation(libs.android.core.ktx)
     implementation(libs.appcompat)
 
     //  Compose
@@ -33,8 +32,4 @@ dependencies {
     implementation(libs.compose.lifecycle.runtime)
     implementation(libs.compose.activity)
     implementation(libs.compose.navigation)
-
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.espresso.core)
 }

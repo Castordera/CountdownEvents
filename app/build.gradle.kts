@@ -28,7 +28,6 @@ android {
 }
 
 dependencies {
-    implementation(libs.android.core.ktx)
     implementation(libs.android.lifecycle.runtime.ktx)
     //  Data store
     implementation(libs.data.store)

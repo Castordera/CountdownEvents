@@ -4,7 +4,7 @@ import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.kotlin.dsl.getByType
 
-class KotlinLibraryCommonConventionPlugin: Plugin<Project> {
+class KotlinLibraryCommonConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             with(pluginManager) {

@@ -2,6 +2,7 @@ import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.dsl.LibraryExtension
 import com.ulises.convention.config.configureAndroidAppCommon
 import com.ulises.convention.config.configureAndroidCommon
+import com.ulises.convention.config.configureCommonDependencies
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.findByType
@@ -12,10 +13,12 @@ class AndroidCommonConventionPlugin : Plugin<Project> {
             extensions.findByType<ApplicationExtension>()?.apply {
                 configureAndroidCommon(this)
                 configureAndroidAppCommon(this)
+                configureCommonDependencies()
             }
 
             extensions.findByType<LibraryExtension>()?.apply {
                 configureAndroidCommon(this)
+                configureCommonDependencies()
             }
         }
     }

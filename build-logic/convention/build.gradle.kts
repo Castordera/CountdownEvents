@@ -45,5 +45,9 @@ gradlePlugin {
             id = "countdown.kotlin.library"
             implementationClass = "KotlinLibraryCommonConventionPlugin"
         }
+        register("androidTest") {
+            id = "countdown.android.test"
+            implementationClass = "AndroidTestConventionPlugin"
+        }
     }
 }

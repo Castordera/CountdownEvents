@@ -3,6 +3,7 @@ package com.ulises.convention.config
 import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.dependencies
 
 internal fun Project.configureAndroidCommon(
     extension: CommonExtension<*, *, *, *, *>
@@ -30,5 +31,11 @@ internal fun Project.configureAndroidAppCommon(
         defaultConfig {
             targetSdk = 33
         }
+    }
+}
+
+internal fun Project.configureCommonDependencies() {
+    dependencies {
+        add("implementation", libs.findLibrary("android-core-ktx").get())
     }
 }

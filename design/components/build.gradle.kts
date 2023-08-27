@@ -2,6 +2,7 @@ plugins {
     id("countdown.android.library.compose")
     id("countdown.android.kotlin")
     id("countdown.android.common")
+    id("countdown.android.test")
 }
 
 android {
@@ -25,7 +26,6 @@ android {
 
 dependencies {
     //Todo("Check if all dependencies are necessary")
-    implementation(libs.android.core.ktx)
     implementation(libs.appcompat)
     //  Material
     implementation(libs.compose.material3)
@@ -33,6 +33,4 @@ dependencies {
     implementation(project(":design:theme"))
     //  Test
     testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.espresso.core)
 }
