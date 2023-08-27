@@ -1,4 +1,4 @@
-package com.ulises.list.common
+package com.example.domain
 
 enum class CountdownSortType {
     NORMAL,

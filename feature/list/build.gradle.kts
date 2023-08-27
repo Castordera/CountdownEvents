@@ -32,6 +32,7 @@ dependencies {
     implementation(project(":data"))
     implementation(project(":design:theme"))
     implementation(project(":design:components"))
+    implementation(project(":common:preview-data"))
     //  Hilt
     implementation(libs.bundles.hilt.core)
     kapt(libs.hilt.compiler)

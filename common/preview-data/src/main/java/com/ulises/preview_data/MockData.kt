@@ -1,11 +1,12 @@
-package com.ulises.list.common
+package com.ulises.preview_data
 
+import com.example.domain.CountdownSortType
 import com.example.domain.models.CountdownDate
 import java.time.LocalDateTime
 
-internal val radioOptionsPreview = listOf(CountdownSortType.NORMAL, CountdownSortType.DATE)
+val radioOptionsPreview = listOf(CountdownSortType.NORMAL, CountdownSortType.DATE)
 
-internal val listItemsPreview = listOf(
+val listItemsPreview = listOf(
     CountdownDate(
         id = "1111",
         name = "Bebecita",

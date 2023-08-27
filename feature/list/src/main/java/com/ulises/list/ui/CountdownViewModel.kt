@@ -2,6 +2,7 @@ package com.ulises.list.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.domain.CountdownSortType
 import com.example.domain.models.CountdownDate
 import com.ulises.data.DataStorePreferences
 import com.ulises.usecase.countdown.DeleteCountdownUseCase
@@ -58,14 +59,14 @@ class CountdownViewModel @Inject constructor(
 
     private fun sortList(list: List<CountdownDate>): List<CountdownDate> {
         Timber.d("$list")
-        return if (_uiState.value.sortType == com.ulises.list.common.CountdownSortType.DATE) {
+        return if (_uiState.value.sortType == CountdownSortType.DATE) {
             list.sortedBy { it.dateToCountdown }
         } else {
             list.sortedBy { it.id }
         }
     }
 
-    fun onChangeSortType(option: com.ulises.list.common.CountdownSortType) {
+    fun onChangeSortType(option: CountdownSortType) {
         Timber.d("Sort type: $option")
         val list = _uiState.value.countdownItems
         if (list != null) {

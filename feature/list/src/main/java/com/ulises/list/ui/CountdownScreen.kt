@@ -29,8 +29,8 @@ import com.ulises.components.dialogs.SimpleAlertDialog
 import com.ulises.components.toolbars.Toolbar
 import com.ulises.components.toolbars.TopBarItem
 import com.ulises.list.R
-import com.ulises.list.common.CountdownSortType
-import com.ulises.list.common.listItemsPreview
+import com.example.domain.CountdownSortType
+import com.ulises.preview_data.listItemsPreview
 import com.ulises.theme.CountdownAppTheme
 
 @Composable

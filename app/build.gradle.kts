@@ -55,6 +55,7 @@ dependencies {
     implementation(project(":design:theme"))
     //  Features
     implementation(project(":feature:list"))
+    implementation(project(":common:preview-data"))//Todo(Remove it after migrating Event Detail)
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

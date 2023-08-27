@@ -21,10 +21,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.countdownapp.R
 import com.example.countdownapp.ui.common.remainingTime
-import com.example.countdownapp.ui.screens.utils.listItemsPreview
 import com.ulises.components.screens.DefaultErrorScreen
 import com.ulises.components.toolbars.Toolbar
 import com.ulises.components.toolbars.TopBarItem
+import com.ulises.preview_data.listItemsPreview
 import com.ulises.theme.CountdownAppTheme
 
 @Composable

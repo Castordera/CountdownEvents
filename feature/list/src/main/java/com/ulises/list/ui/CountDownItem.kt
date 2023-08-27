@@ -20,9 +20,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.domain.models.CountdownDate
 import com.example.domain.models.DateHandler
-import com.ulises.list.common.listItemsPreview
 import com.ulises.list.common.remainingTime
 import com.ulises.list.common.toReadableDate
+import com.ulises.preview_data.listItemsPreview
 import com.ulises.theme.CountdownAppTheme
 
 @OptIn(ExperimentalFoundationApi::class)

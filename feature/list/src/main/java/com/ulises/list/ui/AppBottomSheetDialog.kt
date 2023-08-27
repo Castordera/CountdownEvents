@@ -16,8 +16,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ulises.components.buttons.TextRadioButton
-import com.ulises.list.common.CountdownSortType
-import com.ulises.list.common.radioOptionsPreview
+import com.example.domain.CountdownSortType
+import com.ulises.preview_data.radioOptionsPreview
 import com.ulises.theme.CountdownAppTheme
 
 @Composable
