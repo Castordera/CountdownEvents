@@ -43,6 +43,8 @@ dependencies {
     //  Hilt
     implementation(libs.bundles.hilt.core)
     kapt(libs.hilt.compiler)
+    //  Coil
+    implementation(libs.bundles.coil)
 
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.timber)
@@ -58,7 +60,6 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     val compose_version = "1.4.2"
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:$compose_version")
-//    debugImplementation("androidx.compose.ui:ui-tooling:$compose_version")
     debugImplementation("androidx.compose.ui:ui-test-manifest:$compose_version")
 }
 

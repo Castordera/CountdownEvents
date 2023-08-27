@@ -23,6 +23,8 @@ espresso-core = "3.5.1"
 appcompat = "1.6.1"
 org-jetbrains-kotlin-jvm = "1.8.10"
 ksp = "1.8.10-1.0.9"
+coil = "2.4.0"
+material = "1.9.0"
 
 [libraries]
 #Android
@@ -59,11 +61,16 @@ appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "a
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+# Coil
+coil-core = { module = "io.coil-kt:coil", version.ref = "coil"}
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [bundles]
 compose = ["compose-ui", "compose-preview"]
 room-core = ["room-runtime", "room-ktx"]
 hilt-core = ["hilt-android", "hilt-navigation-compose"]
+coil = ["coil-core", "coil-compose"]
 
 [plugins]
 android-app = { id = "com.android.application", version.ref = "agp" }
