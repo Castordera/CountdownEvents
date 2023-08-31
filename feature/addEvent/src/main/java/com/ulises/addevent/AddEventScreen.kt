@@ -1,4 +1,4 @@
-package com.example.countdownapp.ui.screens.add
+package com.ulises.addevent
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
@@ -14,19 +14,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.countdownapp.R
-import com.example.countdownapp.ui.common.AppDatePicker
-import com.example.countdownapp.ui.common.toHumanReadable
-import com.example.countdownapp.ui.common.toMillis
+import com.ulises.components.dialogs.AppDatePicker
 import com.ulises.components.toolbars.Toolbar
 import com.ulises.theme.CountdownAppTheme
 import java.time.LocalDateTime
 
 @Composable
 fun AddEventRoute(
-    viewModel: AddEventViewModel = viewModel(),
+    viewModel: AddEventViewModel = hiltViewModel(),
     onBackPress: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()

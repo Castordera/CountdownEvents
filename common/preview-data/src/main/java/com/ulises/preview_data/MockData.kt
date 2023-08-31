@@ -1,6 +1,6 @@
 package com.ulises.preview_data
 
-import com.example.domain.CountdownSortType
+import com.example.domain.enums.CountdownSortType
 import com.example.domain.models.CountdownDate
 import java.time.LocalDateTime
 

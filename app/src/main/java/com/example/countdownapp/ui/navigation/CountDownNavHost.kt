@@ -11,8 +11,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.countdownapp.R
-import com.example.countdownapp.ui.screens.add.AddEventRoute
-import com.example.countdownapp.ui.screens.detail.CountdownDetailRoute
+import com.ulises.addevent.AddEventRoute
+import com.ulises.event_detail.ui.CountdownDetailRoute
 import com.ulises.list.ui.CountDownRoute
 import com.ulises.components.toolbars.TopBarItem
 

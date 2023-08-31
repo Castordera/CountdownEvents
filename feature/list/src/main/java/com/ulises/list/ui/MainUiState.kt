@@ -1,7 +1,7 @@
 package com.ulises.list.ui
 
 import com.example.domain.models.CountdownDate
-import com.example.domain.CountdownSortType
+import com.example.domain.enums.CountdownSortType
 
 data class MainUiState(
     val loading: Boolean = true,

@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package com.example.countdownapp.ui.common
+package com.ulises.components.dialogs
 
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
@@ -10,9 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.countdownapp.R
 import com.ulises.theme.CountdownAppTheme
 
 @Composable
@@ -29,14 +27,14 @@ fun AppDatePicker(
             TextButton(
                 onClick = { onDateSelected(datePickerState.selectedDateMillis) }
             ) {
-                Text(text = stringResource(id = R.string.dialog_date_picker_button_save))
+                Text(text = "Save")
             }
         },
         dismissButton = {
             TextButton(
                 onClick = onCancelClick
             ) {
-                Text(text = stringResource(id = R.string.dialog_date_picker_button_dismiss))
+                Text(text = "Cancel")
             }
         }
     ) {

@@ -1,10 +1,7 @@
-package com.example.countdownapp.ui.screens.add
+package com.ulises.addevent
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.countdownapp.di.HumanReadableFormat
-import com.example.countdownapp.ui.common.toLocalDateTime
-import com.example.countdownapp.ui.common.zero
 import com.example.domain.models.CountdownDate
 import com.ulises.usecase.countdown.AddCountdownUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,7 +19,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddEventViewModel @Inject constructor(
-    @HumanReadableFormat val humanReadableFormat: DateTimeFormatter,
     private val addCountdownUseCase: AddCountdownUseCase
 ) : ViewModel() {
 

@@ -53,7 +53,8 @@ dependencies {
     implementation(project(":design:theme"))
     //  Features
     implementation(project(":feature:list"))
-    implementation(project(":common:preview-data"))//Todo(Remove it after migrating Event Detail)
+    implementation(project(":feature:addEvent"))
+    implementation(project(":feature:event-detail"))
 }
 
 kapt {

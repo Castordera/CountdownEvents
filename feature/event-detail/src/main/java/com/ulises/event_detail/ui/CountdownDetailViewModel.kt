@@ -1,9 +1,8 @@
-package com.example.countdownapp.ui.screens.detail
+package com.ulises.event_detail.ui
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.countdownapp.ui.navigation.NavArgs
 import com.ulises.usecase.countdown.GetCountdownUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,7 +19,7 @@ class CountdownDetailViewModel @Inject constructor(
     private val getCountdownDate: GetCountdownUseCase
 ) : ViewModel() {
 
-    private val countdownDate = savedStateHandle.get<String>(NavArgs.Detail.key) ?: ""
+    private val countdownDate = savedStateHandle.get<String>("item") ?: ""//Todo(Remove hardcoded key, should be NavArgs.Detail.key)
 
     private val _uiState = MutableStateFlow(DetailUiState())
     val uiState = _uiState.asStateFlow()

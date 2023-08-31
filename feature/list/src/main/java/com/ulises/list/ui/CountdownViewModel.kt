@@ -2,7 +2,7 @@ package com.ulises.list.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.CountdownSortType
+import com.example.domain.enums.CountdownSortType
 import com.example.domain.models.CountdownDate
 import com.ulises.data.DataStorePreferences
 import com.ulises.usecase.countdown.DeleteCountdownUseCase

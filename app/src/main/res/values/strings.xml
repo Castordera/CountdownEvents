@@ -1,10 +1,5 @@
 <resources>
     <string name="app_name">CountdownApp</string>
-    <!--  Add Event Screen  -->
-    <string name="add_screen_title">Add new date</string>
-    <string name="add_screen_edit_text_event_name_placeholder">Date name</string>
-    <string name="add_screen_button_change_date">Select day</string>
-    <string name="add_screen_button_save_date">Save</string>
     <!--  Dialogs  -->
     <string name="dialog_date_picker_button_save">Select</string>
     <string name="dialog_date_picker_button_dismiss">Cancel</string>

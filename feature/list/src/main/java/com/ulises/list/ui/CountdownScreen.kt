@@ -29,7 +29,7 @@ import com.ulises.components.dialogs.SimpleAlertDialog
 import com.ulises.components.toolbars.Toolbar
 import com.ulises.components.toolbars.TopBarItem
 import com.ulises.list.R
-import com.example.domain.CountdownSortType
+import com.example.domain.enums.CountdownSortType
 import com.ulises.preview_data.listItemsPreview
 import com.ulises.theme.CountdownAppTheme
 
@@ -62,7 +62,7 @@ fun CountDownRoute(
 }
 
 @Composable
-fun CountdownMainScreen(
+private fun CountdownMainScreen(
     modifier: Modifier = Modifier,
     uiState: MainUiState,
     toolbarActions: List<TopBarItem> = emptyList(),

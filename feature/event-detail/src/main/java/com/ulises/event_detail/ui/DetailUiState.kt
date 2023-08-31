@@ -1,4 +1,4 @@
-package com.example.countdownapp.ui.screens.detail
+package com.ulises.event_detail.ui
 
 import com.example.domain.models.CountdownDate
 
