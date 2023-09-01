@@ -9,10 +9,10 @@ fun Project.configureAndroidTest(
 ) {
     commonExtension.apply {
         dependencies {
-            add("androidTestImplementation", libs.get("androidx-test-ext-junit"))
-            add("androidTestImplementation", libs.get("espresso-core"))
-            add("androidTestImplementation", libs.get("androidx-ui-test-junit4"))
-            add("debugImplementation", libs.get("androidx-ui-test-manifest"))
+            add("androidTestImplementation", libs.library("androidx-test-ext-junit"))
+            add("androidTestImplementation", libs.library("espresso-core"))
+            add("androidTestImplementation", libs.library("androidx-ui-test-junit4"))
+            add("debugImplementation", libs.library("androidx-ui-test-manifest"))
         }
     }
 }
@@ -22,8 +22,8 @@ fun Project.configureUnitTest(
 ) {
     commonExtension.apply {
         dependencies {
-            add("testImplementation", libs.get("junit"))
-            add("testImplementation", libs.get("mockk"))
+            add("testImplementation", libs.library("junit"))
+            add("testImplementation", libs.library("mockk"))
         }
     }
 }

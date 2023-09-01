@@ -8,4 +8,8 @@ import org.gradle.kotlin.dsl.getByType
 val Project.libs
     get(): VersionCatalog = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
-internal fun VersionCatalog.get(libraryName: String) = findLibrary(libraryName).get()
+internal fun VersionCatalog.library(libraryName: String) = findLibrary(libraryName).get()
+
+internal fun VersionCatalog.version(versionName: String): String {
+    return findVersion(versionName).get().requiredVersion
+}

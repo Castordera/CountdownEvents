@@ -23,7 +23,7 @@ internal fun Project.configureAndroidCommon(
         }
 
         dependencies {
-            add("implementation", libs.get("timber"))
+            add("implementation", libs.library("timber"))
         }
     }
 }
@@ -40,6 +40,6 @@ internal fun Project.configureAndroidAppCommon(
 
 internal fun Project.configureCommonDependencies() {
     dependencies {
-        add("implementation", libs.get("android-core-ktx"))
+        add("implementation", libs.library("android-core-ktx"))
     }
 }

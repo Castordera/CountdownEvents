@@ -13,13 +13,13 @@ internal fun Project.configureAndroidCompose(
         }
 
         composeOptions {
-            kotlinCompilerExtensionVersion = "1.4.3"// Todo(Make dynamic)
+            kotlinCompilerExtensionVersion = libs.version("composeCompiler")
         }
 
         dependencies {
-            add("implementation", libs.findLibrary("compose-ui").get())
-            add("implementation", libs.findLibrary("compose-preview").get())
-            add("debugImplementation", libs.findLibrary("compose-tooling").get())
+            add("implementation", libs.library("compose-ui"))
+            add("implementation", libs.library("compose-preview"))
+            add("debugImplementation", libs.library("compose-tooling"))
         }
     }
 }

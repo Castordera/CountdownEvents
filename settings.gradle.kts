@@ -13,7 +13,10 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
+includeBuild("build-logic")
+
 rootProject.name = "CountdownApp"
+
 include(":app")
 include(":domain")
 include(":usecase")
