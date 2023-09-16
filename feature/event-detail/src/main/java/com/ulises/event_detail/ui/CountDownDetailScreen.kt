@@ -14,6 +14,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -22,6 +23,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ulises.components.screens.DefaultErrorScreen
 import com.ulises.components.toolbars.Toolbar
 import com.ulises.components.toolbars.TopBarItem
+import com.ulises.date_utils.remainingTime
 import com.ulises.event_detail.R
 import com.ulises.preview_data.listItemsPreview
 import com.ulises.theme.CountdownAppTheme
@@ -48,7 +50,6 @@ fun CountDownDetailScreen(
     Scaffold(
         topBar = {
             Toolbar(
-                title = uiState.countdownDate?.name.orEmpty(),
                 onBackPress = { onBackPress() },
                 actions = actions
             )
@@ -76,8 +77,16 @@ fun DetailComponent(
     uiState: DetailUiState
 ) {
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
     ) {
+        Text(
+            modifier = Modifier.fillMaxWidth(),
+            text = uiState.countdownDate?.name.orEmpty(),
+            textAlign = TextAlign.Center,
+            fontSize = 22.sp
+        )
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
@@ -86,7 +95,7 @@ fun DetailComponent(
                 .weight(1f)
         ) {
             Text(
-                text = "Faltan",
+                text = if (uiState.countdownDate?.remainingTime?.isInPast == true) "Hace" else "Faltan",
                 fontSize = 24.sp
             )
             Text(
@@ -100,9 +109,7 @@ fun DetailComponent(
         }
         Column(
             horizontalAlignment = Alignment.End,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
+            modifier = Modifier.fillMaxWidth()
         ) {
             Text(
                 text = "Created: ${uiState.countdownDate?.createdAt}",
@@ -125,9 +132,8 @@ fun PrevCountDownDetailScreen() {
     CountdownAppTheme {
         CountDownDetailScreen(
             uiState = DetailUiState(
-                countdownDate = listItemsPreview[0],
-                error = null
-            ),
+                countdownDate = listItemsPreview[1]
+            )
         ) {}
     }
 }

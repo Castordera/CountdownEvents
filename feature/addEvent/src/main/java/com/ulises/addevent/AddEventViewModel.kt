@@ -3,6 +3,8 @@ package com.ulises.addevent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.models.CountdownDate
+import com.ulises.date_utils.toLocalDateTime
+import com.ulises.date_utils.zero
 import com.ulises.usecase.countdown.AddCountdownUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

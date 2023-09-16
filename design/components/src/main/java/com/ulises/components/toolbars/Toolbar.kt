@@ -10,7 +10,7 @@ import com.ulises.theme.CountdownAppTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Toolbar(
-    title: String,
+    title: String = "",
     onBackPress: (() -> Unit)? = null,
     actions: List<TopBarItem> = emptyList()
 ) {

@@ -1,12 +1,24 @@
-package com.ulises.event_detail.ui
+package com.ulises.date_utils
 
 import com.example.domain.enums.DateDisplayType
 import com.example.domain.models.CountdownDate
 import com.example.domain.models.DateHandler
 import java.time.Duration
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import kotlin.math.abs
+
+val CountdownDate.toReadableDate: String
+    get() {
+        return runCatching {
+            val format = DateTimeFormatter.ofPattern("dd MMM yyyy")
+            dateToCountdown.format(format)
+        }.fold(
+            onSuccess = { it },
+            onFailure = { "Error decoding $this" }
+        )
+    }
 
 val CountdownDate.remainingTime: DateHandler
     get() {

@@ -31,6 +31,7 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":usecase"))
     //
+    implementation(project(":common:date-utils"))
     implementation(project(":design:theme"))
     implementation(project(":design:components"))
     implementation(project(":common:preview-data"))

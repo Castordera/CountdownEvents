@@ -8,6 +8,7 @@ import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Card
 import androidx.compose.material3.Divider
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -20,8 +21,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.domain.models.CountdownDate
 import com.example.domain.models.DateHandler
-import com.ulises.list.common.remainingTime
-import com.ulises.list.common.toReadableDate
+import com.ulises.date_utils.remainingTime
+import com.ulises.date_utils.toReadableDate
 import com.ulises.preview_data.listItemsPreview
 import com.ulises.theme.CountdownAppTheme
 
@@ -58,7 +59,9 @@ fun CountDownItemList(
             ) {
                 Text(
                     text = item.name,
-                    fontSize = 20.sp
+                    fontSize = 20.sp,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
                 )
                 Text(
                     text = item.toReadableDate,
@@ -134,19 +137,31 @@ fun CountDownItemGrid(
 @Composable
 fun PrevCountDownItem() {
     CountdownAppTheme {
-        Column(
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            CountDownItemList(
-                item = listItemsPreview[0],
-                onClick = {},
-                onDelete = {}
-            )
-            CountDownItemGrid(
-                item = listItemsPreview[1],
-                onClick = {},
-                onDelete = {}
-            )
+        Surface {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                CountDownItemList(
+                    item = listItemsPreview[0],
+                    onClick = {},
+                    onDelete = {}
+                )
+                CountDownItemList(
+                    item = listItemsPreview[1],
+                    onClick = {},
+                    onDelete = {}
+                )
+                CountDownItemGrid(
+                    item = listItemsPreview[0],
+                    onClick = {},
+                    onDelete = {}
+                )
+                CountDownItemGrid(
+                    item = listItemsPreview[1],
+                    onClick = {},
+                    onDelete = {}
+                )
+            }
         }
     }
 }

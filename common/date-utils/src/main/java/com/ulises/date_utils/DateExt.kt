@@ -1,4 +1,4 @@
-package com.example.countdownapp.ui.common
+package com.ulises.date_utils
 
 import java.time.Instant
 import java.time.LocalDateTime
