@@ -31,7 +31,7 @@ fun CountDownNavHost(
             CountDownRoute(
                 toolbarActions = listOf(
                     TopBarItem("Add", R.drawable.ic_add_24) {
-                        navController.navigate(Screens.AddCountDown.route)
+                        navController.navigate(Screens.AddCountDown.createEditRoute())
                     }
                 ),
                 onNavigateToDetail = { item ->
@@ -45,7 +45,10 @@ fun CountDownNavHost(
         ) {
             CountdownDetailRoute(
                 viewModel = hiltViewModel(),
-                onBackPress = { navController.popBackStack() }
+                onBackPress = { navController.popBackStack() },
+                onEditItem = {
+                    navController.navigate(Screens.AddCountDown.createEditRoute(it))
+                },
             )
         }
         composable(

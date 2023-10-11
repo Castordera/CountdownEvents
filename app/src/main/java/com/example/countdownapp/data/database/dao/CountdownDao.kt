@@ -3,6 +3,7 @@ package com.example.countdownapp.data.database.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import com.example.countdownapp.data.database.entities.Countdown
 import kotlinx.coroutines.flow.Flow
 
@@ -20,4 +21,7 @@ interface CountdownDao {
 
     @Query("DELETE FROM Countdown WHERE id = :id")
     suspend fun deleteCountdownById(id: String)
+
+    @Update
+    suspend fun updateEvent(event: Countdown)
 }

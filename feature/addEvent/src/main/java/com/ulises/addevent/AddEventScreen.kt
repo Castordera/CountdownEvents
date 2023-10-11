@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.ulises.components.Loading
 import com.ulises.components.dialogs.AppDatePicker
 import com.ulises.components.toolbars.Toolbar
 import com.ulises.date_utils.toHumanReadable
@@ -49,7 +50,7 @@ fun AddEventRoute(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddEventScreen(
-    uiState: AddUiState,
+    uiState: UiState,
     onCalendarDateSelected: (Long?) -> Unit,
     onCalendarChangeVisibility: (Boolean) -> Unit,
     onUpdateEventName: (String) -> Unit,
@@ -69,14 +70,19 @@ fun AddEventScreen(
                 .padding(it)
                 .padding(16.dp)
         ) {
-            AppDatePicker(
-                datePickerState = rememberDatePickerState(
-                    initialSelectedDateMillis = uiState.dateTime.toMillis()
-                ),
-                isVisible = uiState.dateDialogVisible,
-                onCancelClick = { onCalendarChangeVisibility(false) },
-                onDateSelected = onCalendarDateSelected
-            )
+            if (uiState.isLoading) {
+                Loading(); return@Surface
+            }
+            uiState.dateTime?.also { date ->
+                AppDatePicker(
+                    datePickerState = rememberDatePickerState(
+                        initialSelectedDateMillis = date.toMillis()
+                    ),
+                    isVisible = uiState.dateDialogVisible,
+                    onCancelClick = { onCalendarChangeVisibility(false) },
+                    onDateSelected = onCalendarDateSelected
+                )
+            }
             Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -94,9 +100,8 @@ fun AddEventScreen(
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth()
                 )
-                OutlinedButton(
+                TextButton(
                     onClick = { onCalendarChangeVisibility(true) },
-                    border = null
                 ) {
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(
@@ -134,8 +139,9 @@ fun AddEventScreen(
 fun PrevAddEventScreen() {
     CountdownAppTheme {
         AddEventScreen(
-            uiState = AddUiState(
-                dateTime = LocalDateTime.now()
+            uiState = UiState(
+                isLoading = false,
+                dateTime = LocalDateTime.now(),
             ),
             onUpdateEventName = {},
             onCalendarDateSelected = {},

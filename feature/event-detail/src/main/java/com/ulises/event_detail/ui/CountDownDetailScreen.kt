@@ -31,13 +31,15 @@ import com.ulises.theme.CountdownAppTheme
 @Composable
 fun CountdownDetailRoute(
     viewModel: CountdownDetailViewModel = hiltViewModel(),
-    onBackPress: () -> Unit
+    onBackPress: () -> Unit,
+    onEditItem: (String) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     CountDownDetailScreen(
         uiState = uiState,
-        onBackPress = onBackPress
+        onEditItem = onEditItem,
+        onBackPress = onBackPress,
     )
 }
 
@@ -45,13 +47,20 @@ fun CountdownDetailRoute(
 fun CountDownDetailScreen(
     uiState: DetailUiState,
     actions: List<TopBarItem> = emptyList(),
-    onBackPress: () -> Unit
+    onEditItem: (itemId: String) -> Unit = {},
+    onBackPress: () -> Unit,
 ) {
     Scaffold(
         topBar = {
             Toolbar(
                 onBackPress = { onBackPress() },
-                actions = actions
+                actions = actions + listOf(
+                    TopBarItem(
+                        description = "Edit",
+                        icon = R.drawable.ic_error,
+                        onClick = { onEditItem(uiState.countdownDate?.id.orEmpty()) }
+                    )
+                )
             )
         }
     ) {
@@ -113,7 +122,7 @@ fun DetailComponent(
         ) {
             Text(
                 text = "Created: ${uiState.countdownDate?.createdAt}",
-                fontSize = 16.sp,
+                fontSize = 14.sp,
                 fontStyle = FontStyle.Italic
             )
             Text(

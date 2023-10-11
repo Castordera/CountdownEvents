@@ -28,4 +28,8 @@ class RoomCountdownDataSource @Inject constructor(
     override suspend fun deleteCountdown(id: String) {
         countdownDao.deleteCountdownById(id)
     }
+
+    override suspend fun editEvent(event: CountdownDate) {
+        countdownDao.updateEvent(event.toEntity())
+    }
 }

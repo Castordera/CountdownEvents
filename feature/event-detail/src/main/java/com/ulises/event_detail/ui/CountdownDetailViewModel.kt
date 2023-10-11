@@ -19,8 +19,8 @@ class CountdownDetailViewModel @Inject constructor(
     private val getCountdownDate: GetCountdownUseCase
 ) : ViewModel() {
 
-    private val countdownDate = savedStateHandle.get<String>("item") ?: ""//Todo(Remove hardcoded key, should be NavArgs.Detail.key)
-
+    //Todo(Remove hardcoded key, should be NavArgs.Detail.key)
+    private val countdownDate: String = savedStateHandle["item"] ?: ""
     private val _uiState = MutableStateFlow(DetailUiState())
     val uiState = _uiState.asStateFlow()
 
