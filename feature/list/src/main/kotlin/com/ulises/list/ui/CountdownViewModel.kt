@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.domain.enums.CountdownSortType
 import com.example.domain.models.CountdownDate
 import com.ulises.data.DataStorePreferences
-import com.ulises.usecase.countdown.DeleteCountdownUseCase
-import com.ulises.usecase.countdown.GetAllCountdownUseCase
+import com.ulises.usecase.countdown.DeleteEventUseCase
+import com.ulises.usecase.countdown.GetAllEventsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -23,8 +23,8 @@ class CountdownViewModel @Inject constructor(
 //    Todo("Extract this into another module probably create a use case for it")
 //    @DataStoreListViewType
     private val dataStore: DataStorePreferences<Boolean>,
-    private val getAllCountdownUseCase: GetAllCountdownUseCase,
-    private val deleteCountdownUseCase: DeleteCountdownUseCase
+    private val getAllEventsUseCase: GetAllEventsUseCase,
+    private val deleteEventUseCase: DeleteEventUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(MainUiState())
@@ -38,7 +38,7 @@ class CountdownViewModel @Inject constructor(
 
     private fun onLoadData() {
         viewModelScope.launch {
-            getAllCountdownUseCase()
+            getAllEventsUseCase()
                 .onStart { _uiState.update { it.copy(loading = true) } }
                 .transform { emit(sortList(it)) }
                 .catch { error ->
@@ -102,7 +102,7 @@ class CountdownViewModel @Inject constructor(
         viewModelScope.launch {
             runCatching {
                 checkNotNull(deleteItemId)
-                deleteCountdownUseCase(deleteItemId!!)
+                deleteEventUseCase(deleteItemId!!)
             }.onFailure {
                 Timber.e(it, "Error deleting countdown")
             }.onSuccess {

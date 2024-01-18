@@ -20,6 +20,8 @@ internal fun Project.configureAndroidCompose(
             add("implementation", libs.library("compose-ui"))
             add("implementation", libs.library("compose-preview"))
             add("debugImplementation", libs.library("compose-tooling"))
+            // Material as well
+            add("implementation", libs.library("compose-material3"))
         }
     }
 }

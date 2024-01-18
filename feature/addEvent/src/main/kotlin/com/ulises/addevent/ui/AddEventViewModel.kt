@@ -1,14 +1,15 @@
-package com.ulises.addevent
+package com.ulises.addevent.ui
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.models.CountdownDate
+import com.ulises.addevent.model.UiState
 import com.ulises.date_utils.toLocalDateTime
 import com.ulises.date_utils.zero
-import com.ulises.usecase.countdown.AddCountdownUseCase
+import com.ulises.usecase.countdown.AddEventUseCase
 import com.ulises.usecase.countdown.EditEventUseCase
-import com.ulises.usecase.countdown.GetCountdownUseCase
+import com.ulises.usecase.countdown.GetEventUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,8 +27,8 @@ import javax.inject.Inject
 @HiltViewModel
 class AddEventViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val addCountdownUseCase: AddCountdownUseCase,
-    private val getCountdownUseCase: GetCountdownUseCase,
+    private val addEventUseCase: AddEventUseCase,
+    private val getEventUseCase: GetEventUseCase,
     private val editEventUseCase: EditEventUseCase
 ) : ViewModel() {
 
@@ -56,7 +57,7 @@ class AddEventViewModel @Inject constructor(
 
     private fun getEventData(eventId: String) {
         viewModelScope.launch {
-            getCountdownUseCase(eventId)
+            getEventUseCase(eventId)
                 .catch { Timber.e(it, "Error getting event") }
                 .collect { event ->
                     Timber.d("Event received: $event")
@@ -111,7 +112,7 @@ class AddEventViewModel @Inject constructor(
                     dateToCountdown = _uiState.value.dateTime!!
                 )
                 Timber.d("Create Event: $event")
-                addCountdownUseCase(event)
+                addEventUseCase(event)
             }.onSuccess {
                 Timber.d("Event stored")
                 _uiState.update { state -> state.copy(goBack = true) }

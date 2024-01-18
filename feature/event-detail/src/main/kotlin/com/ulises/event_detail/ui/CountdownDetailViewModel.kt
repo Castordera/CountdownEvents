@@ -3,7 +3,8 @@ package com.ulises.event_detail.ui
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ulises.usecase.countdown.GetCountdownUseCase
+import com.ulises.event_detail.models.DetailUiState
+import com.ulises.usecase.countdown.GetEventUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CountdownDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val getCountdownDate: GetCountdownUseCase
+    private val getCountdownDate: GetEventUseCase
 ) : ViewModel() {
 
     //Todo(Remove hardcoded key, should be NavArgs.Detail.key)

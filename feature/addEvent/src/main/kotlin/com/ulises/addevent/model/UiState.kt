@@ -1,4 +1,4 @@
-package com.ulises.addevent
+package com.ulises.addevent.model
 
 import java.time.LocalDateTime
 

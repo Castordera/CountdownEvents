@@ -29,13 +29,12 @@ fun Toolbar(
         },
         actions = {
             actions.forEach { item ->
-                if (!item.isVisible) return@forEach
-                IconButton(onClick = { item.onClick() }) {
-                    Icon(
-                        painter = painterResource(id = item.icon),
-                        contentDescription = item.description
-                    )
-                }
+                ToolbarItem(
+                    isVisible = item.isVisible,
+                    onClick = item.onClick,
+                    description = item.description,
+                    iconRes = item.icon
+                )
             }
         })
 }

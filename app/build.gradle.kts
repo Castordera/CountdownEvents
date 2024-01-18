@@ -36,7 +36,6 @@ dependencies {
     //  Compose
     implementation(libs.compose.lifecycle.runtime)
     implementation(libs.compose.activity)
-    implementation(libs.compose.material3)
     implementation(libs.compose.navigation)
     //  Room
     implementation(libs.bundles.room.core)

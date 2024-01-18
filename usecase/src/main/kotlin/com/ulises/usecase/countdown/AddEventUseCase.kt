@@ -2,13 +2,12 @@ package com.ulises.usecase.countdown
 
 import com.example.domain.models.CountdownDate
 import com.ulises.data.repositories.CountdownRepository
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class GetCountdownUseCase @Inject constructor(
+class AddEventUseCase @Inject constructor(
     private val repository: CountdownRepository
 ) {
-    operator fun invoke(id: String): Flow<CountdownDate> {
-        return repository.getCountdown(id)
+    suspend operator fun invoke(item: CountdownDate) {
+        repository.addNewCountdown(item)
     }
 }

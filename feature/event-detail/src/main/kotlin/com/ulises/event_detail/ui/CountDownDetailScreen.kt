@@ -25,6 +25,7 @@ import com.ulises.components.toolbars.Toolbar
 import com.ulises.components.toolbars.TopBarItem
 import com.ulises.date_utils.remainingTime
 import com.ulises.event_detail.R
+import com.ulises.event_detail.models.DetailUiState
 import com.ulises.preview_data.listItemsPreview
 import com.ulises.theme.CountdownAppTheme
 

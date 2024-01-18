@@ -11,8 +11,3 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 }
-
-dependencies {
-    //  Compose
-    implementation(libs.compose.material3)
-}

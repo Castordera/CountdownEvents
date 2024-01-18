@@ -15,8 +15,6 @@ android {
 }
 
 dependencies {
-    //  Material
-    implementation(libs.compose.material3)
     //  Projects
     implementation(project(":design:theme"))
 }

@@ -5,8 +5,10 @@ import com.ulises.data.repositories.CountdownRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class GetAllCountdownUseCase @Inject constructor(
+class GetEventUseCase @Inject constructor(
     private val repository: CountdownRepository
 ) {
-    operator fun invoke(): Flow<List<CountdownDate>> = repository.getAllCountdown()
+    operator fun invoke(id: String): Flow<CountdownDate> {
+        return repository.getCountdown(id)
+    }
 }

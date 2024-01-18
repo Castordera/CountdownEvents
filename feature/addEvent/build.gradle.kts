@@ -25,7 +25,6 @@ dependencies {
     implementation(libs.bundles.hilt.core)
     kapt(libs.hilt.compiler)
     // Compose
-    implementation(libs.compose.material3)
     implementation(libs.compose.lifecycle.runtime)
 }
 
