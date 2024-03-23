@@ -12,21 +12,23 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.countdownapp.R
 import com.ulises.addevent.AddEventRoute
+import com.ulises.common.navigation.Screen
 import com.ulises.event_detail.ui.CountdownDetailRoute
 import com.ulises.list.ui.CountDownRoute
 import com.ulises.components.toolbars.TopBarItem
+import com.ulises.list.navigation.ListScreen
 
 @Composable
 fun CountDownNavHost(
     navController: NavHostController = rememberNavController(),
-    startDestination: Screens = Screens.Home
+    startDestination: Screen = ListScreen
 ) {
     NavHost(
         navController = navController,
         startDestination = startDestination.route
     ) {
         composable(
-            route = Screens.Home.route
+            route = ListScreen.route
         ) {
             CountDownRoute(
                 toolbarActions = listOf(
@@ -54,9 +56,11 @@ fun CountDownNavHost(
         composable(
             route = Screens.AddCountDown.route,
             enterTransition = { slideInHorizontally() },
-            exitTransition = { slideOutHorizontally(
-                targetOffsetX = { -it }
-            ) }
+            exitTransition = {
+                slideOutHorizontally(
+                    targetOffsetX = { -it }
+                )
+            }
         ) {
             AddEventRoute(
                 viewModel = hiltViewModel(),

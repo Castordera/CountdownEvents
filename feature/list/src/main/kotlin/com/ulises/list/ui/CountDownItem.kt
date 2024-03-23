@@ -4,10 +4,11 @@ package com.ulises.list.ui
 
 import android.content.res.Configuration
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Card
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -25,6 +26,7 @@ import com.ulises.date_utils.remainingTime
 import com.ulises.date_utils.toReadableDate
 import com.ulises.preview_data.listItemsPreview
 import com.ulises.theme.CountdownAppTheme
+import timber.log.Timber
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -32,11 +34,12 @@ fun CountDownItemList(
     modifier: Modifier = Modifier,
     item: CountdownDate,
     onClick: (CountdownDate) -> Unit,
-    onDelete: (CountdownDate) -> Unit
+    onDelete: (CountdownDate) -> Unit,
+    onCountdownClick: (CountdownDate) -> Unit,
 ) {
     var dateHandler by remember { mutableStateOf(DateHandler(false, "", "")) }
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(item.dateDisplayType) {
         dateHandler = item.remainingTime
     }
 
@@ -69,7 +72,8 @@ fun CountDownItemList(
                 )
             }
             Column(
-                horizontalAlignment = Alignment.End
+                horizontalAlignment = Alignment.End,
+                modifier = Modifier.clickable { onCountdownClick(item) }
             ) {
                 Text(
                     text = dateHandler.periodType + (if (dateHandler.isInPast) " ago" else ""),
@@ -82,7 +86,7 @@ fun CountDownItemList(
                 )
             }
         }
-        Divider(modifier = Modifier.padding(horizontal = 8.dp))
+        HorizontalDivider(modifier = Modifier.padding(horizontal = 8.dp))
     }
 }
 
@@ -91,7 +95,8 @@ fun CountDownItemGrid(
     modifier: Modifier = Modifier,
     item: CountdownDate,
     onClick: (CountdownDate) -> Unit,
-    onDelete: (CountdownDate) -> Unit
+    onDelete: (CountdownDate) -> Unit,
+    onCountdownClick: (CountdownDate) -> Unit,
 ) {
 
     var dateHandler by remember { mutableStateOf(DateHandler(false, "", "")) }
@@ -144,22 +149,26 @@ fun PrevCountDownItem() {
                 CountDownItemList(
                     item = listItemsPreview[0],
                     onClick = {},
-                    onDelete = {}
+                    onDelete = {},
+                    onCountdownClick = {},
                 )
                 CountDownItemList(
                     item = listItemsPreview[1],
                     onClick = {},
-                    onDelete = {}
+                    onDelete = {},
+                    onCountdownClick = {},
                 )
                 CountDownItemGrid(
                     item = listItemsPreview[0],
                     onClick = {},
-                    onDelete = {}
+                    onDelete = {},
+                    onCountdownClick = {},
                 )
                 CountDownItemGrid(
                     item = listItemsPreview[1],
                     onClick = {},
-                    onDelete = {}
+                    onDelete = {},
+                    onCountdownClick = {},
                 )
             }
         }

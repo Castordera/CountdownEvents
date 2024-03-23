@@ -1,5 +1,7 @@
 package com.ulises.list.navigation
 
-data object ListScreen {
-    const val route = "home"
+import com.ulises.common.navigation.Screen
+
+data object ListScreen: Screen {
+    override val route = "home"
 }

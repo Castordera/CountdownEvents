@@ -8,5 +8,6 @@ data class UiState(
     val goBack: Boolean = false,
     val dateDialogVisible: Boolean = false,
     val dateTime: LocalDateTime? = null,
-    val saveButtonEnabled: Boolean = false
+    val saveButtonEnabled: Boolean = false,
+    val error: String? = null,
 )

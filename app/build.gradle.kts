@@ -50,6 +50,7 @@ dependencies {
     implementation(project(":usecase"))
     implementation(project(":design:components"))
     implementation(project(":design:theme"))
+    implementation(project(":common:navigation"))
     //  Features
     implementation(project(":feature:list"))
     implementation(project(":feature:addEvent"))

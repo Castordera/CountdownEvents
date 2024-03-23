@@ -58,7 +58,9 @@ class AddEventViewModel @Inject constructor(
     private fun getEventData(eventId: String) {
         viewModelScope.launch {
             getEventUseCase(eventId)
-                .catch { Timber.e(it, "Error getting event") }
+                .catch {
+                    Timber.e(it, "Error getting event")
+                }
                 .collect { event ->
                     Timber.d("Event received: $event")
                     this@AddEventViewModel.event = event
@@ -116,8 +118,9 @@ class AddEventViewModel @Inject constructor(
             }.onSuccess {
                 Timber.d("Event stored")
                 _uiState.update { state -> state.copy(goBack = true) }
-            }.onFailure {
-                Timber.e(it, "Error adding event")
+            }.onFailure { error ->
+                Timber.e(error, "Error adding event")
+                _uiState.update { it.copy(error = error.localizedMessage) }
             }
         }
     }
@@ -131,8 +134,9 @@ class AddEventViewModel @Inject constructor(
                     dateToCountdown = _uiState.value.dateTime!!
                 )
                 editEventUseCase(newEvent)
-            }.onFailure {
-                Timber.e(it, "Error editing event")
+            }.onFailure { error ->
+                Timber.e(error, "Error editing event")
+                _uiState.update { it.copy(error = error.localizedMessage) }
             }.onSuccess {
                 Timber.d("Event edited success")
                 _uiState.update { state -> state.copy(goBack = true) }
@@ -142,5 +146,9 @@ class AddEventViewModel @Inject constructor(
 
     fun onChangeCalendarVisibility(visible: Boolean) {
         _uiState.update { it.copy(dateDialogVisible = visible) }
+    }
+
+    fun onErrorMessageDisplayed() {
+        _uiState.update { it.copy(error = null) }
     }
 }

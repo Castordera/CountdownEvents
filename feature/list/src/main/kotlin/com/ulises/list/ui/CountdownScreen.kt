@@ -13,7 +13,10 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,6 +33,7 @@ import com.ulises.components.toolbars.Toolbar
 import com.ulises.components.toolbars.TopBarItem
 import com.ulises.list.R
 import com.example.domain.enums.CountdownSortType
+import com.ulises.list.models.UiState
 import com.ulises.preview_data.listItemsPreview
 import com.ulises.theme.CountdownAppTheme
 
@@ -57,21 +61,33 @@ fun CountDownRoute(
         onSortTypeChange = viewModel::onChangeSortType,
         onListTypeChange = viewModel::onListChangeAdapter,
         onClickItem = onNavigateToDetail,
-        onDeleteItem = viewModel::onRequestDeleteItem
+        onDeleteItem = viewModel::onRequestDeleteItem,
+        onCountdownClickTypeChange = viewModel::onCountdownClickTypeChange,
+        onErrorDisplayed = viewModel::onErrorMessageDisplayed,
     )
 }
 
 @Composable
 private fun CountdownMainScreen(
     modifier: Modifier = Modifier,
-    uiState: MainUiState,
+    uiState: UiState,
     toolbarActions: List<TopBarItem> = emptyList(),
     onSortTypeChange: (CountdownSortType) -> Unit,
     onListTypeChange: () -> Unit,
     onClickItem: (CountdownDate) -> Unit,
-    onDeleteItem: (CountdownDate) -> Unit
+    onDeleteItem: (CountdownDate) -> Unit,
+    onCountdownClickTypeChange: (CountdownDate) -> Unit,
+    onErrorDisplayed: () -> Unit,
 ) {
     var bottomSheetVisible by remember { mutableStateOf(false) }
+    val snackBarHostState = remember { SnackbarHostState() }
+
+    if (uiState.error != null) {
+        LaunchedEffect(uiState.error) {
+            snackBarHostState.showSnackbar(uiState.error)
+            onErrorDisplayed()
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -92,7 +108,8 @@ private fun CountdownMainScreen(
                     )
                 )
             )
-        }
+        },
+        snackbarHost = { SnackbarHost(hostState = snackBarHostState)}
     ) { padding ->
         if (uiState.countdownItems.isNullOrEmpty()) {
             NoEventsScreen(
@@ -104,7 +121,8 @@ private fun CountdownMainScreen(
                     modifier = modifier.padding(padding),
                     items = uiState.countdownItems,
                     onClickItem = onClickItem,
-                    onDeleteItem = onDeleteItem
+                    onDeleteItem = onDeleteItem,
+                    onCountdownClick = onCountdownClickTypeChange
                 )
             } else {
                 CountDownGridList(
@@ -131,7 +149,8 @@ private fun CountDownList(
     modifier: Modifier = Modifier,
     items: List<CountdownDate>,
     onClickItem: (CountdownDate) -> Unit,
-    onDeleteItem: (CountdownDate) -> Unit
+    onDeleteItem: (CountdownDate) -> Unit,
+    onCountdownClick: (CountdownDate) -> Unit,
 ) {
     LazyColumn(
         contentPadding = PaddingValues(vertical = 16.dp),
@@ -145,7 +164,8 @@ private fun CountDownList(
                 modifier = Modifier.animateItemPlacement(),
                 item = it,
                 onClick = onClickItem,
-                onDelete = onDeleteItem
+                onDelete = onDeleteItem,
+                onCountdownClick = onCountdownClick,
             )
         }
     }
@@ -172,7 +192,8 @@ private fun CountDownGridList(
             CountDownItemGrid(
                 item = it,
                 onClick = onClickItem,
-                onDelete = onDeleteItem
+                onDelete = onDeleteItem,
+                onCountdownClick = {},
             )
         }
     }
@@ -184,14 +205,16 @@ private fun CountDownGridList(
 fun PrevCountDownScreen() {
     CountdownAppTheme {
         CountdownMainScreen(
-            uiState = MainUiState(
+            uiState = UiState(
                 loading = false,
                 countdownItems = listItemsPreview
             ),
             onClickItem = {},
             onDeleteItem = {},
             onListTypeChange = {},
-            onSortTypeChange = {}
+            onSortTypeChange = {},
+            onCountdownClickTypeChange = {},
+            onErrorDisplayed = {},
         )
     }
 }
@@ -202,7 +225,7 @@ fun PrevCountDownScreen() {
 fun PrevCountDownScreenGrid() {
     CountdownAppTheme {
         CountdownMainScreen(
-            uiState = MainUiState(
+            uiState = UiState(
                 loading = false,
                 countdownItems = listItemsPreview,
                 isGrid = true
@@ -210,7 +233,9 @@ fun PrevCountDownScreenGrid() {
             onClickItem = {},
             onDeleteItem = {},
             onListTypeChange = {},
-            onSortTypeChange = {}
+            onSortTypeChange = {},
+            onCountdownClickTypeChange = {},
+            onErrorDisplayed = {},
         )
     }
 }
@@ -221,11 +246,13 @@ fun PrevCountDownScreenGrid() {
 fun PrevCountDownScreenNoEvents() {
     CountdownAppTheme {
         CountdownMainScreen(
-            uiState = MainUiState(),
+            uiState = UiState(),
             onClickItem = {},
             onDeleteItem = {},
             onListTypeChange = {},
-            onSortTypeChange = {}
+            onSortTypeChange = {},
+            onCountdownClickTypeChange = {},
+            onErrorDisplayed = {},
         )
     }
 }

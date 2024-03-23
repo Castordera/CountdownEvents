@@ -3,9 +3,12 @@ package com.ulises.list.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.enums.CountdownSortType
+import com.example.domain.enums.DateDisplayType
 import com.example.domain.models.CountdownDate
 import com.ulises.data.DataStorePreferences
+import com.ulises.list.models.UiState
 import com.ulises.usecase.countdown.DeleteEventUseCase
+import com.ulises.usecase.countdown.EditEventUseCase
 import com.ulises.usecase.countdown.GetAllEventsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,11 +27,13 @@ class CountdownViewModel @Inject constructor(
 //    @DataStoreListViewType
     private val dataStore: DataStorePreferences<Boolean>,
     private val getAllEventsUseCase: GetAllEventsUseCase,
-    private val deleteEventUseCase: DeleteEventUseCase
+    private val deleteEventUseCase: DeleteEventUseCase,
+    private val editEventUseCase: EditEventUseCase,
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(MainUiState())
+    private val _uiState = MutableStateFlow(UiState())
     val uiState = _uiState.asStateFlow()
+
     //
     private var deleteItemId: String? = null
 
@@ -43,10 +48,10 @@ class CountdownViewModel @Inject constructor(
                 .transform { emit(sortList(it)) }
                 .catch { error ->
                     Timber.e(error)
-                    _uiState.update { it.copy(loading = false) }
+                    _uiState.update { it.copy(loading = false, error = error.localizedMessage) }
                 }
                 .collect { items ->
-                    Timber.d("Items stored: $items")
+                    Timber.d("Items stored retrieved: $items")
                     _uiState.update { it.copy(loading = false, countdownItems = items) }
                 }
         }
@@ -78,7 +83,9 @@ class CountdownViewModel @Inject constructor(
         viewModelScope.launch {
             runCatching {
                 dataStore.save(!_uiState.value.isGrid)
-            }.onFailure { Timber.e(it, "Error updating view type") }
+            }.onFailure {
+                Timber.e(it, "Error updating view type")
+            }
         }
     }
 
@@ -108,6 +115,32 @@ class CountdownViewModel @Inject constructor(
             }.onSuccess {
                 onChangeDialogVisibility(false)
             }
+        }
+    }
+
+    fun onCountdownClickTypeChange(countdownDate: CountdownDate) {
+        viewModelScope.launch {
+            val dateType = when (countdownDate.dateDisplayType) {
+                DateDisplayType.REGULAR -> DateDisplayType.WEEKLY
+                DateDisplayType.WEEKLY -> DateDisplayType.REGULAR
+            }
+            runCatching {
+                editEventUseCase(countdownDate.copy(dateDisplayType = dateType))
+            }.onSuccess {
+                Timber.d("Date type changed to $dateType")
+            }.onFailure {
+                Timber.e("Error changing data display type from: $countdownDate")
+            }
+        }
+    }
+
+    private fun toggleDateType() {
+
+    }
+
+    fun onErrorMessageDisplayed() {
+        viewModelScope.launch {
+            _uiState.update { it.copy(error = null) }
         }
     }
 }

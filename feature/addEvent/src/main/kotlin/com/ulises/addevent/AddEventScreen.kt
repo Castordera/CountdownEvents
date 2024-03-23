@@ -6,6 +6,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -45,7 +46,8 @@ fun AddEventRoute(
         onCalendarChangeVisibility = viewModel::onChangeCalendarVisibility,
         onUpdateEventName = viewModel::onEventNameChanged,
         onSaveEvent = viewModel::onSaveEvent,
-        onBackPress = onBackPress
+        onBackPress = onBackPress,
+        onErrorDisplayed = viewModel::onErrorMessageDisplayed,
     )
 }
 
@@ -57,15 +59,26 @@ fun AddEventScreen(
     onCalendarChangeVisibility: (Boolean) -> Unit,
     onUpdateEventName: (String) -> Unit,
     onSaveEvent: () -> Unit,
-    onBackPress: () -> Unit
+    onBackPress: () -> Unit,
+    onErrorDisplayed: () -> Unit,
 ) {
+    val snackBarHostState = remember { SnackbarHostState() }
+
+    if (uiState.error != null) {
+        LaunchedEffect(uiState.error) {
+            snackBarHostState.showSnackbar(uiState.error)
+            onErrorDisplayed()
+        }
+    }
+    
     Scaffold(
         topBar = {
             Toolbar(
                 title = stringResource(id = R.string.add_screen_title),
                 onBackPress = onBackPress
             )
-        }
+        },
+        snackbarHost = { SnackbarHost(hostState = snackBarHostState) }
     ) {
         Surface(
             modifier = Modifier
@@ -149,7 +162,8 @@ fun PrevAddEventScreen() {
             onCalendarDateSelected = {},
             onCalendarChangeVisibility = {},
             onSaveEvent = {},
-            onBackPress = {}
+            onBackPress = {},
+            onErrorDisplayed = {},
         )
     }
 }
