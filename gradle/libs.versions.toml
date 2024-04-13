@@ -1,8 +1,8 @@
 [versions]
-kotlin = "1.9.22"
+kotlin = "1.9.23"
 androidCore = "1.12.0"
-compose = "1.6.3"
-composeCompiler = "1.5.8"#Used to define compose in build-logic module
+compose = "1.6.5"
+composeCompiler = "1.5.11"#Used to define compose in build-logic module
 activityCompose = "1.8.2"
 lifecycleRuntimeCompose = "2.7.0"
 lifecycleRuntime = "2.7.0"
@@ -11,19 +11,19 @@ navigationCompose = "2.7.7"
 dataStore = "1.0.0"
 timber = "5.0.1"
 room = "2.6.1"
-hilt = "2.50"
+hilt = "2.51.1"
 hiltNavigationCompose = "1.2.0"
-kotlinxSerializationJson = "1.6.2"
+kotlinxSerializationJson = "1.6.3"
 javaxInject = "1"
-coroutinesCore = "1.7.3"
-agp = "8.2.1"
+coroutinesCore = "1.8.0"
+agp = "8.3.2"
 junit = "4.13.2"
 androidx-test-ext-junit = "1.1.5"
 espresso-core = "3.5.1"
-ksp = "1.9.22-1.0.16"
-coil = "2.5.0"
+ksp = "1.9.23-1.0.20"
+coil = "2.6.0"
 uiTestJunit4 = "1.4.2"
-mockk = "1.13.8"
+mockk = "1.13.10"
 
 [libraries]
 #Android
