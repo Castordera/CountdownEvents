@@ -21,6 +21,7 @@ dependencies {
     implementation(project(":common:date-utils"))
     implementation(project(":design:theme"))
     implementation(project(":design:components"))
+    implementation(project(":common:navigation"))
     //  Hilt
     implementation(libs.bundles.hilt.core)
     kapt(libs.hilt.compiler)
