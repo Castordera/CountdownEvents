@@ -7,8 +7,8 @@ plugins {
     id("com.google.dagger.hilt.android")
     id("kotlin-parcelize")
     id("kotlinx-serialization")
-    id("kotlin-kapt")
     id("com.google.devtools.ksp")
+    id("kotlin-kapt")
 }
 
 android {

@@ -16,7 +16,7 @@ dependencyResolutionManagement {
 includeBuild("build-logic")
 
 rootProject.name = "CountdownApp"
-
+gradle.startParameter.excludedTaskNames.addAll(listOf(":build-logic:convention:testClasses"))
 include(":app")
 include(":domain")
 include(":usecase")
