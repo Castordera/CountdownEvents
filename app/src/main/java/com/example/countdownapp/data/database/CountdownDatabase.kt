@@ -8,7 +8,7 @@ import com.example.countdownapp.data.database.entities.Countdown
 import com.example.countdownapp.data.database.entities.DateConverter
 import com.example.countdownapp.data.database.entities.DateDisplayConverter
 
-@Database(entities = [Countdown::class], version = 1, exportSchema = false)
+@Database(entities = [Countdown::class], version = 2, exportSchema = false)
 @TypeConverters(DateConverter::class, DateDisplayConverter::class)
 abstract class CountdownDatabase : RoomDatabase() {
     abstract fun counterDao(): CountdownDao
