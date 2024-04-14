@@ -51,6 +51,7 @@ dependencies {
     implementation(project(":design:components"))
     implementation(project(":design:theme"))
     implementation(project(":common:navigation"))
+    implementation(project(":common:datastore"))
     //  Features
     implementation(project(":feature:list"))
     implementation(project(":feature:addEvent"))

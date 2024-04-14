@@ -6,6 +6,7 @@ import com.example.domain.enums.CountdownSortType
 import com.example.domain.enums.DateDisplayType
 import com.example.domain.models.CountdownDate
 import com.ulises.data.DataStorePreferences
+import com.ulises.datastore.KEY_STORED_VALUES
 import com.ulises.list.models.UiState
 import com.ulises.usecase.countdown.DeleteEventUseCase
 import com.ulises.usecase.countdown.EditEventUseCase
@@ -56,7 +57,7 @@ class CountdownViewModel @Inject constructor(
                 }
         }
         viewModelScope.launch {
-            dataStore.getValue()
+            dataStore.get(KEY_STORED_VALUES)
                 .catch { Timber.e(it, "Error getting data store value") }
                 .collect { value -> _uiState.update { it.copy(isGrid = value) } }
         }
@@ -82,7 +83,7 @@ class CountdownViewModel @Inject constructor(
     fun onListChangeAdapter() {
         viewModelScope.launch {
             runCatching {
-                dataStore.save(!_uiState.value.isGrid)
+                dataStore.save(KEY_STORED_VALUES, !_uiState.value.isGrid)
             }.onFailure {
                 Timber.e(it, "Error updating view type")
             }

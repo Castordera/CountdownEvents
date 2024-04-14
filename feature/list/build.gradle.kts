@@ -24,8 +24,8 @@ dependencies {
     implementation(project(":design:theme"))
     implementation(project(":design:components"))
     implementation(project(":common:preview-data"))
-    //
     implementation(project(":common:navigation"))
+    implementation(project(":common:datastore"))
     //  Hilt
     implementation(libs.bundles.hilt.core)
     kapt(libs.hilt.compiler)

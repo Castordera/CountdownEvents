@@ -1,9 +1,10 @@
 package com.example.countdownapp.di
 
 import com.example.countdownapp.data.database.datasource.RoomCountdownDataSource
-import com.example.countdownapp.data.datastore.DataStoreDataSource
 import com.ulises.data.DataStorePreferences
 import com.ulises.data.datasource.CountdownLocalDataSource
+import com.ulises.datastore.DataStoreBooleanDataSource
+import com.ulises.datastore.DataStoreStringDataSource
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -17,6 +18,8 @@ abstract class DataSourceModule {
     abstract fun bindRoomDataSource(dataSource: RoomCountdownDataSource): CountdownLocalDataSource
 
     @Binds
-//    @DataStoreListViewType
-    abstract fun bindDataStoreListViewType(imp: DataStoreDataSource): DataStorePreferences<Boolean>
+    abstract fun bindBooleanDataStore(imp: DataStoreBooleanDataSource): DataStorePreferences<Boolean>
+
+    @Binds
+    abstract fun bindStringDataStore(imp: DataStoreStringDataSource): DataStorePreferences<String>
 }
