@@ -28,12 +28,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.domain.enums.CountdownSortType
 import com.example.domain.models.CountdownDate
 import com.ulises.components.dialogs.SimpleAlertDialog
 import com.ulises.components.toolbars.Toolbar
 import com.ulises.components.toolbars.TopBarItem
 import com.ulises.list.R
-import com.example.domain.enums.CountdownSortType
 import com.ulises.list.models.UiState
 import com.ulises.preview_data.listItemsPreview
 import com.ulises.theme.CountdownAppTheme

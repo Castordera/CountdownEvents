@@ -18,7 +18,7 @@ class DataStoreStringDataSource @Inject constructor(
         dataStore.edit { settings -> settings[stringPreferencesKey(key)] = value }
     }
 
-    override suspend fun get(key: String): Flow<String> {
+    override fun get(key: String): Flow<String> {
         return dataStore.data
             .map { settings -> settings[stringPreferencesKey(key)].orEmpty() }
             .distinctUntilChanged()

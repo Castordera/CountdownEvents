@@ -18,7 +18,7 @@ class DataStoreBooleanDataSource @Inject constructor(
         dataStore.edit { settings -> settings[booleanPreferencesKey(key)] = value }
     }
 
-    override suspend fun get(key: String): Flow<Boolean> {
+    override fun get(key: String): Flow<Boolean> {
         return dataStore.data
             .map { settings -> settings[booleanPreferencesKey(key)] ?: false }
             .distinctUntilChanged()
