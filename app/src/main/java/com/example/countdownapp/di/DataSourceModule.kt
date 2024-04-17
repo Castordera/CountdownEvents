@@ -3,8 +3,8 @@ package com.example.countdownapp.di
 import com.example.countdownapp.data.database.datasource.RoomCountdownDataSource
 import com.ulises.data.DataStorePreferences
 import com.ulises.data.datasource.CountdownLocalDataSource
-import com.ulises.datastore.DataStoreBooleanDataSource
-import com.ulises.datastore.DataStoreStringDataSource
+import com.ulises.datastore.source.DataStoreBooleanDataSource
+import com.ulises.datastore.source.DataStoreStringDataSource
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

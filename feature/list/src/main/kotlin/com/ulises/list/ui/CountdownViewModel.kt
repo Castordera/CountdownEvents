@@ -24,8 +24,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CountdownViewModel @Inject constructor(
-//    Todo("Extract this into another module probably create a use case for it")
-//    @DataStoreListViewType
     private val dataStore: DataStorePreferences<Boolean>,
     private val getAllEventsUseCase: GetAllEventsUseCase,
     private val deleteEventUseCase: DeleteEventUseCase,
@@ -34,7 +32,6 @@ class CountdownViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(UiState())
     val uiState = _uiState.asStateFlow()
-
     //
     private var deleteItemId: String? = null
 

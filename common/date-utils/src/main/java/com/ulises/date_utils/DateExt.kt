@@ -1,6 +1,7 @@
 package com.ulises.date_utils
 
 import java.time.Instant
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -22,4 +23,9 @@ fun LocalDateTime?.toHumanReadable(): String {
     if (this == null) return ""
     val format = DateTimeFormatter.ofPattern("dd MMM yyyy")
     return format(format)
+}
+
+fun LocalDate?.toHumanReadable(): String {
+    if (this == null) return ""
+    return format(DateTimeFormatter.ofPattern("dd MMMM yyyy"))
 }

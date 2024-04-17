@@ -1,4 +1,4 @@
-package com.ulises.datastore
+package com.ulises.datastore.source
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
@@ -156,6 +157,9 @@ private fun CountDownList(
         contentPadding = PaddingValues(vertical = 16.dp),
         modifier = modifier
     ) {
+        item {
+            CurrentDayDataItem()
+        }
         items(
             items = items,
             key = { "${it.name}_${it.id}" }
@@ -174,17 +178,23 @@ private fun CountDownList(
 @Composable
 private fun CountDownGridList(
     modifier: Modifier = Modifier,
+    columns: Int = 2,
     items: List<CountdownDate>,
     onClickItem: (CountdownDate) -> Unit,
     onDeleteItem: (CountdownDate) -> Unit
 ) {
     LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
+        columns = GridCells.Fixed(columns),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
         contentPadding = PaddingValues(horizontal = 8.dp, vertical = 16.dp),
         modifier = modifier
     ) {
+        item(
+            span = { GridItemSpan(columns) }
+        ) {
+            CurrentDayDataItem()
+        }
         items(
             items = items,
             key = { "${it.name}_${it.id}" }
