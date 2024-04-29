@@ -33,7 +33,7 @@ internal fun Project.configureAndroidAppCommon(
 ) {
     extension.apply {
         defaultConfig {
-            targetSdk = 33
+            targetSdk = 34
         }
     }
 }
