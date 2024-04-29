@@ -10,4 +10,6 @@ data class UiState(
     val error: String? = null,
     val isGrid: Boolean = false,
     val sortType: CountdownSortType = CountdownSortType.NORMAL,
+    val selectedEvents: Set<String> = emptySet(),
+    val isSelectionMode: Boolean = false,
 )

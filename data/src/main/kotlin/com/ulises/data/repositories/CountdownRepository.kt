@@ -8,5 +8,6 @@ interface CountdownRepository {
     fun getCountdown(id: String): Flow<CountdownDate>
     suspend fun addNewCountdown(item: CountdownDate)
     suspend fun deleteCountdown(id: String)
+    suspend fun deleteCountdown(items: Set<String>)
     suspend fun editEvent(event: CountdownDate)
 }

@@ -33,6 +33,7 @@ class CountdownViewModel @Inject constructor(
 ) : ViewModel() {
 
     private var deleteItemId: String? = null
+
     //
     private val localState = MutableStateFlow(LocalState())
 
@@ -40,6 +41,7 @@ class CountdownViewModel @Inject constructor(
         val isLoading: Boolean = false,
         val isDialogDeleteVisible: Boolean = false,
         val error: String? = null,
+        val selectedEvents: Set<String> = emptySet(),
     )
 
     val uiState = combine(
@@ -53,9 +55,11 @@ class CountdownViewModel @Inject constructor(
             dialogDeleteVisible = localState.isDialogDeleteVisible,
             error = localState.error,
             isGrid = isGrid,
+            isSelectionMode = localState.selectedEvents.isNotEmpty(),
+            selectedEvents = localState.selectedEvents,
         )
     }.onEach {
-        Timber.d("State change")
+        Timber.d("State change: ${localState.value}")
     }.onStart {
         Timber.d("Collector started")
     }.onCompletion {
@@ -82,6 +86,26 @@ class CountdownViewModel @Inject constructor(
 ////        if (list != null) {
 ////            _uiState.update { it.copy(sortType = option, countdownItems = sortList(list)) }
 ////        }
+    }
+
+    fun onSelectEvent(eventId: String) {
+        if (!localState.value.selectedEvents.contains(eventId)) {
+            localState.update { it.copy(selectedEvents = it.selectedEvents.plus(eventId)) }
+        } else {
+            localState.update { it.copy(selectedEvents = it.selectedEvents.minus(eventId)) }
+        }
+    }
+
+    fun onDeleteEvents() {
+        viewModelScope.launch {
+            runCatching {
+                deleteEventUseCase(localState.value.selectedEvents)
+            }.onSuccess {
+                localState.update { it.copy(selectedEvents = emptySet()) }
+            }.onFailure {
+                Timber.e(it, "Error deleting events")
+            }
+        }
     }
 
     fun onListChangeAdapter() {

@@ -8,5 +8,6 @@ interface CountdownLocalDataSource {
     fun getCountdown(id: String): Flow<CountdownDate>
     suspend fun addNewCountdown(item: CountdownDate)
     suspend fun deleteCountdown(id: String)
+    suspend fun deleteCountdowns(items: Set<String>)
     suspend fun editEvent(event: CountdownDate)
 }

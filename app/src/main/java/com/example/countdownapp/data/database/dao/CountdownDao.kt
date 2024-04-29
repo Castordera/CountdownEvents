@@ -24,4 +24,7 @@ interface CountdownDao {
 
     @Update
     suspend fun updateEvent(event: Countdown)
+
+    @Query("DELETE FROM Countdown WHERE id IN (:items)")
+    suspend fun deleteCountDowns(items: Set<String>)
 }

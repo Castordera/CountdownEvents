@@ -6,14 +6,31 @@ import android.content.res.Configuration
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.Card
-import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -23,19 +40,21 @@ import androidx.compose.ui.unit.sp
 import com.example.domain.models.CountdownDate
 import com.example.domain.models.DateHandler
 import com.ulises.date_utils.remainingTime
-import com.ulises.date_utils.toReadableDate
+import com.ulises.date_utils.toHumanReadable
+import com.ulises.list.R
 import com.ulises.preview_data.listItemsPreview
 import com.ulises.theme.CountdownAppTheme
-import timber.log.Timber
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CountDownItemList(
     modifier: Modifier = Modifier,
     item: CountdownDate,
-    onClick: (CountdownDate) -> Unit,
-    onDelete: (CountdownDate) -> Unit,
-    onCountdownClick: (CountdownDate) -> Unit,
+    isSelectionMode: Boolean,
+    isSelected: Boolean,
+    onClick: (CountdownDate) -> Unit = {},
+    onLongClick: (CountdownDate) -> Unit = {},
+    onCountdownClick: (CountdownDate) -> Unit = {},
 ) {
     var dateHandler by remember { mutableStateOf(DateHandler(false, "", "")) }
 
@@ -43,20 +62,44 @@ fun CountDownItemList(
         dateHandler = item.remainingTime
     }
 
-    Column {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .combinedClickable(
+                onClick = { onClick(item) },
+                onLongClick = { onLongClick(item) }
+            )
+            .drawBehind {
+                if (isSelected) {
+                    drawRoundRect(
+                        color = Color.Gray,
+                        cornerRadius = CornerRadius(10f, 10f),
+                        alpha = 0.3f,
+                    )
+                }
+            }
+            .padding(
+                horizontal = 16.dp,
+                vertical = 8.dp
+            )
+    ) {
         Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically,
-            modifier = modifier
-                .fillMaxWidth()
-                .combinedClickable(
-                    onClick = { onClick(item) },
-                    onLongClick = { onDelete(item) }
-                )
-                .padding(
-                    horizontal = 16.dp,
-                    vertical = 8.dp
-                )
         ) {
+            if (isSelectionMode) {
+                if (isSelected) {
+                    Icon(
+                        imageVector = Icons.Filled.CheckCircle,
+                        contentDescription = null
+                    )
+                } else {
+                    Icon(
+                        painter = painterResource(id = R.drawable.outline_circle),
+                        contentDescription = null
+                    )
+                }
+            }
             Column(
                 modifier = Modifier.weight(1f)
             ) {
@@ -67,7 +110,7 @@ fun CountDownItemList(
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
-                    text = item.toReadableDate,
+                    text = item.dateToCountdown.toHumanReadable(true),
                     fontStyle = FontStyle.Italic
                 )
             }
@@ -86,7 +129,6 @@ fun CountDownItemList(
                 )
             }
         }
-        HorizontalDivider(modifier = Modifier.padding(horizontal = 8.dp))
     }
 }
 
@@ -94,9 +136,9 @@ fun CountDownItemList(
 fun CountDownItemGrid(
     modifier: Modifier = Modifier,
     item: CountdownDate,
-    onClick: (CountdownDate) -> Unit,
-    onDelete: (CountdownDate) -> Unit,
-    onCountdownClick: (CountdownDate) -> Unit,
+    onClick: (CountdownDate) -> Unit = {},
+    onDelete: (CountdownDate) -> Unit = {},
+    onCountdownClick: (CountdownDate) -> Unit = {},
 ) {
 
     var dateHandler by remember { mutableStateOf(DateHandler(false, "", "")) }
@@ -123,7 +165,7 @@ fun CountDownItemGrid(
                 overflow = TextOverflow.Ellipsis
             )
             Spacer(modifier = Modifier.size(8.dp))
-            Text(text = item.toReadableDate)
+            Text(text = item.dateToCountdown.toHumanReadable(true))
             Text(
                 text = dateHandler.value,
                 fontSize = 40.sp,
@@ -147,28 +189,36 @@ fun PrevCountDownItem() {
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 CountDownItemList(
-                    item = listItemsPreview[0],
-                    onClick = {},
-                    onDelete = {},
-                    onCountdownClick = {},
+                    item = listItemsPreview[1],
+                    isSelected = false,
+                    isSelectionMode = false,
                 )
                 CountDownItemList(
                     item = listItemsPreview[1],
-                    onClick = {},
-                    onDelete = {},
-                    onCountdownClick = {},
+                    isSelected = false,
+                    isSelectionMode = true,
                 )
-                CountDownItemGrid(
-                    item = listItemsPreview[0],
-                    onClick = {},
-                    onDelete = {},
-                    onCountdownClick = {},
+                CountDownItemList(
+                    item = listItemsPreview[1],
+                    isSelected = true,
+                    isSelectionMode = true,
                 )
+            }
+        }
+    }
+}
+
+@Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Preview
+@Composable
+fun PrevCountDownItemGrid() {
+    CountdownAppTheme {
+        Surface {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
                 CountDownItemGrid(
                     item = listItemsPreview[1],
-                    onClick = {},
-                    onDelete = {},
-                    onCountdownClick = {},
                 )
             }
         }

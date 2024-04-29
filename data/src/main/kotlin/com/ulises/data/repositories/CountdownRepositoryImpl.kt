@@ -28,4 +28,8 @@ class CountdownRepositoryImpl @Inject constructor(
     override suspend fun editEvent(event: CountdownDate) {
         localDataSource.editEvent(event)
     }
+
+    override suspend fun deleteCountdown(items: Set<String>) {
+        localDataSource.deleteCountdowns(items)
+    }
 }

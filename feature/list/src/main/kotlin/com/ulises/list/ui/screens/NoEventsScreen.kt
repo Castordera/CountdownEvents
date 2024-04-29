@@ -1,4 +1,4 @@
-package com.ulises.list.ui
+package com.ulises.list.ui.screens
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement

@@ -19,9 +19,13 @@ fun LocalDateTime.zero(): LocalDateTime {
         .withSecond(0)
 }
 
-fun LocalDateTime?.toHumanReadable(): String {
+fun LocalDateTime?.toHumanReadable(includeDay: Boolean = false): String {
     if (this == null) return ""
-    val format = DateTimeFormatter.ofPattern("dd MMM yyyy")
+    val format = if (includeDay) {
+        DateTimeFormatter.ofPattern("EEE, dd MMM yyyy")
+    } else {
+        DateTimeFormatter.ofPattern("dd MMM yyyy")
+    }
     return format(format)
 }
 

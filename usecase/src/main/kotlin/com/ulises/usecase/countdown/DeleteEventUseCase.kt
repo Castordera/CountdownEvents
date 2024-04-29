@@ -9,4 +9,8 @@ class DeleteEventUseCase @Inject constructor(
     suspend operator fun invoke(id: String) {
         repository.deleteCountdown(id)
     }
+
+    suspend operator fun invoke(items: Set<String>) {
+        repository.deleteCountdown(items)
+    }
 }
