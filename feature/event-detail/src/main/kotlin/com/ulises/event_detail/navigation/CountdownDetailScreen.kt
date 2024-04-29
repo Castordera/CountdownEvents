@@ -5,7 +5,7 @@ import com.ulises.common.navigation.Screen
 
 data object CountdownDetailScreen: Screen {
 
-    val argumentKey = "item"
+    const val argumentKey = "item"
     override val route: String
         get() = "detailCountDown/{item}"
 

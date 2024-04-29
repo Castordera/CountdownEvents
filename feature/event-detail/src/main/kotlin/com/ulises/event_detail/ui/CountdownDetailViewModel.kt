@@ -4,55 +4,33 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ulises.event_detail.models.DetailUiState
+import com.ulises.event_detail.navigation.CountdownDetailScreen
 import com.ulises.usecase.countdown.GetEventUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class CountdownDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val getCountdownDate: GetEventUseCase
+    getCountdownDate: GetEventUseCase
 ) : ViewModel() {
 
-    //Todo(Remove hardcoded key, should be NavArgs.Detail.key)
-    private val countdownDate: String = savedStateHandle["item"] ?: ""
-    private val _uiState = MutableStateFlow(DetailUiState())
-    val uiState = _uiState.asStateFlow()
+    private val countdownDate: String = savedStateHandle[CountdownDetailScreen.argumentKey] ?: ""
 
-    init {
-        getInitialData()
-    }
-
-    private fun getInitialData() {
-        viewModelScope.launch {
-            getCountdownDate(countdownDate)
-                .catch { error ->
-                    Timber.e(error, "Error getting Countdown item")
-                    _uiState.update { it.copy(error = "This is my error") }
-                }
-                .collect { item ->
-                    _uiState.update { it.copy(countdownDate = item) }
-                }
+    val uiState = getCountdownDate(countdownDate)
+        .map { DetailUiState(countdownDate = it) }
+        .catch {
+            Timber.d("Error getting event with Id: $countdownDate")
+            emit(DetailUiState(error = it.localizedMessage))
         }
-    }
-//
-//    private fun calculateRemainingDatePeriods(countdownDate: CountdownDate) {
-//        viewModelScope.launch {
-//            val dateTime = countdownDate.remainingTime
-//            _uiState.update { it.copy(
-//                remainingTime = dateTime.value,
-//                remainingPeriod = dateTime.periodType
-//            ) }
-//        }
-//    }
-//
-    fun onRefreshTimeClick() {
-//        calculateRemainingDatePeriods(countdownDate!!)
-    }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = DetailUiState()
+        )
 }
