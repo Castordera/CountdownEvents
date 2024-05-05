@@ -1,5 +1,6 @@
 package com.ulises.components.toolbars
 
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
@@ -12,7 +13,7 @@ import com.ulises.theme.CountdownAppTheme
 fun Toolbar(
     title: String = "",
     onBackPress: (() -> Unit)? = null,
-    actions: List<TopBarItem> = emptyList()
+    actions: @Composable RowScope.() -> Unit = {},
 ) {
     TopAppBar(
         title = { Text(title) },
@@ -27,16 +28,8 @@ fun Toolbar(
                 }
             }
         },
-        actions = {
-            actions.forEach { item ->
-                ToolbarItem(
-                    isVisible = item.isVisible,
-                    onClick = item.onClick,
-                    description = item.description,
-                    iconRes = item.icon
-                )
-            }
-        })
+        actions = actions
+    )
 }
 
 @Preview
@@ -45,11 +38,11 @@ fun PrevToolbar() {
     CountdownAppTheme {
         Toolbar(
             title = "Screen name",
-            actions = listOf(
-                TopBarItem("Description", R.drawable.ic_add_24) {},
-                TopBarItem("Description", R.drawable.ic_add_24, false) {},
-                TopBarItem("Description", R.drawable.ic_add_24) {}
-            )
+            actions = {
+                ToolbarItem(iconRes = R.drawable.ic_add_24)
+                ToolbarItem(iconRes = R.drawable.ic_add_24)
+                ToolbarItem(iconRes = R.drawable.ic_add_24)
+            }
         )
     }
 }

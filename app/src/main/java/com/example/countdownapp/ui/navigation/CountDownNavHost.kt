@@ -10,13 +10,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.countdownapp.R
 import com.ulises.addevent.AddEventRoute
 import com.ulises.addevent.navigation.AddEditCountdownScreen
 import com.ulises.common.navigation.Screen
 import com.ulises.event_detail.ui.CountdownDetailRoute
 import com.ulises.list.ui.CountDownRoute
-import com.ulises.components.toolbars.TopBarItem
 import com.ulises.event_detail.navigation.CountdownDetailScreen
 import com.ulises.list.navigation.ListScreen
 
@@ -33,13 +31,11 @@ fun CountDownNavHost(
             route = ListScreen.route
         ) {
             CountDownRoute(
-                toolbarActions = listOf(
-                    TopBarItem("Add", R.drawable.ic_add_24) {
-                        navController.navigate(AddEditCountdownScreen.createRoute())
-                    }
-                ),
                 onNavigateToDetail = { item ->
                     navController.navigate(CountdownDetailScreen.createRoute(item))
+                },
+                onNavigateToAdd = {
+                    navController.navigate(AddEditCountdownScreen.createRoute())
                 }
             )
         }

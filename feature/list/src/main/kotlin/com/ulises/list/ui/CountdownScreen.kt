@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -25,7 +26,7 @@ import com.example.domain.enums.CountdownSortType
 import com.example.domain.models.CountdownDate
 import com.ulises.components.dialogs.SimpleAlertDialog
 import com.ulises.components.toolbars.Toolbar
-import com.ulises.components.toolbars.TopBarItem
+import com.ulises.components.toolbars.ToolbarItem
 import com.ulises.list.R
 import com.ulises.list.models.UiState
 import com.ulises.list.ui.screens.CountDownGridList
@@ -36,9 +37,9 @@ import com.ulises.theme.CountdownAppTheme
 
 @Composable
 fun CountDownRoute(
-    toolbarActions: List<TopBarItem> = emptyList(),
     viewModel: CountdownViewModel = hiltViewModel(),
-    onNavigateToDetail: (CountdownDate) -> Unit
+    onNavigateToDetail: (CountdownDate) -> Unit,
+    onNavigateToAdd: () -> Unit = {},
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -54,7 +55,7 @@ fun CountDownRoute(
     )
     CountdownMainScreen(
         uiState = uiState,
-        toolbarActions = toolbarActions,
+        onAddNewClick = onNavigateToAdd,
         onSortTypeChange = viewModel::onChangeSortType,
         onListTypeChange = viewModel::onListChangeAdapter,
         onClickItem = onNavigateToDetail,
@@ -70,7 +71,7 @@ fun CountDownRoute(
 private fun CountdownMainScreen(
     modifier: Modifier = Modifier,
     uiState: UiState,
-    toolbarActions: List<TopBarItem> = emptyList(),
+    onAddNewClick: () -> Unit = {},
     onSortTypeChange: (CountdownSortType) -> Unit = {},
     onListTypeChange: () -> Unit = {},
     onClickItem: (CountdownDate) -> Unit = {},
@@ -94,20 +95,25 @@ private fun CountdownMainScreen(
         topBar = {
             Toolbar(
                 title = stringResource(id = R.string.main_screen_title),
-                actions = toolbarActions + listOf(
-                    TopBarItem(
-                        description = "Sort By",
-                        icon = R.drawable.ic_sort,
-                        onClick = { bottomSheetVisible = true },
-                        isVisible = !uiState.countdownItems.isNullOrEmpty()
-                    ),
-                    TopBarItem(
-                        description = "Change View",
-                        icon = if (!uiState.isGrid) R.drawable.ic_grid_view else R.drawable.ic_view_list,
-                        onClick = onListTypeChange,
-                        isVisible = !uiState.countdownItems.isNullOrEmpty()
+                actions = {
+                    ToolbarItem(
+                        imageVector = Icons.Filled.Add,
+                        description = "Add",
+                        onClick = onAddNewClick,
                     )
-                )
+                    ToolbarItem(
+                        iconRes = R.drawable.ic_sort,
+                        description = "Sort by",
+                        isVisible = !uiState.countdownItems.isNullOrEmpty(),
+                        onClick = { bottomSheetVisible = true }
+                    )
+                    ToolbarItem(
+                        iconRes = if (!uiState.isGrid) R.drawable.ic_grid_view else R.drawable.ic_view_list,
+                        description = "Change View",
+                        isVisible = !uiState.countdownItems.isNullOrEmpty(),
+                        onClick = onListTypeChange
+                    )
+                }
             )
         },
         snackbarHost = { SnackbarHost(hostState = snackBarHostState) },
@@ -163,7 +169,7 @@ private fun CountdownMainScreen(
 @Preview
 @Preview(name = "Dark", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-fun PrevCountDownScreen() {
+private fun PrevCountDownScreen() {
     CountdownAppTheme {
         CountdownMainScreen(
             uiState = UiState(

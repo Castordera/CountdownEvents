@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -22,7 +24,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ulises.components.screens.DefaultErrorScreen
 import com.ulises.components.toolbars.Toolbar
-import com.ulises.components.toolbars.TopBarItem
+import com.ulises.components.toolbars.ToolbarItem
 import com.ulises.date_utils.remainingTime
 import com.ulises.event_detail.R
 import com.ulises.event_detail.models.DetailUiState
@@ -45,9 +47,8 @@ fun CountdownDetailRoute(
 }
 
 @Composable
-fun CountDownDetailScreen(
+private fun CountDownDetailScreen(
     uiState: DetailUiState,
-    actions: List<TopBarItem> = emptyList(),
     onEditItem: (itemId: String) -> Unit = {},
     onBackPress: () -> Unit,
 ) {
@@ -55,13 +56,13 @@ fun CountDownDetailScreen(
         topBar = {
             Toolbar(
                 onBackPress = { onBackPress() },
-                actions = actions + listOf(
-                    TopBarItem(
+                actions = {
+                    ToolbarItem(
+                        imageVector = Icons.Filled.Edit,
                         description = "Edit",
-                        icon = R.drawable.ic_error,
                         onClick = { onEditItem(uiState.countdownDate?.id.orEmpty()) }
                     )
-                )
+                }
             )
         }
     ) {
@@ -83,7 +84,7 @@ fun CountDownDetailScreen(
 }
 
 @Composable
-fun DetailComponent(
+private fun DetailComponent(
     uiState: DetailUiState
 ) {
     Column(
@@ -138,7 +139,7 @@ fun DetailComponent(
 @Preview
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-fun PrevCountDownDetailScreen() {
+private fun PrevCountDownDetailScreen() {
     CountdownAppTheme {
         CountDownDetailScreen(
             uiState = DetailUiState(
@@ -151,7 +152,7 @@ fun PrevCountDownDetailScreen() {
 @Preview
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-fun PrevCountDownDetailScreenError() {
+private fun PrevCountDownDetailScreenError() {
     CountdownAppTheme {
         CountDownDetailScreen(
             uiState = DetailUiState(

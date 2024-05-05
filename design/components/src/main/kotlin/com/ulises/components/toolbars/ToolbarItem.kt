@@ -16,7 +16,7 @@ import com.ulises.theme.CountdownAppTheme
 @Composable
 fun ToolbarItem(
     isVisible: Boolean = true,
-    onClick: () -> Unit,
+    onClick: () -> Unit = {},
     description: String = "",
     @DrawableRes iconRes: Int,
 ) {
@@ -33,7 +33,7 @@ fun ToolbarItem(
 @Composable
 fun ToolbarItem(
     isVisible: Boolean = true,
-    onClick: () -> Unit,
+    onClick: () -> Unit = {},
     description: String = "",
     imageVector: ImageVector
 ) {
@@ -49,17 +49,11 @@ fun ToolbarItem(
 
 @Preview
 @Composable
-fun PrevToolbarItem() {
+private fun PrevToolbarItem() {
     CountdownAppTheme {
         Column {
-            ToolbarItem(
-                onClick = {},
-                imageVector = Icons.Default.AccountBox
-            )
-            ToolbarItem(
-                onClick = {},
-                iconRes = R.drawable.ic_add_24
-            )
+            ToolbarItem(imageVector = Icons.Default.AccountBox)
+            ToolbarItem(iconRes = R.drawable.ic_add_24)
         }
     }
 }
