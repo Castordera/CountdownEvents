@@ -1,6 +1,7 @@
 package com.ulises.list.ui
 
 import android.content.res.Configuration
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -64,6 +65,7 @@ fun CountDownRoute(
         onErrorDisplayed = viewModel::onErrorMessageDisplayed,
         onAddSelectedEvent = viewModel::onSelectEvent,
         onDeleteSelectedEvents = viewModel::onDeleteEvents,
+        onCancelSelection = viewModel::onCancelSelection,
     )
 }
 
@@ -80,6 +82,7 @@ private fun CountdownMainScreen(
     onErrorDisplayed: () -> Unit = {},
     onAddSelectedEvent: (String) -> Unit = {},
     onDeleteSelectedEvents: () -> Unit = {},
+    onCancelSelection: () -> Unit = {},
 ) {
     var bottomSheetVisible by remember { mutableStateOf(false) }
     val snackBarHostState = remember { SnackbarHostState() }
@@ -88,6 +91,12 @@ private fun CountdownMainScreen(
         LaunchedEffect(uiState.error) {
             snackBarHostState.showSnackbar(uiState.error)
             onErrorDisplayed()
+        }
+    }
+
+    if (uiState.isSelectionMode) {
+        BackHandler {
+            onCancelSelection()
         }
     }
 
@@ -126,9 +135,7 @@ private fun CountdownMainScreen(
         }
     ) { padding ->
         if (uiState.countdownItems.isNullOrEmpty()) {
-            NoEventsScreen(
-                modifier = Modifier.padding(padding)
-            )
+            NoEventsScreen(modifier = Modifier.padding(padding))
         } else {
             if (!uiState.isGrid) {
                 CountDownList(

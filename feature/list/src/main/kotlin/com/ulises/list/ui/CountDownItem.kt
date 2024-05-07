@@ -3,6 +3,7 @@
 package com.ulises.list.ui
 
 import android.content.res.Configuration
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
@@ -84,10 +85,9 @@ fun CountDownItemList(
             )
     ) {
         Row(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            if (isSelectionMode) {
+            AnimatedVisibility(visible = isSelectionMode) {
                 if (isSelected) {
                     Icon(
                         imageVector = Icons.Filled.CheckCircle,
@@ -101,7 +101,9 @@ fun CountDownItemList(
                 }
             }
             Column(
-                modifier = Modifier.weight(1f)
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(horizontal = 8.dp)
             ) {
                 Text(
                     text = item.name,

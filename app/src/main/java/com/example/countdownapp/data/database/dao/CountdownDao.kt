@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface CountdownDao {
 
-    @Query("SELECT * FROM Countdown")
+    @Query("SELECT * FROM Countdown ORDER BY selectedDate")
     fun getAllCounters(): Flow<List<Countdown>>
 
     @Query("SELECT * FROM Countdown WHERE id = :id")

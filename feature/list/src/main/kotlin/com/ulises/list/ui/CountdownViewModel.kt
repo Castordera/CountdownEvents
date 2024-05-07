@@ -33,8 +33,6 @@ class CountdownViewModel @Inject constructor(
 ) : ViewModel() {
 
     private var deleteItemId: String? = null
-
-    //
     private val localState = MutableStateFlow(LocalState())
 
     private data class LocalState(
@@ -161,5 +159,9 @@ class CountdownViewModel @Inject constructor(
         viewModelScope.launch {
             localState.update { it.copy(error = null) }
         }
+    }
+
+    fun onCancelSelection() {
+        localState.update { it.copy(selectedEvents = emptySet()) }
     }
 }
