@@ -10,10 +10,10 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
-import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 
 private val darkColorScheme = darkColorScheme(
@@ -57,8 +57,8 @@ fun CountdownAppTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val activity = (view.context as Activity)
-            activity.window.statusBarColor = colorScheme.primary.toArgb()
-            WindowCompat.getInsetsController(activity.window, view).isAppearanceLightStatusBars = darkTheme
+            activity.window.statusBarColor = Color.Transparent.toArgb()
+            WindowCompat.getInsetsController(activity.window, view).isAppearanceLightStatusBars = !darkTheme
         }
     }
 
