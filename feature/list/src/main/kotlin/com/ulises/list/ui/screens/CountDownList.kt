@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -22,6 +23,7 @@ import com.ulises.theme.CountdownAppTheme
 internal fun CountDownList(
     modifier: Modifier = Modifier,
     items: List<CountdownDate>,
+    passedItems: List<CountdownDate>,
     selectedItems: Set<String>,
     isSelectionMode: Boolean,
     onClickItem: (CountdownDate) -> Unit = {},
@@ -50,6 +52,29 @@ internal fun CountDownList(
             )
             HorizontalDivider(modifier = Modifier.padding(horizontal = 8.dp))
         }
+        if (passedItems.isNotEmpty()) {
+            item {
+                Text(
+                    text = "Passed events",
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
+            items(
+                items = passedItems,
+                key = { it.id }
+            ) {
+                CountDownItemList(
+                    modifier = Modifier.animateItemPlacement(),
+                    item = it,
+                    isSelectionMode = isSelectionMode,
+                    isSelected = selectedItems.contains(it.id),
+                    onClick = onClickItem,
+                    onLongClick = onLongClickItem,
+                    onCountdownClick = onCountdownClick,
+                )
+                HorizontalDivider(modifier = Modifier.padding(horizontal = 8.dp))
+            }
+        }
     }
 }
 
@@ -60,6 +85,7 @@ private fun Prev_CountDownList() {
         Surface {
             CountDownList(
                 items = listItemsPreview,
+                passedItems = listItemsPreview,
                 selectedItems = emptySet(),
                 isSelectionMode = false,
             )

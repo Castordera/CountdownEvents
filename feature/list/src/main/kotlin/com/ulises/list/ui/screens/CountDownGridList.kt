@@ -2,11 +2,13 @@ package com.ulises.list.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -22,6 +24,7 @@ internal fun CountDownGridList(
     modifier: Modifier = Modifier,
     columns: Int = 2,
     items: List<CountdownDate>,
+    passedItems: List<CountdownDate>,
     onClickItem: (CountdownDate) -> Unit = {},
     onDeleteItem: (CountdownDate) -> Unit = {}
 ) {
@@ -48,6 +51,27 @@ internal fun CountDownGridList(
                 onCountdownClick = {},
             )
         }
+        if (passedItems.isNotEmpty()) {
+            item(
+                span = { GridItemSpan(columns) }
+            ) {
+                Text(
+                    text = "Passed events",
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
+            items(
+                items = passedItems,
+                key = { "${it.name}_${it.id}" }
+            ) {
+                CountDownItemGrid(
+                    item = it,
+                    onClick = onClickItem,
+                    onDelete = onDeleteItem,
+                    onCountdownClick = {},
+                )
+            }
+        }
     }
 }
 
@@ -56,7 +80,10 @@ internal fun CountDownGridList(
 private fun Prev_List() {
     CountdownAppTheme {
         Surface {
-            CountDownGridList(items = listItemsPreview)
+            CountDownGridList(
+                items = listItemsPreview,
+                passedItems = emptyList()
+            )
         }
     }
 }

@@ -57,7 +57,6 @@ fun CountDownRoute(
     CountdownMainScreen(
         uiState = uiState,
         onAddNewClick = onNavigateToAdd,
-        onSortTypeChange = viewModel::onChangeSortType,
         onListTypeChange = viewModel::onListChangeAdapter,
         onClickItem = onNavigateToDetail,
         onLongClickItem = viewModel::onRequestDeleteItem,
@@ -74,7 +73,6 @@ private fun CountdownMainScreen(
     modifier: Modifier = Modifier,
     uiState: UiState,
     onAddNewClick: () -> Unit = {},
-    onSortTypeChange: (CountdownSortType) -> Unit = {},
     onListTypeChange: () -> Unit = {},
     onClickItem: (CountdownDate) -> Unit = {},
     onLongClickItem: (CountdownDate) -> Unit = {},
@@ -111,15 +109,9 @@ private fun CountdownMainScreen(
                         onClick = onAddNewClick,
                     )
                     ToolbarItem(
-                        iconRes = R.drawable.ic_sort,
-                        description = "Sort by",
-                        isVisible = !uiState.countdownItems.isNullOrEmpty(),
-                        onClick = { bottomSheetVisible = true }
-                    )
-                    ToolbarItem(
                         iconRes = if (!uiState.isGrid) R.drawable.ic_grid_view else R.drawable.ic_view_list,
                         description = "Change View",
-                        isVisible = !uiState.countdownItems.isNullOrEmpty(),
+                        isVisible = !uiState.activeItems.isNullOrEmpty(),
                         onClick = onListTypeChange
                     )
                 }
@@ -134,13 +126,14 @@ private fun CountdownMainScreen(
             }
         }
     ) { padding ->
-        if (uiState.countdownItems.isNullOrEmpty()) {
+        if (uiState.activeItems.isNullOrEmpty() && uiState.passedItems.isNullOrEmpty()) {
             NoEventsScreen(modifier = Modifier.padding(padding))
         } else {
             if (!uiState.isGrid) {
                 CountDownList(
                     modifier = modifier.padding(padding),
-                    items = uiState.countdownItems,
+                    items = uiState.activeItems.orEmpty(),
+                    passedItems = uiState.passedItems.orEmpty(),
                     selectedItems = uiState.selectedEvents,
                     isSelectionMode = uiState.isSelectionMode,
                     onClickItem = { event ->
@@ -156,7 +149,8 @@ private fun CountdownMainScreen(
             } else {
                 CountDownGridList(
                     modifier = modifier.padding(padding),
-                    items = uiState.countdownItems,
+                    items = uiState.activeItems.orEmpty(),
+                    passedItems = uiState.passedItems.orEmpty(),
                     onClickItem = onClickItem,
                     onDeleteItem = onLongClickItem
                 )
@@ -165,7 +159,6 @@ private fun CountdownMainScreen(
         if (bottomSheetVisible) {
             MainBottomSheetDialog(
                 radioOptions = listOf(CountdownSortType.NORMAL, CountdownSortType.DATE),
-                onClickItem = onSortTypeChange,
                 selected = uiState.sortType,
                 onDismiss = { bottomSheetVisible = false }
             )
@@ -181,7 +174,7 @@ private fun PrevCountDownScreen() {
         CountdownMainScreen(
             uiState = UiState(
                 loading = false,
-                countdownItems = listItemsPreview
+                activeItems = listItemsPreview
             ),
         )
     }
@@ -195,7 +188,7 @@ private fun PrevCountDownScreenGrid() {
         CountdownMainScreen(
             uiState = UiState(
                 loading = false,
-                countdownItems = listItemsPreview,
+                activeItems = listItemsPreview,
                 isGrid = true
             ),
         )

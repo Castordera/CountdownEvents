@@ -22,6 +22,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -47,9 +48,11 @@ class CountdownViewModel @Inject constructor(
         dataStore.get(KEY_STORED_VALUES),
         localState
     ) { events, isGrid, localState ->
+        val items = events.handleEvents()
         UiState(
             loading = localState.isLoading,
-            countdownItems = events,
+            activeItems = items[true],
+            passedItems = items[false],
             dialogDeleteVisible = localState.isDialogDeleteVisible,
             error = localState.error,
             isGrid = isGrid,
@@ -58,6 +61,7 @@ class CountdownViewModel @Inject constructor(
         )
     }.onEach {
         Timber.d("State change: ${localState.value}")
+        Timber.d("State change: $it")
     }.onStart {
         Timber.d("Collector started")
     }.onCompletion {
@@ -68,22 +72,9 @@ class CountdownViewModel @Inject constructor(
         initialValue = UiState()
     )
 
-//    private fun sortList(list: List<CountdownDate>): List<CountdownDate> {
-//        Timber.d("$list")
-//        return if (_uiState.value.sortType == CountdownSortType.DATE) {
-//            list.sortedBy { it.dateToCountdown }
-//        } else {
-//            list.sortedBy { it.id }
-//        }
-//    }
-
-    fun onChangeSortType(option: CountdownSortType) {
-//        //Todo(Fix)
-////        Timber.d("Sort type: $option")
-////        val list = _uiState.value.countdownItems
-////        if (list != null) {
-////            _uiState.update { it.copy(sortType = option, countdownItems = sortList(list)) }
-////        }
+    private fun List<CountdownDate>.handleEvents(): Map<Boolean, List<CountdownDate>> {
+        val currentDay = LocalDateTime.now()
+        return this.groupBy { it.dateToCountdown > currentDay }
     }
 
     fun onSelectEvent(eventId: String) {
