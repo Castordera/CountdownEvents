@@ -1,6 +1,3 @@
 <resources>
-    <string name="app_name">CountdownApp</string>
-    <!--  Dialogs  -->
-    <string name="dialog_date_picker_button_save">Select</string>
-    <string name="dialog_date_picker_button_dismiss">Cancel</string>
+    <string name="app_name" translatable="false">Countdown App</string>
 </resources>
