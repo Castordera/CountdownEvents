@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="add_screen_title">Agregar nuevo evento</string>
+    <string name="add_screen_edit_text_event_name_placeholder">Evento</string>
+    <string name="add_screen_button_change_date">Seleccionar fecha</string>
+    <string name="add_screen_button_save_date">Guardar</string>
+</resources>
