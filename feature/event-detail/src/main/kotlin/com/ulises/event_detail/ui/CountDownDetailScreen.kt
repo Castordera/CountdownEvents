@@ -105,18 +105,25 @@ private fun DetailComponent(
                 .fillMaxWidth()
                 .weight(1f)
         ) {
-            Text(
-                text = if (uiState.countdownDate?.remainingTime?.isInPast == true) "Hace" else "Faltan",
-                fontSize = 24.sp
-            )
-            Text(
-                text = uiState.countdownDate?.remainingTime?.value.orEmpty(),
-                fontSize = 200.sp,
-            )
-            Text(
-                text = uiState.countdownDate?.remainingTime?.periodType.orEmpty(),
-                fontSize = 24.sp
-            )
+            if (uiState.countdownDate?.remainingTime?.isToday == true) {
+                Text(
+                    text = "Hoy",
+                    fontSize = 200.sp,
+                )
+            } else {
+                Text(
+                    text = if (uiState.countdownDate?.remainingTime?.isInPast == true) "Hace" else "Faltan",
+                    fontSize = 24.sp
+                )
+                Text(
+                    text = uiState.countdownDate?.remainingTime?.value.orEmpty(),
+                    fontSize = 200.sp,
+                )
+                Text(
+                    text = uiState.countdownDate?.remainingTime?.periodType.orEmpty(),
+                    fontSize = 24.sp
+                )
+            }
         }
         Column(
             horizontalAlignment = Alignment.End,

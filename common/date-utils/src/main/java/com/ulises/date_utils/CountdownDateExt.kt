@@ -16,7 +16,7 @@ val CountdownDate.remainingTime: DateHandler
                 DateDisplayType.WEEKLY -> handleWeeklyDisplayDate()
             }
         }.getOrElse {
-            DateHandler(false, "N/A", "N/A")
+            DateHandler(false, "N/A", "N/A", false)
         }
     }
 
@@ -26,7 +26,8 @@ private fun CountdownDate.handleWeeklyDisplayDate(): DateHandler {
     return DateHandler(
         isInPast = duration.isNegative,
         value = abs((duration.toDays() / 7)).toString(),
-        periodType = "Weeks"
+        periodType = "Weeks",
+        isToday = duration.toDays() == 0L && duration.isNegative,
     )
 }
 
@@ -47,6 +48,7 @@ private fun CountdownDate.handleRegularDisplayDate(): DateHandler {
     return DateHandler(
         isInPast = duration.isNegative,
         value = abs(timePeriod.first).toString(),
-        periodType = timePeriod.second
+        periodType = timePeriod.second,
+        isToday = duration.toDays() == 0L && duration.isNegative,
     )
 }

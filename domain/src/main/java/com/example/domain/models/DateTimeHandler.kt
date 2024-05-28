@@ -13,5 +13,6 @@ data class DateTimeHandler(
 data class DateHandler(
     val isInPast: Boolean,
     val value: String,
-    val periodType: String
+    val periodType: String,
+    val isToday: Boolean,
 )

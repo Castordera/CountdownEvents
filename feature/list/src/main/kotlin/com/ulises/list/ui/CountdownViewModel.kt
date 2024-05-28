@@ -62,7 +62,7 @@ class CountdownViewModel @Inject constructor(
     )
 
     private fun List<CountdownDate>.handleEvents(): Map<Boolean, List<CountdownDate>> {
-        val currentDay = LocalDateTime.now()
+        val currentDay = LocalDateTime.now().minusDays(1)
         return this.groupBy { it.dateToCountdown > currentDay }
     }
 

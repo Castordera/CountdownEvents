@@ -57,7 +57,7 @@ fun CountDownItemList(
     onLongClick: (CountdownDate) -> Unit = {},
     onCountdownClick: (CountdownDate) -> Unit = {},
 ) {
-    var dateHandler by remember { mutableStateOf(DateHandler(false, "", "")) }
+    var dateHandler by remember { mutableStateOf(DateHandler(false, "", "", false)) }
 
     LaunchedEffect(item.dateDisplayType) {
         dateHandler = item.remainingTime
@@ -116,19 +116,27 @@ fun CountDownItemList(
                     fontStyle = FontStyle.Italic
                 )
             }
-            Column(
-                horizontalAlignment = Alignment.End,
-                modifier = Modifier.clickable { onCountdownClick(item) }
-            ) {
+            if (dateHandler.isToday) {
                 Text(
-                    text = dateHandler.periodType + (if (dateHandler.isInPast) " ago" else ""),
-                    fontSize = 12.sp
-                )
-                Text(
-                    text = dateHandler.value,
-                    fontSize = 32.sp,
+                    text = "Hoy",
+                    fontSize = 26.sp,
                     fontWeight = FontWeight.Bold,
                 )
+            } else {
+                Column(
+                    horizontalAlignment = Alignment.End,
+                    modifier = Modifier.clickable { onCountdownClick(item) }
+                ) {
+                    Text(
+                        text = dateHandler.periodType + (if (dateHandler.isInPast) " ago" else ""),
+                        fontSize = 12.sp
+                    )
+                    Text(
+                        text = dateHandler.value,
+                        fontSize = 32.sp,
+                        fontWeight = FontWeight.Bold,
+                    )
+                }
             }
         }
     }
@@ -143,7 +151,7 @@ fun CountDownItemGrid(
     onCountdownClick: (CountdownDate) -> Unit = {},
 ) {
 
-    var dateHandler by remember { mutableStateOf(DateHandler(false, "", "")) }
+    var dateHandler by remember { mutableStateOf(DateHandler(false, "", "", false)) }
 
     LaunchedEffect(Unit) {
         dateHandler = item.remainingTime
@@ -168,15 +176,23 @@ fun CountDownItemGrid(
             )
             Spacer(modifier = Modifier.size(8.dp))
             Text(text = item.dateToCountdown.toHumanReadable(true))
-            Text(
-                text = dateHandler.value,
-                fontSize = 40.sp,
-                fontWeight = FontWeight.Bold,
-            )
-            Text(
-                text = dateHandler.periodType + (if (dateHandler.isInPast) " ago" else ""),
-                fontSize = 12.sp
-            )
+            if (dateHandler.isToday) {
+                Text(
+                    text = "Hoy",
+                    fontSize = 26.sp,
+                    fontWeight = FontWeight.Bold,
+                )
+            } else {
+                Text(
+                    text = dateHandler.value,
+                    fontSize = 40.sp,
+                    fontWeight = FontWeight.Bold,
+                )
+                Text(
+                    text = dateHandler.periodType + (if (dateHandler.isInPast) " ago" else ""),
+                    fontSize = 12.sp
+                )
+            }
         }
     }
 }
