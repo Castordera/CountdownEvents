@@ -4,6 +4,7 @@ plugins {
     id("countdown.android.common")
     id("countdown.android.test")
     id("countdown.test")
+    id("com.google.gms.google-services")
     id("com.google.dagger.hilt.android")
     id("kotlin-parcelize")
     id("kotlinx-serialization")
@@ -27,9 +28,14 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
+
+    buildFeatures {
+        buildConfig = true
+    }
 }
 
 dependencies {
+    implementation(platform(libs.firebase.bom))
     implementation(libs.android.lifecycle.runtime.ktx)
     //  Data store
     implementation(libs.data.store)
