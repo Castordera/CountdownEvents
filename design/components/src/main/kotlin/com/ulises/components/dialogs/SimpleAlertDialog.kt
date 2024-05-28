@@ -73,7 +73,7 @@ fun SimpleAlertDialog(
 @Preview
 @Preview(name = "Dark", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-fun PrevSimpleAlertDialog() {
+private fun PrevSimpleAlertDialog() {
     CountdownAppTheme {
         SimpleAlertDialog(
             isVisible = true,

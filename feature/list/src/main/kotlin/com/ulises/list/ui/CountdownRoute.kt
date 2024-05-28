@@ -3,6 +3,9 @@ package com.ulises.list.ui
 import android.content.res.Configuration
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -18,6 +21,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,6 +29,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.domain.enums.CountdownSortType
 import com.example.domain.models.CountdownDate
+import com.ulises.components.Loading
 import com.ulises.components.dialogs.SimpleAlertDialog
 import com.ulises.components.toolbars.Toolbar
 import com.ulises.components.toolbars.ToolbarItem
@@ -126,7 +131,17 @@ private fun CountdownMainScreen(
             }
         }
     ) { padding ->
-        if (uiState.activeItems.isNullOrEmpty() && uiState.passedItems.isNullOrEmpty()) {
+        if (uiState.loading) {
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(padding)
+            ) {
+                Loading()
+            }
+        } else if (uiState.activeItems.isNullOrEmpty() && uiState.passedItems.isNullOrEmpty()) {
             NoEventsScreen(modifier = Modifier.padding(padding))
         } else {
             if (!uiState.isGrid) {
@@ -201,7 +216,7 @@ private fun PrevCountDownScreenGrid() {
 private fun PrevCountDownScreenNoEvents() {
     CountdownAppTheme {
         CountdownMainScreen(
-            uiState = UiState(),
+            uiState = UiState(loading = false),
         )
     }
 }

@@ -1,14 +1,32 @@
 package com.ulises.addevent
 
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -30,7 +48,7 @@ import java.time.LocalDateTime
 @Composable
 fun AddEventRoute(
     viewModel: AddEventViewModel = hiltViewModel(),
-    onBackPress: () -> Unit
+    onBackPress: () -> Unit = {},
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -53,16 +71,19 @@ fun AddEventRoute(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddEventScreen(
+private fun AddEventScreen(
     uiState: UiState,
     onCalendarDateSelected: (Long?) -> Unit,
     onCalendarChangeVisibility: (Boolean) -> Unit,
     onUpdateEventName: (String) -> Unit,
-    onSaveEvent: () -> Unit,
-    onBackPress: () -> Unit,
+    onSaveEvent: () -> Unit = {},
+    onBackPress: () -> Unit = {},
     onErrorDisplayed: () -> Unit,
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
+    val isDataReady by remember(uiState.eventName) {
+        derivedStateOf { uiState.eventName.trim().isNotBlank() }
+    }
 
     if (uiState.error != null) {
         LaunchedEffect(uiState.error) {
@@ -70,7 +91,7 @@ fun AddEventScreen(
             onErrorDisplayed()
         }
     }
-    
+
     Scaffold(
         topBar = {
             Toolbar(
@@ -109,33 +130,28 @@ fun AddEventScreen(
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth()
                 )
-                Text(
-                    text = uiState.dateTime.toHumanReadable(),
-                    fontSize = 50.sp,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth()
-                )
-                TextButton(
-                    onClick = { onCalendarChangeVisibility(true) },
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier = Modifier
+                        .clip(MaterialTheme.shapes.large)
+                        .clickable { onCalendarChangeVisibility(true) }
+                        .padding(12.dp)
                 ) {
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(
-                            8.dp,
-                            Alignment.CenterHorizontally
-                        ),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_calendar),
-                            contentDescription = null
-                        )
-                        Text(text = stringResource(id = R.string.add_screen_button_change_date))
-                    }
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_calendar),
+                        contentDescription = null,
+                        modifier = Modifier.size(30.dp)
+                    )
+                    Text(
+                        text = uiState.dateTime.toHumanReadable(),
+                        fontSize = 30.sp,
+                        textAlign = TextAlign.Center,
+                    )
                 }
-                Spacer(modifier = Modifier.weight(1f))
                 Button(
                     onClick = onSaveEvent,
-                    enabled = uiState.saveButtonEnabled
+                    enabled = isDataReady,
                 ) {
                     Text(
                         text = stringResource(id = R.string.add_screen_button_save_date),
@@ -151,7 +167,7 @@ fun AddEventScreen(
 @Preview
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-fun PrevAddEventScreen() {
+private fun PrevAddEventScreen() {
     CountdownAppTheme {
         AddEventScreen(
             uiState = UiState(

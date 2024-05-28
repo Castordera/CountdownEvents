@@ -31,7 +31,7 @@ fun Loading(
 
 @Preview
 @Composable
-fun PrevLoading() {
+private fun PrevLoading() {
     CountdownAppTheme {
         Surface {
             Loading()

@@ -34,7 +34,7 @@ internal fun CountDownList(
         contentPadding = PaddingValues(vertical = 16.dp),
         modifier = modifier
     ) {
-        item {
+        stickyHeader {
             CurrentDayDataItem()
         }
         items(
@@ -42,7 +42,6 @@ internal fun CountDownList(
             key = { it.id }
         ) {
             CountDownItemList(
-                modifier = Modifier.animateItemPlacement(),
                 item = it,
                 isSelectionMode = isSelectionMode,
                 isSelected = selectedItems.contains(it.id),
@@ -64,7 +63,6 @@ internal fun CountDownList(
                 key = { it.id }
             ) {
                 CountDownItemList(
-                    modifier = Modifier.animateItemPlacement(),
                     item = it,
                     isSelectionMode = isSelectionMode,
                     isSelected = selectedItems.contains(it.id),
