@@ -2,6 +2,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="main_screen_title">Eventos</string>
     <string name="main_screen_empty_events_message">Ups, no encontré ningún evento.</string>
+    <string name="detail_screen_label_time_remaining">Faltan</string>
+    <string name="detail_screen_label_time_passed">Hace</string>
+    <string name="detail_screen_label_time_bottom">%s</string>
     <string name="dialog_delete_event_title">Borrar</string>
     <string name="dialog_delete_event_message">¿Estas seguro de borrar este registro?</string>
     <string name="dialog_delete_event_positive_text">Borrar</string>

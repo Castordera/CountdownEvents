@@ -137,7 +137,7 @@ fun CountDownItemList(
                         fontSize = 12.sp
                     )
                     Text(
-                        text = dateHandler.value.toString(),
+                        text = "%,d".format(dateHandler.value),
                         fontSize = 32.sp,
                         fontWeight = FontWeight.Bold,
                     )
@@ -189,7 +189,7 @@ fun CountDownItemGrid(
                 )
             } else {
                 Text(
-                    text = dateHandler.value.toString(),
+                    text = "%,d".format(dateHandler.value),
                     fontSize = 40.sp,
                     fontWeight = FontWeight.Bold,
                 )

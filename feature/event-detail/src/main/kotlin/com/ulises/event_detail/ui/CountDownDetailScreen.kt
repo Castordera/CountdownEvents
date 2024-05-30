@@ -14,6 +14,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.pluralStringResource
@@ -27,6 +29,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.domain.models.DateHandler
 import com.example.domain.models.TimePeriod
+import com.ulises.components.Loading
 import com.ulises.components.screens.DefaultErrorScreen
 import com.ulises.components.toolbars.Toolbar
 import com.ulises.components.toolbars.ToolbarItem
@@ -55,7 +58,7 @@ fun CountdownDetailRoute(
 private fun CountDownDetailScreen(
     uiState: DetailUiState,
     onEditItem: (itemId: String) -> Unit = {},
-    onBackPress: () -> Unit,
+    onBackPress: () -> Unit = {},
 ) {
     Scaffold(
         topBar = {
@@ -97,9 +100,16 @@ private fun DetailComponent(
             .fillMaxSize()
             .padding(16.dp)
     ) {
+        if (uiState.countdownDate == null) {
+            Loading()
+            return
+        }
+
+        val dateHandler by remember { mutableStateOf(uiState.countdownDate.remainingTime) }
+
         Text(
             modifier = Modifier.fillMaxWidth(),
-            text = uiState.countdownDate?.name.orEmpty(),
+            text = uiState.countdownDate.name,
             textAlign = TextAlign.Center,
             fontSize = 22.sp
         )
@@ -110,22 +120,26 @@ private fun DetailComponent(
                 .fillMaxWidth()
                 .weight(1f)
         ) {
-            if (uiState.countdownDate?.remainingTime?.isToday == true) {
+            if (uiState.countdownDate.remainingTime.isToday) {
                 Text(
                     text = stringResource(id = com.ulises.common.resources.R.string.main_screen_label_today),
-                    fontSize = 200.sp,
+                    fontSize = 80.sp,
                 )
             } else {
                 Text(
-                    text = if (uiState.countdownDate?.remainingTime?.isInPast == true) "Hace" else "Faltan",
+                    text = if (dateHandler.isInPast) {
+                        stringResource(id = com.ulises.common.resources.R.string.detail_screen_label_time_passed)
+                    } else {
+                        stringResource(id = com.ulises.common.resources.R.string.detail_screen_label_time_remaining)
+                    },
                     fontSize = 24.sp
                 )
                 Text(
-                    text = uiState.countdownDate?.remainingTime?.value?.toString().orEmpty(),
-                    fontSize = 200.sp,
+                    text = "%,d".format(dateHandler.value),
+                    fontSize = 150.sp,
                 )
                 Text(
-                    text = uiState.countdownDate?.remainingTime?.periodType?.toString().orEmpty(),
+                    text = stringResource(id = com.ulises.common.resources.R.string.detail_screen_label_time_bottom, getStringTimeLabel(dateHandler = dateHandler)),
                     fontSize = 24.sp
                 )
             }
@@ -135,12 +149,12 @@ private fun DetailComponent(
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(
-                text = "Created: ${uiState.countdownDate?.createdAt}",
+                text = "Created: ${uiState.countdownDate.createdAt}",
                 fontSize = 14.sp,
                 fontStyle = FontStyle.Italic
             )
             Text(
-                text = "Id: ${uiState.countdownDate?.id}",
+                text = "Id: ${uiState.countdownDate.id}",
                 fontSize = 14.sp,
                 fontStyle = FontStyle.Italic
             )
@@ -198,6 +212,6 @@ private fun PrevCountDownDetailScreenError() {
             uiState = DetailUiState(
                 error = "error here"
             ),
-        ) {}
+        )
     }
 }
