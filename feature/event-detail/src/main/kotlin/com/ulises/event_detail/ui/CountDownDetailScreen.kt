@@ -83,7 +83,7 @@ private fun CountDownDetailScreen(
                 DetailComponent(uiState = uiState)
             } else {
                 DefaultErrorScreen(
-                    imageRes = R.drawable.ic_error,
+                    imageRes = com.ulises.common.resources.R.drawable.ic_error,
                     text = uiState.error
                 )
             }

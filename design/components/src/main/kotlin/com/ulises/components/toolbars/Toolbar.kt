@@ -1,6 +1,9 @@
 package com.ulises.components.toolbars
 
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
@@ -22,7 +25,7 @@ fun Toolbar(
             else {
                 IconButton(onClick = { onBackPress() }) {
                     Icon(
-                        painter = painterResource(id = R.drawable.ic_arrow_back),
+                        imageVector = Icons.AutoMirrored.Default.ArrowBack,
                         contentDescription = null
                     )
                 }
@@ -39,9 +42,9 @@ fun PrevToolbar() {
         Toolbar(
             title = "Screen name",
             actions = {
-                ToolbarItem(iconRes = R.drawable.ic_add_24)
-                ToolbarItem(iconRes = R.drawable.ic_add_24)
-                ToolbarItem(iconRes = R.drawable.ic_add_24)
+                ToolbarItem(iconRes = com.ulises.common.resources.R.drawable.ic_error)
+                ToolbarItem(iconRes = com.ulises.common.resources.R.drawable.ic_error)
+                ToolbarItem(iconRes = com.ulises.common.resources.R.drawable.ic_error)
             }
         )
     }

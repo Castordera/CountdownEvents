@@ -139,7 +139,7 @@ private fun AddEventScreen(
                         .padding(12.dp)
                 ) {
                     Icon(
-                        painter = painterResource(id = R.drawable.ic_calendar),
+                        painter = painterResource(id = com.ulises.common.resources.R.drawable.ic_calendar),
                         contentDescription = null,
                         modifier = Modifier.size(30.dp)
                     )

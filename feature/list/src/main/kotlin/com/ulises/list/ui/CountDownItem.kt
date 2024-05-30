@@ -100,7 +100,7 @@ fun CountDownItemList(
                     )
                 } else {
                     Icon(
-                        painter = painterResource(id = R.drawable.outline_circle),
+                        painter = painterResource(id = com.ulises.common.resources.R.drawable.outline_circle),
                         contentDescription = null
                     )
                 }

@@ -67,7 +67,7 @@ fun PrevDefaultErrorScreen() {
             modifier = Modifier.fillMaxSize()
         ) {
             DefaultErrorScreen(
-                imageRes = com.ulises.components.R.drawable.ic_add_24,
+                imageRes = com.ulises.common.resources.R.drawable.ic_error,
                 text = "Error doing something that is why this error is visible"
             )
         }

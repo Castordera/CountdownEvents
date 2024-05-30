@@ -113,7 +113,7 @@ private fun CountdownMainScreen(
                         onClick = onAddNewClick,
                     )
                     ToolbarItem(
-                        iconRes = if (!uiState.isGrid) R.drawable.ic_grid_view else R.drawable.ic_view_list,
+                        iconRes = if (!uiState.isGrid) com.ulises.common.resources.R.drawable.ic_grid_view else com.ulises.common.resources.R.drawable.ic_view_list,
                         description = "Change View",
                         isVisible = !uiState.activeItems.isNullOrEmpty(),
                         onClick = onListTypeChange

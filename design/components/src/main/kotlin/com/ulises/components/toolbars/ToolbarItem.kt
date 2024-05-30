@@ -53,7 +53,7 @@ private fun PrevToolbarItem() {
     CountdownAppTheme {
         Column {
             ToolbarItem(imageVector = Icons.Default.AccountBox)
-            ToolbarItem(iconRes = R.drawable.ic_add_24)
+            ToolbarItem(iconRes = com.ulises.common.resources.R.drawable.ic_error)
         }
     }
 }
