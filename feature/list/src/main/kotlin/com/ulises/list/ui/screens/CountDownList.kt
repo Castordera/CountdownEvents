@@ -10,9 +10,11 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.domain.models.CountdownDate
+import com.ulises.common.resources.R
 import com.ulises.list.ui.CountDownItemList
 import com.ulises.list.ui.CurrentDayDataItem
 import com.ulises.preview_data.listItemsPreview
@@ -54,7 +56,7 @@ internal fun CountDownList(
         if (passedItems.isNotEmpty()) {
             item {
                 Text(
-                    text = "Passed events",
+                    text = stringResource(id = R.string.main_screen_label_passed_events),
                     modifier = Modifier.padding(16.dp)
                 )
             }

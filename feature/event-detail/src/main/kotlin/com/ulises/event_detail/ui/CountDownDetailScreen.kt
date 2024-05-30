@@ -12,9 +12,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -22,6 +25,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.domain.models.DateHandler
+import com.example.domain.models.TimePeriod
 import com.ulises.components.screens.DefaultErrorScreen
 import com.ulises.components.toolbars.Toolbar
 import com.ulises.components.toolbars.ToolbarItem
@@ -107,7 +112,7 @@ private fun DetailComponent(
         ) {
             if (uiState.countdownDate?.remainingTime?.isToday == true) {
                 Text(
-                    text = "Hoy",
+                    text = stringResource(id = com.ulises.common.resources.R.string.main_screen_label_today),
                     fontSize = 200.sp,
                 )
             } else {
@@ -116,11 +121,11 @@ private fun DetailComponent(
                     fontSize = 24.sp
                 )
                 Text(
-                    text = uiState.countdownDate?.remainingTime?.value.orEmpty(),
+                    text = uiState.countdownDate?.remainingTime?.value?.toString().orEmpty(),
                     fontSize = 200.sp,
                 )
                 Text(
-                    text = uiState.countdownDate?.remainingTime?.periodType.orEmpty(),
+                    text = uiState.countdownDate?.remainingTime?.periodType?.toString().orEmpty(),
                     fontSize = 24.sp
                 )
             }
@@ -140,6 +145,34 @@ private fun DetailComponent(
                 fontStyle = FontStyle.Italic
             )
         }
+    }
+}
+
+@Composable
+@ReadOnlyComposable
+fun getStringTimeLabel(dateHandler: DateHandler): String {
+    return when (dateHandler.periodType) {
+        TimePeriod.NONE -> ""
+        TimePeriod.YEAR -> pluralStringResource(
+            id = com.ulises.common.resources.R.plurals.time_label_year,
+            count = dateHandler.value
+        )
+        TimePeriod.WEEK -> pluralStringResource(
+            id = com.ulises.common.resources.R.plurals.time_label_week,
+            count = dateHandler.value
+        )
+        TimePeriod.DAY -> pluralStringResource(
+            id = com.ulises.common.resources.R.plurals.time_label_day,
+            count = dateHandler.value
+        )
+        TimePeriod.HOUR -> pluralStringResource(
+            id = com.ulises.common.resources.R.plurals.time_label_hour,
+            count = dateHandler.value
+        )
+        TimePeriod.MINUTE -> pluralStringResource(
+            id = com.ulises.common.resources.R.plurals.time_label_minute,
+            count = dateHandler.value
+        )
     }
 }
 

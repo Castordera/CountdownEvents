@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="main_screen_title">Eventos</string>
     <string name="main_screen_empty_events_message">Ups, no encontré ningún evento.</string>
     <string name="dialog_delete_event_title">Borrar</string>
@@ -12,4 +12,32 @@
     <string name="add_screen_button_save_date">Guardar</string>
     <string name="dialog_button_positive">Seleccionar</string>
     <string name="dialog_button_cancel">Cancelar</string>
+    <string name="main_screen_label_passed_events">Eventos anteriores</string>
+    <string name="main_screen_label_today">Hoy</string>
+
+    <!--  Other  -->
+    <plurals name="time_label_ago">
+        <item quantity="other">%s</item>
+        <item quantity="one">Hace %s</item>
+    </plurals>
+    <plurals name="time_label_year">
+        <item quantity="one">Año</item>
+        <item quantity="other">Años</item>
+    </plurals>
+    <plurals name="time_label_week">
+        <item quantity="one">Semana</item>
+        <item quantity="other">Semanas</item>
+    </plurals>
+    <plurals name="time_label_day">
+        <item quantity="one">Día</item>
+        <item quantity="other">Días</item>
+    </plurals>
+    <plurals name="time_label_hour">
+        <item quantity="one">Hora</item>
+        <item quantity="other">Horas</item>
+    </plurals>
+    <plurals name="time_label_minute">
+        <item quantity="one">Minuto</item>
+        <item quantity="other">Minutos</item>
+    </plurals>
 </resources>

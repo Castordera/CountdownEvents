@@ -3,6 +3,8 @@
     <!--  Main Screen  -->
     <string name="main_screen_title">Events</string>
     <string name="main_screen_empty_events_message">Ups, we could not find any event</string>
+    <string name="main_screen_label_passed_events">Passed events</string>
+    <string name="main_screen_label_today">Today</string>
     <!--  Add Event  -->
     <string name="add_screen_title">Add new date</string>
     <string name="add_screen_edit_text_event_name_placeholder">Date name</string>
@@ -16,4 +18,29 @@
     <!--  Basic Dialog  -->
     <string name="dialog_button_positive">Save</string>
     <string name="dialog_button_cancel">Cancel</string>
+    <!--  Other  -->
+    <plurals name="time_label_ago">
+        <item quantity="other">%s</item>
+        <item quantity="one">%s ago</item>
+    </plurals>
+    <plurals name="time_label_year">
+        <item quantity="one">Year</item>
+        <item quantity="other">Years</item>
+    </plurals>
+    <plurals name="time_label_week">
+        <item quantity="one">Week</item>
+        <item quantity="other">Weaks</item>
+    </plurals>
+    <plurals name="time_label_day">
+        <item quantity="one">Day</item>
+        <item quantity="other">Days</item>
+    </plurals>
+    <plurals name="time_label_hour">
+        <item quantity="one">Hour</item>
+        <item quantity="other">Hours</item>
+    </plurals>
+    <plurals name="time_label_minute">
+        <item quantity="one">Minute</item>
+        <item quantity="other">Minutes</item>
+    </plurals>
 </resources>

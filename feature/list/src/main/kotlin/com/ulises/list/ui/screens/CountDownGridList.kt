@@ -11,6 +11,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.domain.models.CountdownDate
@@ -56,7 +57,7 @@ internal fun CountDownGridList(
                 span = { GridItemSpan(columns) }
             ) {
                 Text(
-                    text = "Passed events",
+                    text = stringResource(id = com.ulises.common.resources.R.string.main_screen_label_passed_events),
                     modifier = Modifier.padding(16.dp)
                 )
             }

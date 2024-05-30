@@ -1,18 +1,17 @@
 package com.example.domain.models
 
-data class DateTimeHandler(
-    val isInPast: Boolean,
-    val years: Long,
-    val months: Long,
-    val days: Long,
-    val hours: Long,
-    val minutes: Long,
-    val seconds: Long
+data class DateHandler(
+    val isInPast: Boolean = false,
+    val value: Int = 0,
+    val periodType: TimePeriod = TimePeriod.NONE,
+    val isToday: Boolean = false,
 )
 
-data class DateHandler(
-    val isInPast: Boolean,
-    val value: String,
-    val periodType: String,
-    val isToday: Boolean,
-)
+enum class TimePeriod {
+    NONE,
+    YEAR,
+    WEEK,
+    DAY,
+    HOUR,
+    MINUTE,
+}

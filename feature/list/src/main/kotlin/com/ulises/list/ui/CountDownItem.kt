@@ -22,6 +22,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,6 +33,8 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -40,6 +43,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.domain.models.CountdownDate
 import com.example.domain.models.DateHandler
+import com.example.domain.models.TimePeriod
+import com.ulises.date_utils.getQtyPast
 import com.ulises.date_utils.remainingTime
 import com.ulises.date_utils.toHumanReadable
 import com.ulises.list.R
@@ -57,7 +62,7 @@ fun CountDownItemList(
     onLongClick: (CountdownDate) -> Unit = {},
     onCountdownClick: (CountdownDate) -> Unit = {},
 ) {
-    var dateHandler by remember { mutableStateOf(DateHandler(false, "", "", false)) }
+    var dateHandler by remember { mutableStateOf(DateHandler()) }
 
     LaunchedEffect(item.dateDisplayType) {
         dateHandler = item.remainingTime
@@ -118,7 +123,7 @@ fun CountDownItemList(
             }
             if (dateHandler.isToday) {
                 Text(
-                    text = "Hoy",
+                    text = stringResource(id = com.ulises.common.resources.R.string.main_screen_label_today),
                     fontSize = 26.sp,
                     fontWeight = FontWeight.Bold,
                 )
@@ -128,11 +133,11 @@ fun CountDownItemList(
                     modifier = Modifier.clickable { onCountdownClick(item) }
                 ) {
                     Text(
-                        text = dateHandler.periodType + (if (dateHandler.isInPast) " ago" else ""),
+                        text = pluralStringResource(id = com.ulises.common.resources.R.plurals.time_label_ago, count = dateHandler.getQtyPast, getStringTimeLabel(dateHandler)),
                         fontSize = 12.sp
                     )
                     Text(
-                        text = dateHandler.value,
+                        text = dateHandler.value.toString(),
                         fontSize = 32.sp,
                         fontWeight = FontWeight.Bold,
                     )
@@ -151,7 +156,7 @@ fun CountDownItemGrid(
     onCountdownClick: (CountdownDate) -> Unit = {},
 ) {
 
-    var dateHandler by remember { mutableStateOf(DateHandler(false, "", "", false)) }
+    var dateHandler by remember { mutableStateOf(DateHandler()) }
 
     LaunchedEffect(Unit) {
         dateHandler = item.remainingTime
@@ -178,22 +183,50 @@ fun CountDownItemGrid(
             Text(text = item.dateToCountdown.toHumanReadable(true))
             if (dateHandler.isToday) {
                 Text(
-                    text = "Hoy",
+                    text = stringResource(id = com.ulises.common.resources.R.string.main_screen_label_today),
                     fontSize = 26.sp,
                     fontWeight = FontWeight.Bold,
                 )
             } else {
                 Text(
-                    text = dateHandler.value,
+                    text = dateHandler.value.toString(),
                     fontSize = 40.sp,
                     fontWeight = FontWeight.Bold,
                 )
                 Text(
-                    text = dateHandler.periodType + (if (dateHandler.isInPast) " ago" else ""),
+                    text = pluralStringResource(id = com.ulises.common.resources.R.plurals.time_label_ago, count = dateHandler.getQtyPast, getStringTimeLabel(dateHandler)),
                     fontSize = 12.sp
                 )
             }
         }
+    }
+}
+
+@Composable
+@ReadOnlyComposable
+fun getStringTimeLabel(dateHandler: DateHandler): String {
+    return when (dateHandler.periodType) {
+        TimePeriod.NONE -> ""
+        TimePeriod.YEAR -> pluralStringResource(
+            id = com.ulises.common.resources.R.plurals.time_label_year,
+            count = dateHandler.value
+        )
+        TimePeriod.WEEK -> pluralStringResource(
+            id = com.ulises.common.resources.R.plurals.time_label_week,
+            count = dateHandler.value
+        )
+        TimePeriod.DAY -> pluralStringResource(
+            id = com.ulises.common.resources.R.plurals.time_label_day,
+            count = dateHandler.value
+        )
+        TimePeriod.HOUR -> pluralStringResource(
+            id = com.ulises.common.resources.R.plurals.time_label_hour,
+            count = dateHandler.value
+        )
+        TimePeriod.MINUTE -> pluralStringResource(
+            id = com.ulises.common.resources.R.plurals.time_label_minute,
+            count = dateHandler.value
+        )
     }
 }
 
