@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="add_screen_title">Add new date</string>
-    <string name="add_screen_edit_text_event_name_placeholder">Date name</string>
-    <string name="add_screen_button_change_date">Select day</string>
-    <string name="add_screen_button_save_date">Save</string>
-</resources>

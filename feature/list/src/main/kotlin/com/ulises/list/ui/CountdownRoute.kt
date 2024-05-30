@@ -48,14 +48,13 @@ fun CountDownRoute(
     onNavigateToAdd: () -> Unit = {},
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
     SimpleAlertDialog(
         isVisible = uiState.dialogDeleteVisible,
-        title = stringResource(id = R.string.dialog_delete_event_title),
-        message = stringResource(id = R.string.dialog_delete_event_message),
-        positiveTextButton = stringResource(id = R.string.dialog_delete_event_positive_text),
+        title = stringResource(id = com.ulises.common.resources.R.string.dialog_delete_event_title),
+        message = stringResource(id = com.ulises.common.resources.R.string.dialog_delete_event_message),
+        positiveTextButton = stringResource(id = com.ulises.common.resources.R.string.dialog_delete_event_positive_text),
         positiveClickButton = { viewModel.onDeleteCountdownItem() },
-        negativeTextButton = stringResource(id = R.string.dialog_delete_event_negative_text),
+        negativeTextButton = stringResource(id = com.ulises.common.resources.R.string.dialog_delete_event_negative_text),
         negativeClickButton = { viewModel.onChangeDialogVisibility(false) },
         onDismissDialog = { viewModel.onChangeDialogVisibility(false) }
     )
@@ -106,7 +105,7 @@ private fun CountdownMainScreen(
     Scaffold(
         topBar = {
             Toolbar(
-                title = stringResource(id = R.string.main_screen_title),
+                title = stringResource(id = com.ulises.common.resources.R.string.main_screen_title),
                 actions = {
                     ToolbarItem(
                         imageVector = Icons.Filled.Add,

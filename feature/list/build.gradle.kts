@@ -26,6 +26,7 @@ dependencies {
     implementation(project(":common:preview-data"))
     implementation(project(":common:navigation"))
     implementation(project(":common:datastore"))
+    implementation(project(":common:resources"))
     //  Hilt
     implementation(libs.bundles.hilt.core)
     kapt(libs.hilt.compiler)

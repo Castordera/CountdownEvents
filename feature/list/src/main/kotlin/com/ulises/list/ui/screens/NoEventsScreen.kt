@@ -41,7 +41,7 @@ fun NoEventsScreen(
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = stringResource(id = R.string.main_screen_empty_events_message),
+            text = stringResource(id = com.ulises.common.resources.R.string.main_screen_empty_events_message),
             fontSize = 24.sp
         )
     }

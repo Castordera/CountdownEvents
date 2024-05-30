@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="main_screen_title">Eventos</string>
+    <string name="main_screen_empty_events_message">Ups, no encontré ningún evento.</string>
+    <string name="dialog_delete_event_title">Borrar</string>
+    <string name="dialog_delete_event_message">¿Estas seguro de borrar este registro?</string>
+    <string name="dialog_delete_event_positive_text">Borrar</string>
+    <string name="dialog_delete_event_negative_text">Cancelar</string>
+    <string name="add_screen_title">Añadir nuevo evento</string>
+    <string name="add_screen_edit_text_event_name_placeholder">Nombre del evento</string>
+    <string name="add_screen_button_change_date">Selecciona un día</string>
+    <string name="add_screen_button_save_date">Guardar</string>
+    <string name="dialog_button_positive">Seleccionar</string>
+    <string name="dialog_button_cancel">Cancelar</string>
+</resources>

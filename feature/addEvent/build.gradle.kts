@@ -22,6 +22,7 @@ dependencies {
     implementation(project(":design:theme"))
     implementation(project(":design:components"))
     implementation(project(":common:navigation"))
+    implementation(project(":common:resources"))
     //  Hilt
     implementation(libs.bundles.hilt.core)
     kapt(libs.hilt.compiler)

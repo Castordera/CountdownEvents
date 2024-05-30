@@ -12,7 +12,6 @@ import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.ulises.components.R
 import com.ulises.theme.CountdownAppTheme
 
 @Composable
@@ -29,14 +28,14 @@ fun AppDatePicker(
             TextButton(
                 onClick = { onDateSelected(datePickerState.selectedDateMillis) }
             ) {
-                Text(text = stringResource(id = R.string.dialog_button_positive))
+                Text(text = stringResource(id = com.ulises.common.resources.R.string.dialog_button_positive))
             }
         },
         dismissButton = {
             TextButton(
                 onClick = onCancelClick
             ) {
-                Text(text = stringResource(id = R.string.dialog_button_cancel))
+                Text(text = stringResource(id = com.ulises.common.resources.R.string.dialog_button_cancel))
             }
         }
     ) {

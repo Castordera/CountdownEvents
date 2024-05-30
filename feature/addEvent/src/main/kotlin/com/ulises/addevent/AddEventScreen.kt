@@ -95,7 +95,7 @@ private fun AddEventScreen(
     Scaffold(
         topBar = {
             Toolbar(
-                title = stringResource(id = R.string.add_screen_title),
+                title = stringResource(id = com.ulises.common.resources.R.string.add_screen_title),
                 onBackPress = onBackPress
             )
         },
@@ -126,7 +126,7 @@ private fun AddEventScreen(
                 OutlinedTextField(
                     value = uiState.eventName,
                     onValueChange = onUpdateEventName,
-                    label = { Text(stringResource(id = R.string.add_screen_edit_text_event_name_placeholder)) },
+                    label = { Text(stringResource(id = com.ulises.common.resources.R.string.add_screen_edit_text_event_name_placeholder)) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -154,7 +154,7 @@ private fun AddEventScreen(
                     enabled = isDataReady,
                 ) {
                     Text(
-                        text = stringResource(id = R.string.add_screen_button_save_date),
+                        text = stringResource(id = com.ulises.common.resources.R.string.add_screen_button_save_date),
                         textAlign = TextAlign.Center,
                         modifier = Modifier.fillMaxWidth()
                     )
