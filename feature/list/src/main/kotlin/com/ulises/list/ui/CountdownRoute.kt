@@ -33,7 +33,6 @@ import com.ulises.components.Loading
 import com.ulises.components.dialogs.SimpleAlertDialog
 import com.ulises.components.toolbars.Toolbar
 import com.ulises.components.toolbars.ToolbarItem
-import com.ulises.list.R
 import com.ulises.list.models.UiState
 import com.ulises.list.ui.screens.CountDownGridList
 import com.ulises.list.ui.screens.CountDownList
