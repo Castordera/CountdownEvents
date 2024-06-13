@@ -27,7 +27,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.domain.enums.CountdownSortType
 import com.example.domain.models.CountdownDate
 import com.ulises.components.Loading
 import com.ulises.components.dialogs.SimpleAlertDialog
@@ -157,7 +156,8 @@ private fun CountdownMainScreen(
                         }
                     },
                     onLongClickItem = { event -> onAddSelectedEvent(event.id) },
-                    onCountdownClick = onCountdownClickTypeChange
+                    onCountdownClick = onCountdownClickTypeChange,
+                    onClickMoreData = { bottomSheetVisible = true }
                 )
             } else {
                 CountDownGridList(
@@ -171,8 +171,6 @@ private fun CountdownMainScreen(
         }
         if (bottomSheetVisible) {
             MainBottomSheetDialog(
-                radioOptions = listOf(CountdownSortType.NORMAL, CountdownSortType.DATE),
-                selected = uiState.sortType,
                 onDismiss = { bottomSheetVisible = false }
             )
         }
