@@ -1,5 +1,6 @@
 package com.ulises.date_utils
 
+import java.time.Duration
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -32,4 +33,8 @@ fun LocalDateTime?.toHumanReadable(includeDay: Boolean = false): String {
 fun LocalDate?.toHumanReadable(): String {
     if (this == null) return ""
     return format(DateTimeFormatter.ofPattern("dd MMMM yyyy"))
+}
+
+fun LocalDate.daysTo(date: LocalDate): Int {
+    return Duration.between(this, date).toDays().toInt()
 }

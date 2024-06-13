@@ -31,13 +31,14 @@ internal fun CountDownList(
     onClickItem: (CountdownDate) -> Unit = {},
     onLongClickItem: (CountdownDate) -> Unit = {},
     onCountdownClick: (CountdownDate) -> Unit = {},
+    onClickMoreData: () -> Unit = {},
 ) {
     LazyColumn(
         contentPadding = PaddingValues(vertical = 16.dp),
         modifier = modifier
     ) {
         stickyHeader {
-            CurrentDayDataItem()
+            CurrentDayDataItem(onClickMoreData = onClickMoreData)
         }
         items(
             items = items,
