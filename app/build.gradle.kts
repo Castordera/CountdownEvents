@@ -9,7 +9,6 @@ plugins {
     id("kotlin-parcelize")
     id("kotlinx-serialization")
     id("com.google.devtools.ksp")
-    id("kotlin-kapt")
 }
 
 android {
@@ -48,7 +47,7 @@ dependencies {
     ksp(libs.room.coompiler)
     //  Hilt
     implementation(libs.bundles.hilt.core)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
     implementation(libs.kotlinx.serialization.json)
 
     implementation(project(":domain"))
@@ -63,8 +62,4 @@ dependencies {
     implementation(project(":feature:list"))
     implementation(project(":feature:addEvent"))
     implementation(project(":feature:event-detail"))
-}
-
-kapt {
-    correctErrorTypes = true
 }
