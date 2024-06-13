@@ -1,9 +1,9 @@
 package com.ulises.date_utils
 
-import java.time.Duration
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.Period
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
@@ -21,7 +21,7 @@ fun LocalDateTime.zero(): LocalDateTime {
 }
 
 fun LocalDateTime?.toHumanReadable(includeDay: Boolean = false): String {
-    if (this == null) return ""
+    if (this == null) return "N/A"
     val format = if (includeDay) {
         DateTimeFormatter.ofPattern("EEE, dd MMM yyyy")
     } else {
@@ -31,10 +31,10 @@ fun LocalDateTime?.toHumanReadable(includeDay: Boolean = false): String {
 }
 
 fun LocalDate?.toHumanReadable(): String {
-    if (this == null) return ""
+    if (this == null) return "N/A"
     return format(DateTimeFormatter.ofPattern("dd MMMM yyyy"))
 }
 
 fun LocalDate.daysTo(date: LocalDate): Int {
-    return Duration.between(this, date).toDays().toInt()
+    return Period.between(this, date).days
 }
