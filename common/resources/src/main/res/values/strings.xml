@@ -22,6 +22,16 @@
     <!--  Basic Dialog  -->
     <string name="dialog_button_positive">Save</string>
     <string name="dialog_button_cancel">Cancel</string>
+    <!--  Calculation  -->
+    <string name="main_screen_today_label">Today is</string>
+    <string name="main_screen_week_label">Weeks</string>
+    <string name="main_screen_week_content">Current: %d, Left: %d</string>
+    <string name="main_screen_month_label">Month</string>
+    <string name="main_screen_month_content">Current day of the month: %d, Days left: %d</string>
+    <string name="main_screen_year_label">Days in year</string>
+    <string name="main_screen_year_content">Current day: %d, Days Left: %d</string>
+    <string name="main_screen_season_label">Seasons</string>
+    <string name="main_screen_season_content">Current: %s, Days left: %d</string>
     <!--  Other  -->
     <plurals name="time_label_ago">
         <item quantity="other">%s</item>
