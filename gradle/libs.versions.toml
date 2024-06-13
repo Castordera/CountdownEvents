@@ -1,11 +1,12 @@
 [versions]
 firebaseBom = "33.0.0"
+junitJupiter = "5.10.2"
 kotlin = "2.0.0"
 androidCore = "1.12.0"
-compose = "1.6.5"
-activityCompose = "1.8.2"
-lifecycleRuntimeCompose = "2.7.0"
-lifecycleRuntime = "2.7.0"
+compose = "1.6.8"
+activityCompose = "1.9.0"
+lifecycleRuntimeCompose = "2.8.2"
+lifecycleRuntime = "2.8.2"
 material3 = "1.2.1"
 navigationCompose = "2.7.7"
 dataStore = "1.0.0"
@@ -15,7 +16,7 @@ hilt = "2.51.1"
 hiltNavigationCompose = "1.2.0"
 kotlinxSerializationJson = "1.6.3"
 javaxInject = "1"
-coroutinesCore = "1.8.0"
+coroutinesCore = "1.8.1"
 agp = "8.3.2"
 junit = "4.13.2"
 androidx-test-ext-junit = "1.1.5"
@@ -23,7 +24,8 @@ espresso-core = "3.5.1"
 ksp = "2.0.0-1.0.22"
 coil = "2.6.0"
 uiTestJunit4 = "1.4.2"
-mockk = "1.13.10"
+mockk = "1.13.11"
+turbine = "1.1.0"
 
 [libraries]
 #Android
@@ -48,11 +50,15 @@ hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hil
 hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 # Coroutines
 coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutinesCore" }
+coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutinesCore"}
+# Junit
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junitJupiter" }
 # Tests
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk"}
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 androidx-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
 androidx-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose" }
 #
