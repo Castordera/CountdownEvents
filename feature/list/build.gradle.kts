@@ -4,7 +4,7 @@ plugins {
     id("countdown.android.common")
     id("countdown.android.test")
     id("countdown.test")
-    id("kotlin-kapt")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -29,13 +29,9 @@ dependencies {
     implementation(project(":common:resources"))
     //  Hilt
     implementation(libs.bundles.hilt.core)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
     // Compose
     implementation(libs.compose.lifecycle.runtime)
     //
     implementation(libs.bundles.coil)
-}
-
-kapt {
-    correctErrorTypes = true
 }
