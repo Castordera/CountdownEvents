@@ -43,4 +43,13 @@
         <item quantity="one">Minuto</item>
         <item quantity="other">Minutos</item>
     </plurals>
+    <string name="main_screen_today_label">Hoy es</string>
+    <string name="main_screen_week_label">Semanas</string>
+    <string name="main_screen_week_content">Actual: %d, Faltan: %d</string>
+    <string name="main_screen_month_label">Mes</string>
+    <string name="main_screen_month_content">Día del mes: %d, Faltan: %d</string>
+    <string name="main_screen_year_label">Días del año</string>
+    <string name="main_screen_year_content">Actual: %d, Faltan: %d</string>
+    <string name="main_screen_season_label">Temporada</string>
+    <string name="main_screen_season_content">Actual: %s, Faltan: %d</string>
 </resources>

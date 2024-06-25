@@ -3,9 +3,9 @@ package com.ulises.date_utils
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.Period
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 
 fun Long.toLocalDateTime(): LocalDateTime {
     return Instant.ofEpochMilli(this).atZone(ZoneId.of("UTC")).toLocalDateTime()
@@ -30,11 +30,12 @@ fun LocalDateTime?.toHumanReadable(includeDay: Boolean = false): String {
     return format(format)
 }
 
-fun LocalDate?.toHumanReadable(): String {
+fun LocalDate?.toHumanReadable(pattern: String = "dd MMMM yyyy"): String {
     if (this == null) return "N/A"
-    return format(DateTimeFormatter.ofPattern("dd MMMM yyyy"))
+    return format(DateTimeFormatter.ofPattern(pattern))
 }
 
 fun LocalDate.daysTo(date: LocalDate): Int {
-    return Period.between(this, date).days
+    //Period.between()
+    return ChronoUnit.DAYS.between(this, date).toInt()
 }

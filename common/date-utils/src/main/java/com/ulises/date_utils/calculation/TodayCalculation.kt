@@ -8,6 +8,6 @@ import javax.inject.Inject
 class TodayCalculation @Inject constructor(): TimeCalculation {
 
     override fun calculate(today: LocalDate): TimeCalculationResponse {
-        return TimeCalculationResponse.Today(today.toHumanReadable())
+        return TimeCalculationResponse.Today(today.toHumanReadable("EEE, dd MMMM yyyy"))
     }
 }

@@ -18,8 +18,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.capitalize
-import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -42,7 +40,7 @@ fun CurrentDayDataItem(
     ) {
         Icon(imageVector = Icons.Default.DateRange, contentDescription = null)
         Text(
-            text = date.toHumanReadable().capitalize(Locale.current),
+            text = date.toHumanReadable("EEE, dd MMMM yyyy"),
             fontSize = 22.sp
         )
         Spacer(modifier = Modifier.weight(1f))
