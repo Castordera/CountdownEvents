@@ -47,7 +47,6 @@ import com.example.domain.models.TimePeriod
 import com.ulises.date_utils.getQtyPast
 import com.ulises.date_utils.remainingTime
 import com.ulises.date_utils.toHumanReadable
-import com.ulises.list.R
 import com.ulises.preview_data.listItemsPreview
 import com.ulises.theme.CountdownAppTheme
 
