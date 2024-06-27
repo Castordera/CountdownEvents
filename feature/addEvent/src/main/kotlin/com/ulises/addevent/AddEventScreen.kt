@@ -50,7 +50,7 @@ fun AddEventRoute(
     viewModel: AddEventViewModel = hiltViewModel(),
     onBackPress: () -> Unit = {},
 ) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle(androidx.compose.ui.platform.LocalLifecycleOwner.current)
 
     if (uiState.goBack) {
         LaunchedEffect(Unit) {

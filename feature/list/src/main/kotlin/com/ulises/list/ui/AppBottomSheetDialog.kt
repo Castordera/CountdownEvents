@@ -37,7 +37,7 @@ fun MainBottomSheetDialog(
     viewModel: BottomSheetViewModel = hiltViewModel(),
     onDismiss: () -> Unit = {}
 ) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle(androidx.compose.ui.platform.LocalLifecycleOwner.current)
 
     val state = rememberModalBottomSheetState(
         skipPartiallyExpanded = false

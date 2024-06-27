@@ -45,7 +45,8 @@ fun CountDownRoute(
     onNavigateToDetail: (CountdownDate) -> Unit,
     onNavigateToAdd: () -> Unit = {},
 ) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle(androidx.compose.ui.platform.LocalLifecycleOwner.current)
+
     SimpleAlertDialog(
         isVisible = uiState.dialogDeleteVisible,
         title = stringResource(id = com.ulises.common.resources.R.string.dialog_delete_event_title),
