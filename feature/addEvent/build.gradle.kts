@@ -29,3 +29,7 @@ dependencies {
     // Compose
     implementation(libs.compose.lifecycle.runtime)
 }
+
+tasks.withType<Test> {
+    useJUnitPlatform()
+}

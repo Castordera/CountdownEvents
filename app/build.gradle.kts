@@ -4,10 +4,11 @@ plugins {
     id("countdown.android.common")
     id("countdown.android.test")
     id("countdown.test")
-    id("com.google.gms.google-services")
+    alias(libs.plugins.google.services)
     id("com.google.dagger.hilt.android")
     id("kotlin-parcelize")
     id("kotlinx-serialization")
+    alias(libs.plugins.firebase.crashlytics)
     id("com.google.devtools.ksp")
 }
 
@@ -16,12 +17,15 @@ android {
 
     defaultConfig {
         applicationId = "com.example.countdownapp"
-        versionCode = 3
-        versionName = "1.2"
+        versionCode = 5
+        versionName = "1.3.1"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
+        debug {
+            applicationIdSuffix = ".debug"
+        }
         release {
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
@@ -35,6 +39,8 @@ android {
 
 dependencies {
     implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.crashlytics)
+    implementation(libs.firebase.analytics)
     implementation(libs.android.lifecycle.runtime.ktx)
     //  Data store
     implementation(libs.data.store)
