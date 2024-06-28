@@ -1,10 +1,10 @@
-package com.example.countdownapp.data.database.dao
+package com.ulises.common.database.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import com.example.countdownapp.data.database.entities.Countdown
+import com.ulises.common.database.entities.Countdown
 import kotlinx.coroutines.flow.Flow
 
 @Dao

@@ -1,4 +1,4 @@
-package com.example.countdownapp.data.database.entities
+package com.ulises.common.database.entities
 
 import androidx.room.TypeConverter
 import java.time.LocalDateTime

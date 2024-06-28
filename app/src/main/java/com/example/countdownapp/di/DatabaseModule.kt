@@ -2,7 +2,7 @@ package com.example.countdownapp.di
 
 import android.app.Application
 import androidx.room.Room
-import com.example.countdownapp.data.database.CountdownDatabase
+import com.ulises.common.database.CountdownDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

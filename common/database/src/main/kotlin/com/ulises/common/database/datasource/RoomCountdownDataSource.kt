@@ -1,8 +1,8 @@
-package com.example.countdownapp.data.database.datasource
+package com.ulises.common.database.datasource
 
-import com.example.countdownapp.data.database.dao.CountdownDao
-import com.example.countdownapp.data.database.entities.toDomain
-import com.example.countdownapp.data.database.entities.toEntity
+import com.ulises.common.database.dao.CountdownDao
+import com.ulises.common.database.entities.toDomain
+import com.ulises.common.database.entities.toEntity
 import com.example.domain.models.CountdownDate
 import com.ulises.data.datasource.CountdownLocalDataSource
 import kotlinx.coroutines.flow.Flow

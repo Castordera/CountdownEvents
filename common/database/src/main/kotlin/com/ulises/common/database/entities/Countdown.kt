@@ -1,4 +1,4 @@
-package com.example.countdownapp.data.database.entities
+package com.ulises.common.database.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

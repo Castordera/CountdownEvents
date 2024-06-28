@@ -9,7 +9,7 @@ plugins {
     id("kotlin-parcelize")
     id("kotlinx-serialization")
     alias(libs.plugins.firebase.crashlytics)
-    id("com.google.devtools.ksp")
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -64,6 +64,7 @@ dependencies {
     implementation(project(":common:navigation"))
     implementation(project(":common:datastore"))
     implementation(project(":common:date-utils"))
+    implementation(project(":common:database"))
     //  Features
     implementation(project(":feature:list"))
     implementation(project(":feature:addEvent"))
