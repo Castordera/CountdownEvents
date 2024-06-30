@@ -23,7 +23,6 @@ androidx-test-ext-junit = "1.1.5"
 espresso-core = "3.5.1"
 ksp = "2.0.0-1.0.22"
 coil = "2.6.0"
-uiTestJunit4 = "1.4.2"
 mockk = "1.13.11"
 turbine = "1.1.0"
 
@@ -81,6 +80,7 @@ compose = ["compose-ui", "compose-preview"]
 room-core = ["room-runtime", "room-ktx"]
 hilt-core = ["hilt-android", "hilt-navigation-compose"]
 coil = ["coil-core", "coil-compose"]
+unit-tests = ["junit-jupiter", "mockk", "coroutines-test", "turbine"]
 
 [plugins]
 android-app = { id = "com.android.application", version.ref = "agp" }
