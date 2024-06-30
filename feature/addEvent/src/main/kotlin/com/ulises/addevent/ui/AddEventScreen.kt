@@ -1,4 +1,4 @@
-package com.ulises.addevent
+package com.ulises.addevent.ui
 
 import android.content.res.Configuration
 import androidx.compose.foundation.clickable
@@ -36,7 +36,6 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ulises.addevent.model.UiState
-import com.ulises.addevent.ui.AddEventViewModel
 import com.ulises.components.Loading
 import com.ulises.components.dialogs.AppDatePicker
 import com.ulises.components.toolbars.Toolbar
@@ -73,12 +72,12 @@ fun AddEventRoute(
 @Composable
 private fun AddEventScreen(
     uiState: UiState,
-    onCalendarDateSelected: (Long?) -> Unit,
-    onCalendarChangeVisibility: (Boolean) -> Unit,
-    onUpdateEventName: (String) -> Unit,
+    onCalendarDateSelected: (Long?) -> Unit = {},
+    onCalendarChangeVisibility: (Boolean) -> Unit = {},
+    onUpdateEventName: (String) -> Unit = {},
     onSaveEvent: () -> Unit = {},
     onBackPress: () -> Unit = {},
-    onErrorDisplayed: () -> Unit,
+    onErrorDisplayed: () -> Unit = {},
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
     val isDataReady by remember(uiState.eventName) {
@@ -173,13 +172,7 @@ private fun PrevAddEventScreen() {
             uiState = UiState(
                 isLoading = false,
                 dateTime = LocalDateTime.now(),
-            ),
-            onUpdateEventName = {},
-            onCalendarDateSelected = {},
-            onCalendarChangeVisibility = {},
-            onSaveEvent = {},
-            onBackPress = {},
-            onErrorDisplayed = {},
+            )
         )
     }
 }

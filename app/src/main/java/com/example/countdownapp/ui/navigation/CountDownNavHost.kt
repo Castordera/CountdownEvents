@@ -10,11 +10,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.ulises.addevent.AddEventRoute
+import com.ulises.addevent.ui.AddEventRoute
 import com.ulises.addevent.navigation.AddEditCountdownScreen
 import com.ulises.common.navigation.Screen
 import com.ulises.event_detail.ui.CountdownDetailRoute
-import com.ulises.list.ui.CountDownRoute
+import com.ulises.list.ui.screens.CountDownRoute
 import com.ulises.event_detail.navigation.CountdownDetailScreen
 import com.ulises.list.navigation.ListScreen
 

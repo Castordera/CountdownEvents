@@ -34,9 +34,8 @@ import com.ulises.components.screens.DefaultErrorScreen
 import com.ulises.components.toolbars.Toolbar
 import com.ulises.components.toolbars.ToolbarItem
 import com.ulises.date_utils.remainingTime
-import com.ulises.event_detail.R
 import com.ulises.event_detail.models.DetailUiState
-import com.ulises.preview_data.listItemsPreview
+import com.ulises.preview_data.getMockCountDown
 import com.ulises.theme.CountdownAppTheme
 
 @Composable
@@ -197,9 +196,13 @@ private fun PrevCountDownDetailScreen() {
     CountdownAppTheme {
         CountDownDetailScreen(
             uiState = DetailUiState(
-                countdownDate = listItemsPreview[1]
+                countdownDate = getMockCountDown(
+                    name = "This is a huge value to have as name",
+                    date = "2023-12-08T00:00:00"
+                ),
+//                dayDetail = DayDetail()TODO(Finish this)
             )
-        ) {}
+        )
     }
 }
 
@@ -210,7 +213,7 @@ private fun PrevCountDownDetailScreenError() {
     CountdownAppTheme {
         CountDownDetailScreen(
             uiState = DetailUiState(
-                error = "error here"
+                error = "Error happened and this screen was displayed"
             ),
         )
     }

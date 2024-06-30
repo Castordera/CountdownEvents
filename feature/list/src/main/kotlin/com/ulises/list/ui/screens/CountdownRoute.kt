@@ -1,4 +1,4 @@
-package com.ulises.list.ui
+package com.ulises.list.ui.screens
 
 import android.content.res.Configuration
 import androidx.activity.compose.BackHandler
@@ -33,9 +33,8 @@ import com.ulises.components.dialogs.SimpleAlertDialog
 import com.ulises.components.toolbars.Toolbar
 import com.ulises.components.toolbars.ToolbarItem
 import com.ulises.list.models.UiState
-import com.ulises.list.ui.screens.CountDownGridList
-import com.ulises.list.ui.screens.CountDownList
-import com.ulises.list.ui.screens.NoEventsScreen
+import com.ulises.list.ui.CountdownViewModel
+import com.ulises.list.ui.MainBottomSheetDialog
 import com.ulises.preview_data.listItemsPreview
 import com.ulises.theme.CountdownAppTheme
 
@@ -43,7 +42,7 @@ import com.ulises.theme.CountdownAppTheme
 fun CountDownRoute(
     viewModel: CountdownViewModel = hiltViewModel(),
     onNavigateToDetail: (CountdownDate) -> Unit,
-    onNavigateToAdd: () -> Unit = {},
+    onNavigateToAdd: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle(androidx.compose.ui.platform.LocalLifecycleOwner.current)
 
