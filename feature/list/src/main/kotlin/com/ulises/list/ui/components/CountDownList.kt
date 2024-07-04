@@ -1,4 +1,4 @@
-package com.ulises.list.ui.screens
+package com.ulises.list.ui.components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.PaddingValues
@@ -15,8 +15,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.domain.models.CountdownDate
 import com.ulises.common.resources.R
-import com.ulises.list.ui.CountDownItemList
-import com.ulises.list.ui.CurrentDayDataItem
 import com.ulises.preview_data.listItemsPreview
 import com.ulises.theme.CountdownAppTheme
 

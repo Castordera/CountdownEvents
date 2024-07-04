@@ -25,53 +25,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.domain.models.CountdownDate
 import com.ulises.components.Loading
-import com.ulises.components.dialogs.SimpleAlertDialog
 import com.ulises.components.toolbars.Toolbar
 import com.ulises.components.toolbars.ToolbarItem
 import com.ulises.list.models.UiState
-import com.ulises.list.ui.CountdownViewModel
 import com.ulises.list.ui.MainBottomSheetDialog
+import com.ulises.list.ui.components.CountDownGridList
+import com.ulises.list.ui.components.CountDownList
 import com.ulises.preview_data.listItemsPreview
 import com.ulises.theme.CountdownAppTheme
 
 @Composable
-fun CountDownRoute(
-    viewModel: CountdownViewModel = hiltViewModel(),
-    onNavigateToDetail: (CountdownDate) -> Unit,
-    onNavigateToAdd: () -> Unit,
-) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle(androidx.compose.ui.platform.LocalLifecycleOwner.current)
-
-    SimpleAlertDialog(
-        isVisible = uiState.dialogDeleteVisible,
-        title = stringResource(id = com.ulises.common.resources.R.string.dialog_delete_event_title),
-        message = stringResource(id = com.ulises.common.resources.R.string.dialog_delete_event_message),
-        positiveTextButton = stringResource(id = com.ulises.common.resources.R.string.dialog_delete_event_positive_text),
-        positiveClickButton = { viewModel.onDeleteCountdownItem() },
-        negativeTextButton = stringResource(id = com.ulises.common.resources.R.string.dialog_delete_event_negative_text),
-        negativeClickButton = { viewModel.onChangeDialogVisibility(false) },
-        onDismissDialog = { viewModel.onChangeDialogVisibility(false) }
-    )
-    CountdownMainScreen(
-        uiState = uiState,
-        onAddNewClick = onNavigateToAdd,
-        onListTypeChange = viewModel::onListChangeAdapter,
-        onClickItem = onNavigateToDetail,
-        onLongClickItem = viewModel::onRequestDeleteItem,
-        onCountdownClickTypeChange = viewModel::onCountdownClickTypeChange,
-        onErrorDisplayed = viewModel::onErrorMessageDisplayed,
-        onAddSelectedEvent = viewModel::onSelectEvent,
-        onDeleteSelectedEvents = viewModel::onDeleteEvents,
-        onCancelSelection = viewModel::onCancelSelection,
-    )
-}
-
-@Composable
-private fun CountdownMainScreen(
+internal fun CountdownMainScreen(
     modifier: Modifier = Modifier,
     uiState: UiState,
     onAddNewClick: () -> Unit = {},

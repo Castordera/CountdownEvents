@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalFoundationApi::class)
 
-package com.ulises.list.ui
+package com.ulises.list.ui.components
 
 import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility

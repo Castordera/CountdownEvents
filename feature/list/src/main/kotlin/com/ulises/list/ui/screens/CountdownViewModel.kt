@@ -1,4 +1,4 @@
-package com.ulises.list.ui
+package com.ulises.list.ui.screens
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
