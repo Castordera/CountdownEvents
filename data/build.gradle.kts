@@ -8,7 +8,7 @@ dependencies {
     implementation(libs.javax.inject)
     implementation(libs.coroutines.core)
     //
-    testImplementation(libs.bundles.unit.tests)
+    testImplementation(libs.bundles.tests.unit)
 }
 
 tasks.withType<Test> {

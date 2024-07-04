@@ -70,7 +70,7 @@ fun AddEventRoute(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun AddEventScreen(
+fun AddEventScreen(
     uiState: UiState,
     onCalendarDateSelected: (Long?) -> Unit = {},
     onCalendarChangeVisibility: (Boolean) -> Unit = {},

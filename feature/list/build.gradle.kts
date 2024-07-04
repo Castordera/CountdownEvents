@@ -9,10 +9,6 @@ plugins {
 
 android {
     namespace = "com.ulises.list"
-
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
 }
 
 dependencies {

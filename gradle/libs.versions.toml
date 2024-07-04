@@ -80,7 +80,8 @@ compose = ["compose-ui", "compose-preview"]
 room-core = ["room-runtime", "room-ktx"]
 hilt-core = ["hilt-android", "hilt-navigation-compose"]
 coil = ["coil-core", "coil-compose"]
-unit-tests = ["junit-jupiter", "mockk", "coroutines-test", "turbine"]
+tests-unit = ["junit-jupiter", "mockk", "coroutines-test", "turbine"]
+tests-compose = ["androidx-ui-test-junit4", "junit-jupiter"]
 
 [plugins]
 android-app = { id = "com.android.application", version.ref = "agp" }

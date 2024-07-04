@@ -8,10 +8,6 @@ plugins {
 
 android {
     namespace = "com.ulises.datastore"
-
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
 }
 
 dependencies {
