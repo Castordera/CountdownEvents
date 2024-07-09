@@ -1,6 +1,5 @@
 package com.ulises.list.ui.components
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,7 +17,6 @@ import com.ulises.common.resources.R
 import com.ulises.preview_data.listItemsPreview
 import com.ulises.theme.CountdownAppTheme
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun CountDownList(
     modifier: Modifier = Modifier,
@@ -29,15 +27,11 @@ internal fun CountDownList(
     onClickItem: (CountdownDate) -> Unit = {},
     onLongClickItem: (CountdownDate) -> Unit = {},
     onCountdownClick: (CountdownDate) -> Unit = {},
-    onClickMoreData: () -> Unit = {},
 ) {
     LazyColumn(
         contentPadding = PaddingValues(vertical = 16.dp),
         modifier = modifier
     ) {
-        stickyHeader {
-            CurrentDayDataItem(onClickMoreData = onClickMoreData)
-        }
         items(
             items = items,
             key = { it.id }

@@ -34,11 +34,6 @@ internal fun CountDownGridList(
         contentPadding = PaddingValues(horizontal = 8.dp, vertical = 16.dp),
         modifier = modifier
     ) {
-        item(
-            span = { GridItemSpan(columns) }
-        ) {
-            CurrentDayDataItem()
-        }
         items(
             items = items,
             key = { "${it.name}_${it.id}" }

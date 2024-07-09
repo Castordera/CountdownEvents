@@ -104,7 +104,9 @@ private fun DetailComponent(
             return
         }
 
-        val dateHandler by remember { mutableStateOf(uiState.countdownDate.remainingTime) }
+        val dateHandler by remember(uiState.countdownDate) {
+            mutableStateOf(uiState.countdownDate.remainingTime)
+        }
 
         Text(
             modifier = Modifier.fillMaxWidth(),
@@ -138,7 +140,10 @@ private fun DetailComponent(
                     fontSize = 150.sp,
                 )
                 Text(
-                    text = stringResource(id = com.ulises.common.resources.R.string.detail_screen_label_time_bottom, getStringTimeLabel(dateHandler = dateHandler)),
+                    text = stringResource(
+                        id = com.ulises.common.resources.R.string.detail_screen_label_time_bottom,
+                        getStringTimeLabel(dateHandler = dateHandler)
+                    ),
                     fontSize = 24.sp
                 )
             }
@@ -170,18 +175,22 @@ fun getStringTimeLabel(dateHandler: DateHandler): String {
             id = com.ulises.common.resources.R.plurals.time_label_year,
             count = dateHandler.value
         )
+
         TimePeriod.WEEK -> pluralStringResource(
             id = com.ulises.common.resources.R.plurals.time_label_week,
             count = dateHandler.value
         )
+
         TimePeriod.DAY -> pluralStringResource(
             id = com.ulises.common.resources.R.plurals.time_label_day,
             count = dateHandler.value
         )
+
         TimePeriod.HOUR -> pluralStringResource(
             id = com.ulises.common.resources.R.plurals.time_label_hour,
             count = dateHandler.value
         )
+
         TimePeriod.MINUTE -> pluralStringResource(
             id = com.ulises.common.resources.R.plurals.time_label_minute,
             count = dateHandler.value

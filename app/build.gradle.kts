@@ -3,9 +3,8 @@ plugins {
     id("countdown.android.kotlin")
     id("countdown.android.common")
     id("countdown.android.test")
-    id("countdown.test")
     alias(libs.plugins.google.services)
-    id("com.google.dagger.hilt.android")
+    alias(libs.plugins.hilt)
     id("kotlin-parcelize")
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.firebase.crashlytics)
@@ -19,7 +18,6 @@ android {
         applicationId = "com.example.countdownapp"
         versionCode = 5
         versionName = "1.3.1"
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {

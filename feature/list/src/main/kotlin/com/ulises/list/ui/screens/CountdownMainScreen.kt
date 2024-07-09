@@ -33,12 +33,12 @@ import com.ulises.list.models.UiState
 import com.ulises.list.ui.MainBottomSheetDialog
 import com.ulises.list.ui.components.CountDownGridList
 import com.ulises.list.ui.components.CountDownList
+import com.ulises.list.ui.components.CurrentDayDataItem
 import com.ulises.preview_data.listItemsPreview
 import com.ulises.theme.CountdownAppTheme
 
 @Composable
 internal fun CountdownMainScreen(
-    modifier: Modifier = Modifier,
     uiState: UiState,
     onAddNewClick: () -> Unit = {},
     onListTypeChange: () -> Unit = {},
@@ -61,9 +61,7 @@ internal fun CountdownMainScreen(
     }
 
     if (uiState.isSelectionMode) {
-        BackHandler {
-            onCancelSelection()
-        }
+        BackHandler { onCancelSelection() }
     }
 
     Scaffold(
@@ -107,38 +105,38 @@ internal fun CountdownMainScreen(
         } else if (uiState.activeItems.isNullOrEmpty() && uiState.passedItems.isNullOrEmpty()) {
             NoEventsScreen(modifier = Modifier.padding(padding))
         } else {
-            if (!uiState.isGrid) {
-                CountDownList(
-                    modifier = modifier.padding(padding),
-                    items = uiState.activeItems.orEmpty(),
-                    passedItems = uiState.passedItems.orEmpty(),
-                    selectedItems = uiState.selectedEvents,
-                    isSelectionMode = uiState.isSelectionMode,
-                    onClickItem = { event ->
-                        if (uiState.isSelectionMode) {
-                            onAddSelectedEvent(event.id)
-                        } else {
-                            onClickItem(event)
-                        }
-                    },
-                    onLongClickItem = { event -> onAddSelectedEvent(event.id) },
-                    onCountdownClick = onCountdownClickTypeChange,
-                    onClickMoreData = { bottomSheetVisible = true }
-                )
-            } else {
-                CountDownGridList(
-                    modifier = modifier.padding(padding),
-                    items = uiState.activeItems.orEmpty(),
-                    passedItems = uiState.passedItems.orEmpty(),
-                    onClickItem = onClickItem,
-                    onDeleteItem = onLongClickItem
-                )
+            Column(
+                modifier = Modifier.padding(padding)
+            ) {
+                CurrentDayDataItem(onClickMoreData = { bottomSheetVisible = true })
+                if (!uiState.isGrid) {
+                    CountDownList(
+                        items = uiState.activeItems.orEmpty(),
+                        passedItems = uiState.passedItems.orEmpty(),
+                        selectedItems = uiState.selectedEvents,
+                        isSelectionMode = uiState.isSelectionMode,
+                        onClickItem = { event ->
+                            if (uiState.isSelectionMode) {
+                                onAddSelectedEvent(event.id)
+                            } else {
+                                onClickItem(event)
+                            }
+                        },
+                        onLongClickItem = { event -> onAddSelectedEvent(event.id) },
+                        onCountdownClick = onCountdownClickTypeChange,
+                    )
+                } else {
+                    CountDownGridList(
+                        items = uiState.activeItems.orEmpty(),
+                        passedItems = uiState.passedItems.orEmpty(),
+                        onClickItem = onClickItem,
+                        onDeleteItem = onLongClickItem
+                    )
+                }
             }
         }
         if (bottomSheetVisible) {
-            MainBottomSheetDialog(
-                onDismiss = { bottomSheetVisible = false }
-            )
+            MainBottomSheetDialog(onDismiss = { bottomSheetVisible = false })
         }
     }
 }

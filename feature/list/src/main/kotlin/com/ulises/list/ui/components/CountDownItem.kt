@@ -63,7 +63,7 @@ fun CountDownItemList(
 ) {
     var dateHandler by remember { mutableStateOf(DateHandler()) }
 
-    LaunchedEffect(item.dateDisplayType) {
+    LaunchedEffect(item.dateDisplayType, item.dateToCountdown) {
         dateHandler = item.remainingTime
     }
 
