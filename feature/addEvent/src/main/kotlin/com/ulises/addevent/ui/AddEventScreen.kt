@@ -23,7 +23,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.ulises.addevent.model.Actions
 import com.ulises.addevent.model.UiState
 import com.ulises.components.Loading
 import com.ulises.components.dialogs.AppDatePicker
@@ -49,7 +53,7 @@ fun AddEventRoute(
     viewModel: AddEventViewModel = hiltViewModel(),
     onBackPress: () -> Unit = {},
 ) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle(androidx.compose.ui.platform.LocalLifecycleOwner.current)
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     if (uiState.goBack) {
         LaunchedEffect(Unit) {
@@ -59,12 +63,8 @@ fun AddEventRoute(
 
     AddEventScreen(
         uiState = uiState,
-        onCalendarDateSelected = viewModel::onDateSelected,
-        onCalendarChangeVisibility = viewModel::onChangeCalendarVisibility,
-        onUpdateEventName = viewModel::onEventNameChanged,
-        onSaveEvent = viewModel::onSaveEvent,
         onBackPress = onBackPress,
-        onErrorDisplayed = viewModel::onErrorMessageDisplayed,
+        onActionPerformed = viewModel::onHandleAction,
     )
 }
 
@@ -72,22 +72,19 @@ fun AddEventRoute(
 @Composable
 fun AddEventScreen(
     uiState: UiState,
-    onCalendarDateSelected: (Long?) -> Unit = {},
-    onCalendarChangeVisibility: (Boolean) -> Unit = {},
-    onUpdateEventName: (String) -> Unit = {},
-    onSaveEvent: () -> Unit = {},
     onBackPress: () -> Unit = {},
-    onErrorDisplayed: () -> Unit = {},
+    onActionPerformed: (Actions) -> Unit = {},
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
     val isDataReady by remember(uiState.eventName) {
         derivedStateOf { uiState.eventName.trim().isNotBlank() }
     }
+    var isCalendarVisible by rememberSaveable { mutableStateOf(false) }
 
     if (uiState.error != null) {
         LaunchedEffect(uiState.error) {
             snackBarHostState.showSnackbar(uiState.error)
-            onErrorDisplayed()
+            onActionPerformed(Actions.DismissError)
         }
     }
 
@@ -113,9 +110,12 @@ fun AddEventScreen(
                     datePickerState = rememberDatePickerState(
                         initialSelectedDateMillis = date.toMillis()
                     ),
-                    isVisible = uiState.dateDialogVisible,
-                    onCancelClick = { onCalendarChangeVisibility(false) },
-                    onDateSelected = onCalendarDateSelected
+                    isVisible = isCalendarVisible,
+                    onCancelClick = { isCalendarVisible = false },
+                    onDateSelected = { time ->
+                        onActionPerformed(Actions.DateSelection(time))
+                        isCalendarVisible = false
+                    },
                 )
             }
             Column(
@@ -124,7 +124,7 @@ fun AddEventScreen(
             ) {
                 OutlinedTextField(
                     value = uiState.eventName,
-                    onValueChange = onUpdateEventName,
+                    onValueChange = { text -> onActionPerformed(Actions.UpdateName(text)) },
                     label = { Text(stringResource(id = com.ulises.common.resources.R.string.add_screen_edit_text_event_name_placeholder)) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth()
@@ -134,7 +134,7 @@ fun AddEventScreen(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     modifier = Modifier
                         .clip(MaterialTheme.shapes.large)
-                        .clickable { onCalendarChangeVisibility(true) }
+                        .clickable { isCalendarVisible = true }
                         .padding(12.dp)
                 ) {
                     Icon(
@@ -149,7 +149,7 @@ fun AddEventScreen(
                     )
                 }
                 Button(
-                    onClick = onSaveEvent,
+                    onClick = { onActionPerformed(Actions.SendData) },
                     enabled = isDataReady,
                 ) {
                     Text(

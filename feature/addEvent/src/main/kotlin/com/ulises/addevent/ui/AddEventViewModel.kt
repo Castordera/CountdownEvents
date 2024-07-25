@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.models.CountdownDate
+import com.ulises.addevent.model.Actions
 import com.ulises.addevent.model.UiState
 import com.ulises.date_utils.toLocalDateTime
 import com.ulises.date_utils.zero
@@ -42,6 +43,15 @@ class AddEventViewModel @Inject constructor(
         setInitialData()
     }
 
+    fun onHandleAction(action: Actions) {
+        when (action) {
+            Actions.DismissError -> onErrorMessageDisplayed()
+            Actions.SendData -> onSaveEvent()
+            is Actions.UpdateName -> onEventNameChanged(action.name)
+            is Actions.DateSelection -> onDateSelected(action.time)
+        }
+    }
+
     private fun setInitialData() {
         if (!isNewEvent()) {
             getEventData(eventId!!)
@@ -68,7 +78,6 @@ class AddEventViewModel @Inject constructor(
                         it.copy(
                             eventName = event.name,
                             dateTime = event.dateToCountdown,
-                            saveButtonEnabled = true,
                             isLoading = false
                         )
                     }
@@ -79,24 +88,19 @@ class AddEventViewModel @Inject constructor(
     private fun updateLocalDate(date: LocalDateTime) {
         viewModelScope.launch(Dispatchers.Default) {
             Timber.d("New Selected date: $date")
-            _uiState.update {
-                it.copy(
-                    dateTime = date,
-                    dateDialogVisible = false
-                )
-            }
+            _uiState.update { it.copy(dateTime = date) }
         }
     }
 
-    fun onDateSelected(timeMs: Long?) {
+    private fun onDateSelected(timeMs: Long?) {
         timeMs?.also { updateLocalDate(it.toLocalDateTime()) }
     }
 
-    fun onEventNameChanged(value: String) {
-        _uiState.update { it.copy(eventName = value, saveButtonEnabled = value.isNotBlank()) }
+    private fun onEventNameChanged(value: String) {
+        _uiState.update { it.copy(eventName = value) }
     }
 
-    fun onSaveEvent() {
+    private fun onSaveEvent() {
         if (isNewEvent()) {
             createNewEvent()
         } else {
@@ -144,11 +148,7 @@ class AddEventViewModel @Inject constructor(
         }
     }
 
-    fun onChangeCalendarVisibility(visible: Boolean) {
-        _uiState.update { it.copy(dateDialogVisible = visible) }
-    }
-
-    fun onErrorMessageDisplayed() {
+    private fun onErrorMessageDisplayed() {
         _uiState.update { it.copy(error = null) }
     }
 }

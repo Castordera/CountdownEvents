@@ -44,7 +44,7 @@ fun CountdownDetailRoute(
     onBackPress: () -> Unit,
     onEditItem: (String) -> Unit,
 ) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle(androidx.compose.ui.platform.LocalLifecycleOwner.current)
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     CountDownDetailScreen(
         uiState = uiState,

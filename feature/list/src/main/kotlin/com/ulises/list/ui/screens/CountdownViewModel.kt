@@ -6,6 +6,7 @@ import com.example.domain.enums.DateDisplayType
 import com.example.domain.models.CountdownDate
 import com.ulises.data.DataStorePreferences
 import com.ulises.datastore.KEY_STORED_VALUES
+import com.ulises.list.models.Actions
 import com.ulises.list.models.UiState
 import com.ulises.usecase.countdown.DeleteEventUseCase
 import com.ulises.usecase.countdown.EditEventUseCase
@@ -29,7 +30,6 @@ class CountdownViewModel @Inject constructor(
     private val editEventUseCase: EditEventUseCase,
 ) : ViewModel() {
 
-    private var deleteItemId: String? = null
     private val localState = MutableStateFlow(LocalState())
 
     private data class LocalState(
@@ -49,7 +49,6 @@ class CountdownViewModel @Inject constructor(
             loading = localState.isLoading,
             activeItems = items[true],
             passedItems = items[false],
-            dialogDeleteVisible = localState.isDialogDeleteVisible,
             error = localState.error,
             isGrid = isGrid,
             isSelectionMode = localState.selectedEvents.isNotEmpty(),
@@ -61,12 +60,23 @@ class CountdownViewModel @Inject constructor(
         initialValue = UiState()
     )
 
+    fun onHandleAction(action: Actions) {
+        when (action) {
+            Actions.ToggleListType -> onListChangeAdapter()
+            Actions.DismissError -> onErrorMessageDisplayed()
+            is Actions.ChangeTimeCalculation -> onCountdownClickTypeChange(action.item)
+            Actions.CancelSelection -> onCancelSelection()
+            is Actions.AddSelectedItem -> onSelectEvent(action.item)
+            Actions.DeleteSelectedItems -> onDeleteEvents()
+        }
+    }
+
     private fun List<CountdownDate>.handleEvents(): Map<Boolean, List<CountdownDate>> {
         val currentDay = LocalDateTime.now().minusDays(1)
         return this.groupBy { it.dateToCountdown > currentDay }
     }
 
-    fun onSelectEvent(eventId: String) {
+    private fun onSelectEvent(eventId: String) {
         if (!localState.value.selectedEvents.contains(eventId)) {
             localState.update { it.copy(selectedEvents = it.selectedEvents.plus(eventId)) }
         } else {
@@ -74,7 +84,7 @@ class CountdownViewModel @Inject constructor(
         }
     }
 
-    fun onDeleteEvents() {
+    private fun onDeleteEvents() {
         viewModelScope.launch {
             runCatching {
                 deleteEventUseCase(localState.value.selectedEvents)
@@ -86,7 +96,7 @@ class CountdownViewModel @Inject constructor(
         }
     }
 
-    fun onListChangeAdapter() {
+    private fun onListChangeAdapter() {
         viewModelScope.launch {
             runCatching {
                 dataStore.save(KEY_STORED_VALUES, !uiState.value.isGrid)
@@ -96,30 +106,7 @@ class CountdownViewModel @Inject constructor(
         }
     }
 
-    fun onChangeDialogVisibility(visible: Boolean) {
-        if (!visible) deleteItemId = null
-        localState.update { it.copy(isDialogDeleteVisible = visible) }
-    }
-
-    fun onRequestDeleteItem(item: CountdownDate) {
-        deleteItemId = item.id
-        onChangeDialogVisibility(true)
-    }
-
-    fun onDeleteCountdownItem() {
-        viewModelScope.launch {
-            runCatching {
-                checkNotNull(deleteItemId)
-                deleteEventUseCase(deleteItemId!!)
-            }.onFailure {
-                Timber.e(it, "Error deleting countdown")
-            }.onSuccess {
-                onChangeDialogVisibility(false)
-            }
-        }
-    }
-
-    fun onCountdownClickTypeChange(countdownDate: CountdownDate) {
+    private fun onCountdownClickTypeChange(countdownDate: CountdownDate) {
         viewModelScope.launch {
             val dateType = when (countdownDate.dateDisplayType) {
                 DateDisplayType.REGULAR -> DateDisplayType.WEEKLY
@@ -135,13 +122,13 @@ class CountdownViewModel @Inject constructor(
         }
     }
 
-    fun onErrorMessageDisplayed() {
+    private fun onErrorMessageDisplayed() {
         viewModelScope.launch {
             localState.update { it.copy(error = null) }
         }
     }
 
-    fun onCancelSelection() {
+    private fun onCancelSelection() {
         localState.update { it.copy(selectedEvents = emptySet()) }
     }
 }

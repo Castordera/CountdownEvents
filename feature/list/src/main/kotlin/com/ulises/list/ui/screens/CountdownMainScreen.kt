@@ -29,6 +29,7 @@ import com.example.domain.models.CountdownDate
 import com.ulises.components.Loading
 import com.ulises.components.toolbars.Toolbar
 import com.ulises.components.toolbars.ToolbarItem
+import com.ulises.list.models.Actions
 import com.ulises.list.models.UiState
 import com.ulises.list.ui.MainBottomSheetDialog
 import com.ulises.list.ui.components.CountDownGridList
@@ -41,14 +42,8 @@ import com.ulises.theme.CountdownAppTheme
 internal fun CountdownMainScreen(
     uiState: UiState,
     onAddNewClick: () -> Unit = {},
-    onListTypeChange: () -> Unit = {},
     onClickItem: (CountdownDate) -> Unit = {},
-    onLongClickItem: (CountdownDate) -> Unit = {},
-    onCountdownClickTypeChange: (CountdownDate) -> Unit = {},
-    onErrorDisplayed: () -> Unit = {},
-    onAddSelectedEvent: (String) -> Unit = {},
-    onDeleteSelectedEvents: () -> Unit = {},
-    onCancelSelection: () -> Unit = {},
+    onHandleAction: (Actions) -> Unit = {},
 ) {
     var bottomSheetVisible by remember { mutableStateOf(false) }
     val snackBarHostState = remember { SnackbarHostState() }
@@ -56,12 +51,12 @@ internal fun CountdownMainScreen(
     if (uiState.error != null) {
         LaunchedEffect(uiState.error) {
             snackBarHostState.showSnackbar(uiState.error)
-            onErrorDisplayed()
+            onHandleAction(Actions.DismissError)
         }
     }
 
     if (uiState.isSelectionMode) {
-        BackHandler { onCancelSelection() }
+        BackHandler { onHandleAction(Actions.CancelSelection) }
     }
 
     Scaffold(
@@ -78,7 +73,7 @@ internal fun CountdownMainScreen(
                         iconRes = if (!uiState.isGrid) com.ulises.common.resources.R.drawable.ic_grid_view else com.ulises.common.resources.R.drawable.ic_view_list,
                         description = "Change View",
                         isVisible = !uiState.activeItems.isNullOrEmpty(),
-                        onClick = onListTypeChange
+                        onClick = { onHandleAction(Actions.ToggleListType) }
                     )
                 }
             )
@@ -86,7 +81,7 @@ internal fun CountdownMainScreen(
         snackbarHost = { SnackbarHost(hostState = snackBarHostState) },
         floatingActionButton = {
             AnimatedVisibility(visible = uiState.isSelectionMode) {
-                FloatingActionButton(onClick = onDeleteSelectedEvents) {
+                FloatingActionButton(onClick = { onHandleAction(Actions.DeleteSelectedItems) }) {
                     Icon(imageVector = Icons.Filled.Delete, contentDescription = null)
                 }
             }
@@ -117,20 +112,37 @@ internal fun CountdownMainScreen(
                         isSelectionMode = uiState.isSelectionMode,
                         onClickItem = { event ->
                             if (uiState.isSelectionMode) {
-                                onAddSelectedEvent(event.id)
+                                onHandleAction(Actions.AddSelectedItem(event.id))
                             } else {
                                 onClickItem(event)
                             }
                         },
-                        onLongClickItem = { event -> onAddSelectedEvent(event.id) },
-                        onCountdownClick = onCountdownClickTypeChange,
+                        onLongClickItem = { event ->
+                            onHandleAction(Actions.AddSelectedItem(event.id))
+                        },
+                        onCountdownClick = { event ->
+                            onHandleAction(Actions.ChangeTimeCalculation(event))
+                        },
                     )
                 } else {
                     CountDownGridList(
                         items = uiState.activeItems.orEmpty(),
                         passedItems = uiState.passedItems.orEmpty(),
-                        onClickItem = onClickItem,
-                        onDeleteItem = onLongClickItem
+                        selectedItems = uiState.selectedEvents,
+                        isSelectionMode = uiState.isSelectionMode,
+                        onClickItem = { event ->
+                            if (uiState.isSelectionMode) {
+                                onHandleAction(Actions.AddSelectedItem(event.id))
+                            } else {
+                                onClickItem(event)
+                            }
+                        },
+                        onLongClickItem = { event ->
+                            onHandleAction(Actions.AddSelectedItem(event.id))
+                        },
+                        onCountdownClick = { event ->
+                            onHandleAction(Actions.ChangeTimeCalculation(event))
+                        },
                     )
                 }
             }

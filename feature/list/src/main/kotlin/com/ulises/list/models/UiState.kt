@@ -9,7 +9,6 @@ data class UiState(
     val loading: Boolean = true,
     val activeItems: List<CountdownDate>? = null,
     val passedItems: List<CountdownDate>? = null,
-    val dialogDeleteVisible: Boolean = false,
     val error: String? = null,
     val isGrid: Boolean = false,
     val sortType: CountdownSortType = CountdownSortType.NORMAL,

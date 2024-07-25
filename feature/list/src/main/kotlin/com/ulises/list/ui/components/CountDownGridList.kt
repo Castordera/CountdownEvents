@@ -24,8 +24,11 @@ internal fun CountDownGridList(
     columns: Int = 2,
     items: List<CountdownDate>,
     passedItems: List<CountdownDate>,
+    selectedItems: Set<String>,
+    isSelectionMode: Boolean,
     onClickItem: (CountdownDate) -> Unit = {},
-    onDeleteItem: (CountdownDate) -> Unit = {}
+    onLongClickItem: (CountdownDate) -> Unit = {},
+    onCountdownClick: (CountdownDate) -> Unit = {},
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(columns),
@@ -40,9 +43,11 @@ internal fun CountDownGridList(
         ) {
             CountDownItemGrid(
                 item = it,
+                isSelectionMode = isSelectionMode,
+                isSelected = selectedItems.contains(it.id),
                 onClick = onClickItem,
-                onDelete = onDeleteItem,
-                onCountdownClick = {},
+                onLongClick = onLongClickItem,
+                onCountdownClick = onCountdownClick,
             )
         }
         if (passedItems.isNotEmpty()) {
@@ -60,9 +65,11 @@ internal fun CountDownGridList(
             ) {
                 CountDownItemGrid(
                     item = it,
+                    isSelectionMode = isSelectionMode,
+                    isSelected = selectedItems.contains(it.id),
                     onClick = onClickItem,
-                    onDelete = onDeleteItem,
-                    onCountdownClick = {},
+                    onLongClick = onLongClickItem,
+                    onCountdownClick = onCountdownClick,
                 )
             }
         }
@@ -76,7 +83,9 @@ private fun Prev_List() {
         Surface {
             CountDownGridList(
                 items = listItemsPreview,
-                passedItems = emptyList()
+                passedItems = emptyList(),
+                selectedItems = emptySet(),
+                isSelectionMode = false,
             )
         }
     }

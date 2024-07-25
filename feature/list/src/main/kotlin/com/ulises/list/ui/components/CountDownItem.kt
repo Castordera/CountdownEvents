@@ -150,9 +150,11 @@ fun CountDownItemList(
 fun CountDownItemGrid(
     modifier: Modifier = Modifier,
     item: CountdownDate,
+    isSelectionMode: Boolean,
+    isSelected: Boolean,
     onClick: (CountdownDate) -> Unit = {},
-    onDelete: (CountdownDate) -> Unit = {},
-    onCountdownClick: (CountdownDate) -> Unit = {},
+    onLongClick: (CountdownDate) -> Unit = {},
+    onCountdownClick: (CountdownDate) -> Unit = {}
 ) {
 
     var dateHandler by remember { mutableStateOf(DateHandler()) }
@@ -168,10 +170,32 @@ fun CountDownItemGrid(
                 .fillMaxWidth()
                 .combinedClickable(
                     onClick = { onClick(item) },
-                    onLongClick = { onDelete(item) }
+                    onLongClick = { onLongClick(item) }
                 )
+                .drawBehind {
+                    if (isSelected) {
+                        drawRoundRect(
+                            color = Color.Gray,
+                            cornerRadius = CornerRadius(10f, 10f),
+                            alpha = 0.3f,
+                        )
+                    }
+                }
                 .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
+            AnimatedVisibility(visible = isSelectionMode) {
+                if (isSelected) {
+                    Icon(
+                        imageVector = Icons.Filled.CheckCircle,
+                        contentDescription = null
+                    )
+                } else {
+                    Icon(
+                        painter = painterResource(id = com.ulises.common.resources.R.drawable.outline_circle),
+                        contentDescription = null
+                    )
+                }
+            }
             Text(
                 text = item.name,
                 fontSize = 20.sp,
@@ -269,6 +293,18 @@ fun PrevCountDownItemGrid() {
             ) {
                 CountDownItemGrid(
                     item = listItemsPreview[1],
+                    isSelected = false,
+                    isSelectionMode = false,
+                )
+                CountDownItemGrid(
+                    item = listItemsPreview[1],
+                    isSelected = false,
+                    isSelectionMode = true,
+                )
+                CountDownItemGrid(
+                    item = listItemsPreview[1],
+                    isSelected = true,
+                    isSelectionMode = true,
                 )
             }
         }
