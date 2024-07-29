@@ -17,6 +17,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -47,6 +48,9 @@ internal fun CountdownMainScreen(
 ) {
     var bottomSheetVisible by remember { mutableStateOf(false) }
     val snackBarHostState = remember { SnackbarHostState() }
+    val emptyValues by remember(uiState) {
+        derivedStateOf { !uiState.activeItems.isNullOrEmpty() || !uiState.passedItems.isNullOrEmpty() }
+    }
 
     if (uiState.error != null) {
         LaunchedEffect(uiState.error) {
@@ -72,7 +76,7 @@ internal fun CountdownMainScreen(
                     ToolbarItem(
                         iconRes = if (!uiState.isGrid) com.ulises.common.resources.R.drawable.ic_grid_view else com.ulises.common.resources.R.drawable.ic_view_list,
                         description = "Change View",
-                        isVisible = !uiState.activeItems.isNullOrEmpty(),
+                        isVisible = emptyValues,
                         onClick = { onHandleAction(Actions.ToggleListType) }
                     )
                 }

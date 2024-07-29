@@ -2,14 +2,19 @@ package com.ulises.addevent.ui
 
 import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
+import com.ulises.addevent.model.Actions
 import com.ulises.addevent.model.UiState
 import com.ulises.date_utils.zero
 import com.ulises.preview_data.getMockCountDown
 import com.ulises.usecase.countdown.AddEventUseCase
 import com.ulises.usecase.countdown.EditEventUseCase
 import com.ulises.usecase.countdown.GetEventUseCase
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
+import io.mockk.just
 import io.mockk.mockk
+import io.mockk.runs
 import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
@@ -61,7 +66,6 @@ class AddEventViewModelTest {
                 UiState(
                     eventName = event.name,
                     dateTime = event.dateToCountdown,
-                    saveButtonEnabled = true,
                     isLoading = false
                 ),
                 awaitItem()
@@ -73,19 +77,39 @@ class AddEventViewModelTest {
     }
 
     @Test
-    fun `Should change calendar visibility`() = runTest {
+    fun `Should clear error message`() = runTest {
+        val error = "This is a message Error"
+        coEvery { addEventUseCase(any()) } throws Exception(error)
         //
         init("null")
         //
         viewModel.uiState.test {
             skipItems(1)
-            viewModel.onChangeCalendarVisibility(true)
-            assertTrue(awaitItem().dateDialogVisible)
-            viewModel.onChangeCalendarVisibility(false)
-            assertFalse(awaitItem().dateDialogVisible)
-            viewModel.onChangeCalendarVisibility(true)
-            assertTrue(awaitItem().dateDialogVisible)
+            viewModel.onHandleAction(Actions.SendData)
+            assertEquals(awaitItem().error, error)
+            viewModel.onHandleAction(Actions.DismissError)
+            assertTrue(awaitItem().error == null)
         }
+        coVerify {
+            addEventUseCase(any())
+        }
+    }
+
+    @Test
+    fun `Should send data to save item`() = runTest {
+        val name = "This is a demo name"
+        coEvery { addEventUseCase(any()) } just runs
+        //
+        init("null")
+        //
+        viewModel.uiState.test {
+            skipItems(1)
+            viewModel.onHandleAction(Actions.UpdateName(name))
+            assertEquals(awaitItem().eventName, name)
+            viewModel.onHandleAction(Actions.SendData)
+            assertTrue(awaitItem().goBack)
+        }
+        coEvery { addEventUseCase(any()) }
     }
 
     private fun LocalDateTime.compareWith(date: LocalDateTime): Boolean {
