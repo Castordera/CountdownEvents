@@ -34,7 +34,6 @@ class CountdownViewModel @Inject constructor(
 
     private data class LocalState(
         val isLoading: Boolean = false,
-        val isDialogDeleteVisible: Boolean = false,
         val error: String? = null,
         val selectedEvents: Set<String> = emptySet(),
     )
