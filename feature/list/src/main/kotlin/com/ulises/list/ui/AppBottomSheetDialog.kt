@@ -75,7 +75,10 @@ private fun BottomSheetContent(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(uiState.times) { timeCalculation ->
-            TimeDataItem(data = timeCalculation)
+            TimeDataItem(
+                data = timeCalculation,
+                isSingleLine = timeCalculation is TimeCalculationResponse.Today
+            )
             HorizontalDivider(modifier = Modifier.padding(end = 32.dp, top = 8.dp))
         }
     }
@@ -84,9 +87,14 @@ private fun BottomSheetContent(
 @Composable
 private fun TimeDataItem(
     data: TimeCalculationResponse,
+    isSingleLine: Boolean,
 ) {
     val (title, message) = dataTimeContent(data = data)
     Column {
+        if (isSingleLine) {
+            Text(text = "$title $message")
+            return
+        }
         Text(text = title)
         Text(text = message)
     }
