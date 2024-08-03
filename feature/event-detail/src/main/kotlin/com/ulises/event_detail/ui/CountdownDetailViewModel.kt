@@ -13,19 +13,14 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import timber.log.Timber
-import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.Period
-import java.time.temporal.ChronoField
 import java.time.temporal.ChronoUnit
 import javax.inject.Inject
 import kotlin.math.abs
 
-//Todo(Make this to handle time)
 @HiltViewModel
 class CountdownDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
@@ -35,10 +30,14 @@ class CountdownDetailViewModel @Inject constructor(
     private val countdownDate: String = savedStateHandle[CountdownDetailScreen.argumentKey] ?: ""
 
     val uiState = getCountdownDate(countdownDate)
-//        .onEach { handleTime(it.dateToCountdown) }
-        .map { DetailUiState(countdownDate = it, dayDetail = it.dateToCountdown.handleTime()) }
+        .map {
+            DetailUiState(
+                countdownDate = it,
+                dayDetail = it.dateToCountdown.handleTime(),
+            )
+        }
         .catch {
-            Timber.e(it, "Error getting event with Id: $countdownDate")
+            Timber.d(it, "Error getting event with Id: $countdownDate")
             emit(DetailUiState(error = it.localizedMessage))
         }
         .stateIn(
@@ -68,17 +67,5 @@ class CountdownDetailViewModel @Inject constructor(
         Timber.d("===$this===")
         Timber.d("$details")
         return details
-    }
-
-    fun demo() {
-        val string = "thisismystring"
-        val string2 = "asdadasa"
-        val map = string.groupingBy { it }.eachCount().toMutableMap()
-        string2.forEach { item ->
-            if (map.contains(item)) {
-            }
-        }
-        map.any { it.value != 0 }
-
     }
 }

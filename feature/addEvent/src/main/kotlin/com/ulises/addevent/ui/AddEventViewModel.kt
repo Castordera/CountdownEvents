@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.domain.models.CountdownDate
 import com.ulises.addevent.model.Actions
 import com.ulises.addevent.model.UiState
+import com.ulises.addevent.navigation.AddEditCountdownScreen
 import com.ulises.date_utils.toLocalDateTime
 import com.ulises.date_utils.zero
 import com.ulises.usecase.countdown.AddEventUseCase
@@ -33,8 +34,7 @@ class AddEventViewModel @Inject constructor(
     private val editEventUseCase: EditEventUseCase
 ) : ViewModel() {
 
-    // Todo("Replace it to have only one, not all in Screens")
-    private val eventId: String? = savedStateHandle["item"]
+    private val eventId: String? = savedStateHandle[AddEditCountdownScreen.argumentKey]
     private var event: CountdownDate? = null
     private val _uiState = MutableStateFlow(UiState())
     val uiState = _uiState.asStateFlow()

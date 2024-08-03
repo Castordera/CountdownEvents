@@ -7,7 +7,7 @@ data object CountdownDetailScreen: Screen {
 
     const val argumentKey = "item"
     override val route: String
-        get() = "detailCountDown/{item}"
+        get() = "detailCountDown/{$argumentKey}"
 
     fun createRoute(item: CountdownDate) = "detailCountDown/${item.id}"
 }

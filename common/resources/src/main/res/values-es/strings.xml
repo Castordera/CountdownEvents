@@ -52,4 +52,5 @@
     <string name="main_screen_year_content">Actual: %d, Faltan: %d</string>
     <string name="main_screen_season_label">Temporada</string>
     <string name="main_screen_season_content">Actual: %s, Faltan: %d</string>
+    <string name="detail_screen_label_time_ago">Hace</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.ulises.event_detail.ui
 
 import android.content.res.Configuration
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,17 +9,19 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
@@ -27,13 +30,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.domain.models.DateHandler
-import com.example.domain.models.TimePeriod
+import com.ulises.common.resources.R
 import com.ulises.components.Loading
 import com.ulises.components.screens.DefaultErrorScreen
 import com.ulises.components.toolbars.Toolbar
 import com.ulises.components.toolbars.ToolbarItem
 import com.ulises.date_utils.remainingTime
+import com.ulises.date_utils.toHumanReadable
+import com.ulises.event_detail.models.DayDetail
 import com.ulises.event_detail.models.DetailUiState
 import com.ulises.preview_data.getMockCountDown
 import com.ulises.theme.CountdownAppTheme
@@ -82,7 +86,7 @@ private fun CountDownDetailScreen(
                 DetailComponent(uiState = uiState)
             } else {
                 DefaultErrorScreen(
-                    imageRes = com.ulises.common.resources.R.drawable.ic_error,
+                    imageRes = R.drawable.ic_error,
                     text = uiState.error
                 )
             }
@@ -99,14 +103,12 @@ private fun DetailComponent(
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        if (uiState.countdownDate == null) {
+        if (uiState.countdownDate == null || uiState.dayDetail == null) {
             Loading()
             return
         }
 
-        val dateHandler by remember(uiState.countdownDate) {
-            mutableStateOf(uiState.countdownDate.remainingTime)
-        }
+        var isEstimationVisible by remember { mutableStateOf(true) }
 
         Text(
             modifier = Modifier.fillMaxWidth(),
@@ -123,29 +125,28 @@ private fun DetailComponent(
         ) {
             if (uiState.countdownDate.remainingTime.isToday) {
                 Text(
-                    text = stringResource(id = com.ulises.common.resources.R.string.main_screen_label_today),
+                    text = stringResource(id = R.string.main_screen_label_today),
                     fontSize = 80.sp,
                 )
             } else {
-                Text(
-                    text = if (dateHandler.isInPast) {
-                        stringResource(id = com.ulises.common.resources.R.string.detail_screen_label_time_passed)
-                    } else {
-                        stringResource(id = com.ulises.common.resources.R.string.detail_screen_label_time_remaining)
-                    },
-                    fontSize = 24.sp
-                )
-                Text(
-                    text = "%,d".format(dateHandler.value),
-                    fontSize = 150.sp,
-                )
-                Text(
-                    text = stringResource(
-                        id = com.ulises.common.resources.R.string.detail_screen_label_time_bottom,
-                        getStringTimeLabel(dateHandler = dateHandler)
-                    ),
-                    fontSize = 24.sp
-                )
+                AnimatedContent(
+                    targetState = isEstimationVisible,
+                    label = "Animated Content",
+                ) { targetState ->
+                    when (targetState) {
+                        true -> EstimationComponent(uiState.countdownDate)
+                        false -> CalculationComponent(uiState.dayDetail)
+                    }
+                }
+                IconButton(
+                    onClick = { isEstimationVisible = !isEstimationVisible },
+                    modifier = Modifier.padding(top = 16.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.swap_horiz),
+                        contentDescription = null
+                    )
+                }
             }
         }
         Column(
@@ -153,48 +154,20 @@ private fun DetailComponent(
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(
+                text = uiState.countdownDate.dateToCountdown.toHumanReadable(includeDay = true),
+                fontSize = 20.sp,
+            )
+            Text(
                 text = "Created: ${uiState.countdownDate.createdAt}",
-                fontSize = 14.sp,
+                fontSize = 8.sp,
                 fontStyle = FontStyle.Italic
             )
             Text(
                 text = "Id: ${uiState.countdownDate.id}",
-                fontSize = 14.sp,
+                fontSize = 8.sp,
                 fontStyle = FontStyle.Italic
             )
         }
-    }
-}
-
-@Composable
-@ReadOnlyComposable
-fun getStringTimeLabel(dateHandler: DateHandler): String {
-    return when (dateHandler.periodType) {
-        TimePeriod.NONE -> ""
-        TimePeriod.YEAR -> pluralStringResource(
-            id = com.ulises.common.resources.R.plurals.time_label_year,
-            count = dateHandler.value
-        )
-
-        TimePeriod.WEEK -> pluralStringResource(
-            id = com.ulises.common.resources.R.plurals.time_label_week,
-            count = dateHandler.value
-        )
-
-        TimePeriod.DAY -> pluralStringResource(
-            id = com.ulises.common.resources.R.plurals.time_label_day,
-            count = dateHandler.value
-        )
-
-        TimePeriod.HOUR -> pluralStringResource(
-            id = com.ulises.common.resources.R.plurals.time_label_hour,
-            count = dateHandler.value
-        )
-
-        TimePeriod.MINUTE -> pluralStringResource(
-            id = com.ulises.common.resources.R.plurals.time_label_minute,
-            count = dateHandler.value
-        )
     }
 }
 
@@ -209,7 +182,13 @@ private fun PrevCountDownDetailScreen() {
                     name = "This is a huge value to have as name",
                     date = "2023-12-08T00:00:00"
                 ),
-//                dayDetail = DayDetail()TODO(Finish this)
+                dayDetail = DayDetail(
+                    years = 1,
+                    days = 10,
+                    hours = 10,
+                    minutes = 10,
+                    isPast = false,
+                )
             )
         )
     }

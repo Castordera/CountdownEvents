@@ -12,6 +12,7 @@
     <string name="add_screen_button_save_date">Save</string>
     <!--  Detail  -->
     <string name="detail_screen_label_time_remaining">Remaining</string>
+    <string name="detail_screen_label_time_ago">Ago</string>
     <string name="detail_screen_label_time_passed"/>
     <string name="detail_screen_label_time_bottom">%s Ago</string>
     <!--  Dialogs  -->
