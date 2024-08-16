@@ -9,4 +9,6 @@ class GetAllEventsUseCase @Inject constructor(
     private val repository: CountdownRepository
 ) {
     operator fun invoke(): Flow<List<CountdownDate>> = repository.getAllCountdown()
+
+    operator fun invoke(year: String): Flow<List<CountdownDate>> = repository.getEventsForYear(year)
 }

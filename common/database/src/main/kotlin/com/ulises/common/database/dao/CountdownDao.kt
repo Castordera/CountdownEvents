@@ -13,6 +13,9 @@ interface CountdownDao {
     @Query("SELECT * FROM Countdown ORDER BY selectedDate")
     fun getAllCounters(): Flow<List<Countdown>>
 
+    @Query("SELECT * FROM Countdown WHERE selectedDate LIKE :yearQuery ORDER BY selectedDate")
+    fun getEventsForYear(yearQuery: String): Flow<List<Countdown>>
+
     @Query("SELECT * FROM Countdown WHERE id = :id")
     fun getCounter(id: String): Flow<Countdown>
 
@@ -27,4 +30,7 @@ interface CountdownDao {
 
     @Query("DELETE FROM Countdown WHERE id IN (:items)")
     suspend fun deleteCountDowns(items: Set<String>)
+
+    @Query("SELECT DISTINCT substring(selectedDate, 1, 4) FROM Countdown ORDER BY selectedDate DESC")
+    fun getYearsWithData(): Flow<List<String>>
 }

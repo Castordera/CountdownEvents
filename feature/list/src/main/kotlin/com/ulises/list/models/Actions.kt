@@ -9,4 +9,5 @@ sealed interface Actions {
     data class AddSelectedItem(val item: String): Actions
     data object DeleteSelectedItems: Actions
     data object CancelSelection: Actions
+    data class ChangeSelectedYear(val year: String): Actions
 }

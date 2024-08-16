@@ -6,6 +6,7 @@ import com.ulises.common.database.entities.toEntity
 import com.example.domain.models.CountdownDate
 import com.ulises.data.datasource.CountdownLocalDataSource
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -15,6 +16,10 @@ class RoomCountdownDataSource @Inject constructor(
 
     override fun getAllCountdown(): Flow<List<CountdownDate>> {
         return countdownDao.getAllCounters().map { list -> list.map { it.toDomain() } }
+    }
+
+    override fun getEventsForYear(year: String): Flow<List<CountdownDate>> {
+        return countdownDao.getEventsForYear("$year%").map { list -> list.map { it.toDomain() } }
     }
 
     override fun getCountdown(id: String): Flow<CountdownDate> {
@@ -35,5 +40,9 @@ class RoomCountdownDataSource @Inject constructor(
 
     override suspend fun deleteCountdowns(items: Set<String>) {
         countdownDao.deleteCountDowns(items)
+    }
+
+    override fun getYearsWithData(): Flow<List<String>> {
+        return countdownDao.getYearsWithData().distinctUntilChanged()
     }
 }

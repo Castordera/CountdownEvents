@@ -13,6 +13,10 @@ class CountdownRepositoryImpl @Inject constructor(
         return localDataSource.getAllCountdown()
     }
 
+    override fun getEventsForYear(year: String): Flow<List<CountdownDate>> {
+        return localDataSource.getEventsForYear(year)
+    }
+
     override fun getCountdown(id: String): Flow<CountdownDate> {
         return localDataSource.getCountdown(id)
     }
@@ -31,5 +35,9 @@ class CountdownRepositoryImpl @Inject constructor(
 
     override suspend fun deleteCountdown(items: Set<String>) {
         localDataSource.deleteCountdowns(items)
+    }
+
+    override fun getAllYearsWithItems(): Flow<List<String>> {
+        return localDataSource.getYearsWithData()
     }
 }
