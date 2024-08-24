@@ -9,6 +9,7 @@ import com.ulises.data.DataStorePreferences
 import com.ulises.datastore.KEY_STORED_VALUES
 import com.ulises.list.models.Actions
 import com.ulises.list.models.UiState
+import com.ulises.list.utils.yearSelected
 import com.ulises.usecase.countdown.DeleteEventUseCase
 import com.ulises.usecase.countdown.EditEventUseCase
 import com.ulises.usecase.countdown.GetAllEventsUseCase
@@ -46,20 +47,17 @@ class CountdownViewModel @Inject constructor(
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val uiState = combine(getYearsWithDataUseCase(), selectedYearFlow) { years, selectedYear ->
-        Timber.d("Year Flow triggered")
-        YearsData(years, if (years.size == 1) years[0] else selectedYear)
+        YearsData(
+            items = years,
+            selected = years.yearSelected(selectedYear),
+        )
     }.flatMapLatest { yearsData ->
         //Todo(Manage years to reduce upcoming years into one item only e.g [Upcoming, 2024, 2023])
-        Timber.d("Data passed down: $yearsData")
-        Timber.d("Now request data for a selected year")
         combine(
             getAllEventsUseCase(yearsData.selected),
             localState,
             dataStore.get(KEY_STORED_VALUES)
         ) { events, localState, isGrid ->
-            Timber.d("Combined Flow triggered $events")
-            Timber.d("Combined Flow triggered $localState")
-            Timber.d("Combined Flow triggered $isGrid")
             val items = events.handleEvents()
             UiState(
                 loading = false,

@@ -5,6 +5,7 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
@@ -32,6 +33,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.domain.models.CountdownDate
+import com.example.domain.models.YearsData
 import com.ulises.components.Loading
 import com.ulises.components.toolbars.Toolbar
 import com.ulises.components.toolbars.ToolbarItem
@@ -103,75 +105,75 @@ internal fun CountdownMainScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(padding)
-            ) {
-                Loading()
-            }
-        } else if (uiState.activeItems.isNullOrEmpty() && uiState.passedItems.isNullOrEmpty()) {
-            NoEventsScreen(modifier = Modifier.padding(padding))
-        } else {
-            Column(
-                modifier = Modifier.padding(padding)
-            ) {
-                CurrentDayDataItem(onClickMoreData = { bottomSheetVisible = true })
-                if (uiState.yearsData != null) {
-                    LazyRow (
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    ) {
-                        items(uiState.yearsData.items) {
-                            FilterChip(
-                                selected = uiState.yearsData.selected == it,
-                                onClick = { onHandleAction(Actions.ChangeSelectedYear(it)) },
-                                label = { Text(text = it) }
-                            )
-                        }
+            ) { Loading() }
+            return@Scaffold
+        }
+        Column(
+            modifier = Modifier.padding(padding)
+        ) {
+            CurrentDayDataItem(onClickMoreData = { bottomSheetVisible = true })
+            if (uiState.yearsData != null && uiState.yearsData.items.size > 1) {
+                LazyRow(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    contentPadding = PaddingValues(horizontal = 8.dp),
+                ) {
+                    items(uiState.yearsData.items) {
+                        FilterChip(
+                            selected = uiState.yearsData.selected == it,
+                            onClick = { onHandleAction(Actions.ChangeSelectedYear(it)) },
+                            label = { Text(text = it) }
+                        )
                     }
                 }
-                if (!uiState.isGrid) {
-                    CountDownList(
-                        items = uiState.activeItems.orEmpty(),
-                        passedItems = uiState.passedItems.orEmpty(),
-                        selectedItems = uiState.selectedEvents,
-                        isSelectionMode = uiState.isSelectionMode,
-                        onClickItem = { event ->
-                            if (uiState.isSelectionMode) {
-                                onHandleAction(Actions.AddSelectedItem(event.id))
-                            } else {
-                                onClickItem(event)
-                            }
-                        },
-                        onLongClickItem = { event ->
+            }
+            if (uiState.activeItems.isNullOrEmpty() && uiState.passedItems.isNullOrEmpty()) {
+                NoEventsScreen(modifier = Modifier.padding(padding))
+            }
+            else if (!uiState.isGrid) {
+                CountDownList(
+                    items = uiState.activeItems.orEmpty(),
+                    passedItems = uiState.passedItems.orEmpty(),
+                    selectedItems = uiState.selectedEvents,
+                    isSelectionMode = uiState.isSelectionMode,
+                    onClickItem = { event ->
+                        if (uiState.isSelectionMode) {
                             onHandleAction(Actions.AddSelectedItem(event.id))
-                        },
-                        onCountdownClick = { event ->
-                            onHandleAction(Actions.ChangeTimeCalculation(event))
-                        },
-                    )
-                } else {
-                    CountDownGridList(
-                        items = uiState.activeItems.orEmpty(),
-                        passedItems = uiState.passedItems.orEmpty(),
-                        selectedItems = uiState.selectedEvents,
-                        isSelectionMode = uiState.isSelectionMode,
-                        onClickItem = { event ->
-                            if (uiState.isSelectionMode) {
-                                onHandleAction(Actions.AddSelectedItem(event.id))
-                            } else {
-                                onClickItem(event)
-                            }
-                        },
-                        onLongClickItem = { event ->
+                        } else {
+                            onClickItem(event)
+                        }
+                    },
+                    onLongClickItem = { event ->
+                        onHandleAction(Actions.AddSelectedItem(event.id))
+                    },
+                    onCountdownClick = { event ->
+                        onHandleAction(Actions.ChangeTimeCalculation(event))
+                    },
+                )
+            } else {
+                CountDownGridList(
+                    items = uiState.activeItems.orEmpty(),
+                    passedItems = uiState.passedItems.orEmpty(),
+                    selectedItems = uiState.selectedEvents,
+                    isSelectionMode = uiState.isSelectionMode,
+                    onClickItem = { event ->
+                        if (uiState.isSelectionMode) {
                             onHandleAction(Actions.AddSelectedItem(event.id))
-                        },
-                        onCountdownClick = { event ->
-                            onHandleAction(Actions.ChangeTimeCalculation(event))
-                        },
-                    )
-                }
+                        } else {
+                            onClickItem(event)
+                        }
+                    },
+                    onLongClickItem = { event ->
+                        onHandleAction(Actions.AddSelectedItem(event.id))
+                    },
+                    onCountdownClick = { event ->
+                        onHandleAction(Actions.ChangeTimeCalculation(event))
+                    },
+                )
             }
         }
-        if (bottomSheetVisible) {
-            MainBottomSheetDialog(onDismiss = { bottomSheetVisible = false })
-        }
+    }
+    if (bottomSheetVisible) {
+        MainBottomSheetDialog(onDismiss = { bottomSheetVisible = false })
     }
 }
 
@@ -183,7 +185,11 @@ private fun PrevCountDownScreen() {
         CountdownMainScreen(
             uiState = UiState(
                 loading = false,
-                activeItems = listItemsPreview
+                activeItems = listItemsPreview,
+                yearsData = YearsData(
+                    items = listOf("100", "200", "300"),
+                    selected = "200"
+                )
             ),
         )
     }
