@@ -16,8 +16,8 @@ android {
 
     defaultConfig {
         applicationId = "com.example.countdownapp"
-        versionCode = 7
-        versionName = "1.4.0"
+        versionCode = 9
+        versionName = "1.6.0"
     }
 
     buildTypes {

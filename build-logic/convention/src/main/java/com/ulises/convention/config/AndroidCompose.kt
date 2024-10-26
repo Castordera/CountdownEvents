@@ -19,6 +19,7 @@ internal fun Project.configureAndroidCompose(
         dependencies {
             add("implementation", libs.library("compose-ui"))
             add("implementation", libs.library("compose-preview"))
+            add("implementation", libs.library("compose-animation"))
             add("debugImplementation", libs.library("compose-tooling"))
             // Material as well
             add("implementation", libs.library("compose-material3"))
