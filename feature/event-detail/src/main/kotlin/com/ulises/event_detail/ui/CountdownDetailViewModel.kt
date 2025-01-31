@@ -3,11 +3,12 @@ package com.ulises.event_detail.ui
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
+import com.ulises.common.navigation.Screen
 import com.ulises.date_utils.MAX_HOURS_DAY
 import com.ulises.date_utils.MAX_MINUTES_HOUR
 import com.ulises.event_detail.models.DayDetail
 import com.ulises.event_detail.models.DetailUiState
-import com.ulises.event_detail.navigation.CountdownDetailScreen
 import com.ulises.usecase.countdown.GetEventUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
@@ -27,7 +28,7 @@ class CountdownDetailViewModel @Inject constructor(
     getCountdownDate: GetEventUseCase
 ) : ViewModel() {
 
-    private val countdownDate: String = savedStateHandle[CountdownDetailScreen.argumentKey] ?: ""
+    private val countdownDate: String = savedStateHandle.toRoute<Screen.CountdownDetail>().countdownId
 
     val uiState = getCountdownDate(countdownDate)
         .map {

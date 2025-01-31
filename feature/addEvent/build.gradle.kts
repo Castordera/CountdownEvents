@@ -29,6 +29,7 @@ dependencies {
     ksp(libs.hilt.compiler)
     // Compose
     implementation(libs.compose.lifecycle.runtime)
+    implementation(libs.compose.navigation)
     //  Tests
     testImplementation(libs.bundles.tests.unit)
     androidTestImplementation(libs.bundles.tests.compose)

@@ -5,54 +5,42 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import com.ulises.addevent.ui.AddEventRoute
-import com.ulises.addevent.navigation.AddEditCountdownScreen
 import com.ulises.common.navigation.Screen
 import com.ulises.event_detail.ui.CountdownDetailRoute
 import com.ulises.list.ui.route.CountDownRoute
-import com.ulises.event_detail.navigation.CountdownDetailScreen
-import com.ulises.list.navigation.ListScreen
 
 @Composable
 fun CountDownNavHost(
     navController: NavHostController = rememberNavController(),
-    startDestination: Screen = ListScreen
 ) {
     NavHost(
         navController = navController,
-        startDestination = startDestination.route
+        startDestination = Screen.Listing,
     ) {
-        composable(
-            route = ListScreen.route
-        ) {
+        composable<Screen.Listing> {
             CountDownRoute(
                 onNavigateToDetail = { item ->
-                    navController.navigate(CountdownDetailScreen.createRoute(item))
+                    navController.navigate(Screen.CountdownDetail(item.id))
                 },
                 onNavigateToAdd = {
-                    navController.navigate(AddEditCountdownScreen.createRoute())
+                    navController.navigate(Screen.AddEditCountdown())
                 }
             )
         }
-        composable(
-            route = CountdownDetailScreen.route,
-            arguments = listOf(navArgument(CountdownDetailScreen.argumentKey) { type = NavType.StringType }),
-        ) {
+        composable<Screen.CountdownDetail> {
             CountdownDetailRoute(
                 viewModel = hiltViewModel(),
                 onBackPress = { navController.popBackStack() },
                 onEditItem = {
-                    navController.navigate(AddEditCountdownScreen.createRoute(it))
+                    navController.navigate(Screen.AddEditCountdown(it))
                 },
             )
         }
-        composable(
-            route = AddEditCountdownScreen.route,
+        composable<Screen.AddEditCountdown>(
             enterTransition = { slideInHorizontally() },
             exitTransition = {
                 slideOutHorizontally(

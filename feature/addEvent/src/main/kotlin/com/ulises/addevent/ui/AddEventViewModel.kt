@@ -3,10 +3,11 @@ package com.ulises.addevent.ui
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import com.example.domain.models.CountdownDate
 import com.ulises.addevent.model.Actions
 import com.ulises.addevent.model.UiState
-import com.ulises.addevent.navigation.AddEditCountdownScreen
+import com.ulises.common.navigation.Screen
 import com.ulises.date_utils.toLocalDateTime
 import com.ulises.date_utils.zero
 import com.ulises.usecase.countdown.AddEventUseCase
@@ -34,7 +35,8 @@ class AddEventViewModel @Inject constructor(
     private val editEventUseCase: EditEventUseCase
 ) : ViewModel() {
 
-    private val eventId: String? = savedStateHandle[AddEditCountdownScreen.argumentKey]
+    private val eventId: String? = savedStateHandle.toRoute<Screen.AddEditCountdown>().countdownId
+
     private var event: CountdownDate? = null
     private val _uiState = MutableStateFlow(UiState())
     val uiState = _uiState.asStateFlow()
@@ -62,7 +64,7 @@ class AddEventViewModel @Inject constructor(
 
     private fun isNewEvent(): Boolean {
         Timber.d("Initial value: $eventId")
-        return eventId == "null"
+        return eventId == null
     }
 
     private fun getEventData(eventId: String) {

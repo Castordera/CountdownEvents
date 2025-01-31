@@ -27,4 +27,5 @@ dependencies {
     ksp(libs.hilt.compiler)
     // Compose
     implementation(libs.compose.lifecycle.runtime)
+    implementation(libs.compose.navigation)
 }
