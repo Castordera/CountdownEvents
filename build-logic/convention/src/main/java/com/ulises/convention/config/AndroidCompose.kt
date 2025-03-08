@@ -17,12 +17,13 @@ internal fun Project.configureAndroidCompose(
         }
 
         dependencies {
-            add("implementation", libs.library("compose-ui"))
-            add("implementation", libs.library("compose-preview"))
-            add("implementation", libs.library("compose-animation"))
-            add("debugImplementation", libs.library("compose-tooling"))
-            // Material as well
-            add("implementation", libs.library("compose-material3"))
+            val boom = libs.library("androidx-compose-bom")
+            implementation(platform(boom))
+            implementation(libs.library("androidx-ui"))
+            implementation(libs.library("androidx-ui-tooling-preview"))
+//            implementation(libs.library("androidx-ui-animation"))
+            debugImplementation(libs.library("androidx-ui-tooling"))
+            implementation(libs.library("compose-material3"))
         }
     }
 }

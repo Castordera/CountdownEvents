@@ -1,15 +1,16 @@
 [versions]
-firebaseBom = "33.5.1"
+firebaseBom = "33.10.0"
 junitJupiter = "5.11.0"
-kotlin = "2.0.0"
+kotlin = "2.1.10"
 androidCore = "1.15.0"
-compose = "1.7.7"
-activityCompose = "1.10.0"
+composeBom = "2025.02.00"
+compose = "1.7.8"
+activityCompose = "1.10.1"
 lifecycleRuntimeCompose = "2.8.7"
 lifecycleRuntime = "2.8.7"
 material3 = "1.3.1"
-navigationCompose = "2.8.6"
-dataStore = "1.1.2"
+navigationCompose = "2.8.8"
+dataStore = "1.1.3"
 timber = "5.0.1"
 room = "2.6.1"
 hilt = "2.52"
@@ -17,11 +18,11 @@ hiltNavigationCompose = "1.2.0"
 kotlinxSerializationJson = "1.7.3"
 javaxInject = "1"
 coroutinesCore = "1.9.0"
-agp = "8.8.0"
+agp = "8.9.0"
 junit = "4.13.2"
 androidx-test-ext-junit = "1.2.1"
 espresso-core = "3.6.1"
-ksp = "2.0.0-1.0.22"
+ksp = "2.1.10-1.0.31"
 coil = "2.7.0"
 mockk = "1.13.12"
 turbine = "1.1.0"
@@ -33,10 +34,12 @@ android-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime
 # Compose
 compose-activity = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
 compose-navigation = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
-compose-animation = { module = "androidx.compose.animation:animation", version.ref = "compose" }
-compose-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
-compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+androidx-ui = { group = "androidx.compose.ui", name = "ui" }
+androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+androidx-ui-animation = { group = "androidx.compose.ui", name = "animation" }
 compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
 compose-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycleRuntimeCompose" }
 # Firebase
@@ -79,7 +82,7 @@ coil-core = { module = "io.coil-kt:coil", version.ref = "coil"}
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 
 [bundles]
-compose = ["compose-ui", "compose-preview", "compose-animation"]
+#compose = ["compose-ui", "compose-preview", "compose-animation"]
 room-core = ["room-runtime", "room-ktx"]
 hilt-core = ["hilt-android", "hilt-navigation-compose"]
 coil = ["coil-core", "coil-compose"]
