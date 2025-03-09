@@ -1,6 +1,5 @@
 package com.ulises.event_detail.ui
 
-import android.content.res.Configuration
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -25,11 +24,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ulises.common.resources.R
 import com.ulises.components.Loading
 import com.ulises.components.screens.DefaultErrorScreen
@@ -43,23 +40,8 @@ import com.ulises.preview_data.getMockCountDown
 import com.ulises.theme.CountdownAppTheme
 
 @Composable
-fun CountdownDetailRoute(
-    viewModel: CountdownDetailViewModel = hiltViewModel(),
-    onBackPress: () -> Unit,
-    onEditItem: (String) -> Unit,
-) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
-    CountDownDetailScreen(
-        uiState = uiState,
-        onEditItem = onEditItem,
-        onBackPress = onBackPress,
-    )
-}
-
-@Composable
-private fun CountDownDetailScreen(
-    uiState: DetailUiState,
+internal fun CountDownDetailScreen(
+    uiState: () -> DetailUiState,
     onEditItem: (itemId: String) -> Unit = {},
     onBackPress: () -> Unit = {},
 ) {
@@ -71,7 +53,7 @@ private fun CountDownDetailScreen(
                     ToolbarItem(
                         imageVector = Icons.Filled.Edit,
                         description = "Edit",
-                        onClick = { onEditItem(uiState.countdownDate?.id.orEmpty()) }
+                        onClick = { onEditItem(uiState().countdownDate?.id.orEmpty()) }
                     )
                 }
             )
@@ -82,12 +64,12 @@ private fun CountDownDetailScreen(
                 .padding(it)
                 .fillMaxSize()
         ) {
-            if (uiState.error.isNullOrEmpty()) {
+            if (uiState().error.isNullOrEmpty()) {
                 DetailComponent(uiState = uiState)
             } else {
                 DefaultErrorScreen(
                     imageRes = R.drawable.ic_error,
-                    text = uiState.error
+                    text = uiState().error ?: ""
                 )
             }
         }
@@ -96,14 +78,14 @@ private fun CountDownDetailScreen(
 
 @Composable
 private fun DetailComponent(
-    uiState: DetailUiState
+    uiState: () -> DetailUiState,
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        if (uiState.countdownDate == null || uiState.dayDetail == null) {
+        if (uiState().countdownDate == null || uiState().dayDetail == null) {
             Loading()
             return
         }
@@ -112,7 +94,7 @@ private fun DetailComponent(
 
         Text(
             modifier = Modifier.fillMaxWidth(),
-            text = uiState.countdownDate.name,
+            text = uiState().countdownDate!!.name,
             textAlign = TextAlign.Center,
             fontSize = 22.sp
         )
@@ -123,7 +105,7 @@ private fun DetailComponent(
                 .fillMaxWidth()
                 .weight(1f)
         ) {
-            if (uiState.countdownDate.remainingTime.isToday) {
+            if (uiState().countdownDate!!.remainingTime.isToday) {
                 Text(
                     text = stringResource(id = R.string.main_screen_label_today),
                     fontSize = 80.sp,
@@ -134,8 +116,8 @@ private fun DetailComponent(
                     label = "Animated Content",
                 ) { targetState ->
                     when (targetState) {
-                        true -> EstimationComponent(uiState.countdownDate)
-                        false -> CalculationComponent(uiState.dayDetail)
+                        true -> EstimationComponent(uiState().countdownDate!!)
+                        false -> CalculationComponent(uiState().dayDetail!!)
                     }
                 }
                 IconButton(
@@ -154,16 +136,16 @@ private fun DetailComponent(
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(
-                text = uiState.countdownDate.dateToCountdown.toHumanReadable(includeDay = true),
+                text = uiState().countdownDate!!.dateToCountdown.toHumanReadable(includeDay = true),
                 fontSize = 20.sp,
             )
             Text(
-                text = "Created: ${uiState.countdownDate.createdAt}",
+                text = "Created: ${uiState().countdownDate!!.createdAt}",
                 fontSize = 8.sp,
                 fontStyle = FontStyle.Italic
             )
             Text(
-                text = "Id: ${uiState.countdownDate.id}",
+                text = "Id: ${uiState().countdownDate!!.id}",
                 fontSize = 8.sp,
                 fontStyle = FontStyle.Italic
             )
@@ -171,38 +153,40 @@ private fun DetailComponent(
     }
 }
 
-@Preview
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@PreviewLightDark
 @Composable
 private fun PrevCountDownDetailScreen() {
     CountdownAppTheme {
         CountDownDetailScreen(
-            uiState = DetailUiState(
-                countdownDate = getMockCountDown(
-                    name = "This is a huge value to have as name",
-                    date = "2023-12-08T00:00:00"
-                ),
-                dayDetail = DayDetail(
-                    years = 1,
-                    days = 10,
-                    hours = 10,
-                    minutes = 10,
-                    isPast = false,
+            uiState = {
+                DetailUiState(
+                    countdownDate = getMockCountDown(
+                        name = "This is a huge value to have as name",
+                        date = "2023-12-08T00:00:00"
+                    ),
+                    dayDetail = DayDetail(
+                        years = 1,
+                        days = 10,
+                        hours = 10,
+                        minutes = 10,
+                        isPast = false,
+                    )
                 )
-            )
+            }
         )
     }
 }
 
-@Preview
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@PreviewLightDark
 @Composable
 private fun PrevCountDownDetailScreenError() {
     CountdownAppTheme {
         CountDownDetailScreen(
-            uiState = DetailUiState(
-                error = "Error happened and this screen was displayed"
-            ),
+            uiState = {
+                DetailUiState(
+                    error = "Error happened and this screen was displayed"
+                )
+            },
         )
     }
 }

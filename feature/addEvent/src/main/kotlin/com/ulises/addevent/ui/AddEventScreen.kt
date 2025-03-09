@@ -36,8 +36,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ulises.addevent.model.Actions
 import com.ulises.addevent.model.UiState
 import com.ulises.components.Loading
@@ -48,42 +46,23 @@ import com.ulises.date_utils.toMillis
 import com.ulises.theme.CountdownAppTheme
 import java.time.LocalDateTime
 
-@Composable
-fun AddEventRoute(
-    viewModel: AddEventViewModel = hiltViewModel(),
-    onBackPress: () -> Unit = {},
-) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
-    if (uiState.goBack) {
-        LaunchedEffect(Unit) {
-            onBackPress()
-        }
-    }
-
-    AddEventScreen(
-        uiState = uiState,
-        onBackPress = onBackPress,
-        onActionPerformed = viewModel::onHandleAction,
-    )
-}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddEventScreen(
-    uiState: UiState,
+internal fun AddEventScreen(
+    uiState: () -> UiState,
+    onGetTextFieldValue: () -> String = { "" },
     onBackPress: () -> Unit = {},
     onActionPerformed: (Actions) -> Unit = {},
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
-    val isDataReady by remember(uiState.eventName) {
-        derivedStateOf { uiState.eventName.trim().isNotBlank() }
+    val isDataReady by remember {
+        derivedStateOf { onGetTextFieldValue().trim().isNotBlank() }
     }
-    var isCalendarVisible by rememberSaveable { mutableStateOf(false) }
+    var isCalendarVisible by remember { mutableStateOf(false) }
 
-    if (uiState.error != null) {
-        LaunchedEffect(uiState.error) {
-            snackBarHostState.showSnackbar(uiState.error)
+    if (uiState().error != null) {
+        LaunchedEffect(uiState().error) {
+            snackBarHostState.showSnackbar(uiState().error ?: "")
             onActionPerformed(Actions.DismissError)
         }
     }
@@ -102,10 +81,10 @@ fun AddEventScreen(
                 .padding(it)
                 .padding(16.dp)
         ) {
-            if (uiState.isLoading) {
+            if (uiState().isLoading) {
                 Loading(); return@Surface
             }
-            uiState.dateTime?.also { date ->
+            uiState().dateTime?.also { date ->
                 AppDatePicker(
                     datePickerState = rememberDatePickerState(
                         initialSelectedDateMillis = date.toMillis()
@@ -123,7 +102,7 @@ fun AddEventScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 OutlinedTextField(
-                    value = uiState.eventName,
+                    value = onGetTextFieldValue(),
                     onValueChange = { text -> onActionPerformed(Actions.UpdateName(text)) },
                     label = { Text(stringResource(id = com.ulises.common.resources.R.string.add_screen_edit_text_event_name_placeholder)) },
                     singleLine = true,
@@ -143,7 +122,7 @@ fun AddEventScreen(
                         modifier = Modifier.size(30.dp)
                     )
                     Text(
-                        text = uiState.dateTime.toHumanReadable(),
+                        text = uiState().dateTime.toHumanReadable(),
                         fontSize = 30.sp,
                         textAlign = TextAlign.Center,
                     )
@@ -169,10 +148,12 @@ fun AddEventScreen(
 private fun PrevAddEventScreen() {
     CountdownAppTheme {
         AddEventScreen(
-            uiState = UiState(
-                isLoading = false,
-                dateTime = LocalDateTime.now(),
-            )
+            uiState = {
+                UiState(
+                    isLoading = false,
+                    dateTime = LocalDateTime.now(),
+                )
+            },
         )
     }
 }

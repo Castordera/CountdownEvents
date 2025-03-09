@@ -49,7 +49,6 @@ fun CountDownNavHost(
             }
         ) {
             AddEventRoute(
-                viewModel = hiltViewModel(),
                 onBackPress = { navController.popBackStack() }
             )
         }

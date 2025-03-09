@@ -1,5 +1,8 @@
 package com.ulises.addevent.ui
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -38,6 +41,7 @@ class AddEventViewModel @Inject constructor(
     private val eventId: String? = savedStateHandle.toRoute<Screen.AddEditCountdown>().countdownId
 
     private var event: CountdownDate? = null
+    private var name by mutableStateOf("")
     private val _uiState = MutableStateFlow(UiState())
     val uiState = _uiState.asStateFlow()
 
@@ -78,11 +82,11 @@ class AddEventViewModel @Inject constructor(
                     this@AddEventViewModel.event = event
                     _uiState.update {
                         it.copy(
-                            eventName = event.name,
                             dateTime = event.dateToCountdown,
                             isLoading = false
                         )
                     }
+                    name = event.name
                 }
         }
     }
@@ -99,7 +103,11 @@ class AddEventViewModel @Inject constructor(
     }
 
     private fun onEventNameChanged(value: String) {
-        _uiState.update { it.copy(eventName = value) }
+        name = value
+    }
+
+    fun getTextFieldValue(): String {
+        return name
     }
 
     private fun onSaveEvent() {
@@ -115,7 +123,7 @@ class AddEventViewModel @Inject constructor(
             runCatching {
                 val event = CountdownDate(
                     id = "${Date().time}",
-                    name = _uiState.value.eventName.trim(),
+                    name = name.trim(),
                     createdAt = LocalDate.now().format(DateTimeFormatter.ISO_DATE),
                     dateToCountdown = _uiState.value.dateTime!!
                 )
@@ -136,7 +144,7 @@ class AddEventViewModel @Inject constructor(
             runCatching {
                 checkNotNull(event)
                 val newEvent = event!!.copy(
-                    name = _uiState.value.eventName.trim(),
+                    name = name.trim(),
                     dateToCountdown = _uiState.value.dateTime!!
                 )
                 editEventUseCase(newEvent)
