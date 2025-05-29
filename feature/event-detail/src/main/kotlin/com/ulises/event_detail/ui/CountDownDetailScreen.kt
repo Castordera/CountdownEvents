@@ -2,16 +2,17 @@ package com.ulises.event_detail.ui
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -34,6 +35,7 @@ import com.ulises.components.toolbars.Toolbar
 import com.ulises.components.toolbars.ToolbarItem
 import com.ulises.date_utils.remainingTime
 import com.ulises.date_utils.toHumanReadable
+import com.ulises.event_detail.models.Actions
 import com.ulises.event_detail.models.DayDetail
 import com.ulises.event_detail.models.DetailUiState
 import com.ulises.preview_data.getMockCountDown
@@ -42,31 +44,38 @@ import com.ulises.theme.CountdownAppTheme
 @Composable
 internal fun CountDownDetailScreen(
     uiState: () -> DetailUiState,
-    onEditItem: (itemId: String) -> Unit = {},
-    onBackPress: () -> Unit = {},
+    onHandleAction: (Actions) -> Unit = {},
 ) {
     Scaffold(
         topBar = {
             Toolbar(
-                onBackPress = { onBackPress() },
+                onBackPress = { onHandleAction(Actions.Navigation.BackPressed) },
                 actions = {
+                    ToolbarItem(
+                        imageVector = Icons.Default.DateRange,
+                        description = "Duplicate",
+                        onClick = { onHandleAction(Actions.Interaction.DuplicateEvent) }
+                    )
                     ToolbarItem(
                         imageVector = Icons.Filled.Edit,
                         description = "Edit",
-                        onClick = { onEditItem(uiState().countdownDate?.id.orEmpty()) }
+                        onClick = {
+                            onHandleAction(Actions.Navigation.EditItem(uiState().countdownDate?.id.orEmpty()))
+                        }
                     )
                 }
             )
         }
-    ) {
-        Surface(
-            modifier = Modifier
-                .padding(it)
-                .fillMaxSize()
-        ) {
-            if (uiState().error.isNullOrEmpty()) {
-                DetailComponent(uiState = uiState)
-            } else {
+    ) { innerPadding ->
+        if (uiState().error.isNullOrEmpty()) {
+            DetailComponent(uiState = uiState, modifier = Modifier.padding(innerPadding))
+        } else {
+            Box(
+                modifier = Modifier
+                    .padding(innerPadding)
+                    .fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
                 DefaultErrorScreen(
                     imageRes = R.drawable.ic_error,
                     text = uiState().error ?: ""
@@ -78,10 +87,11 @@ internal fun CountDownDetailScreen(
 
 @Composable
 private fun DetailComponent(
+    modifier: Modifier = Modifier,
     uiState: () -> DetailUiState,
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {

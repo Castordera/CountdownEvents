@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.ulises.event_detail.models.Actions
 
 @Composable
 fun CountdownDetailRoute(
@@ -15,7 +16,12 @@ fun CountdownDetailRoute(
 
     CountDownDetailScreen(
         uiState = { uiState },
-        onEditItem = onEditItem,
-        onBackPress = onBackPress,
+        onHandleAction = {
+            when (it) {
+                is Actions.Navigation.BackPressed -> onBackPress()
+                is Actions.Navigation.EditItem -> onEditItem(it.id)
+                is Actions.Interaction -> viewModel.onHandleAction(it)
+            }
+        }
     )
 }

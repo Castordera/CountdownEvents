@@ -1,9 +1,11 @@
 package com.ulises.addevent.ui
 
 import androidx.lifecycle.SavedStateHandle
+import androidx.navigation.toRoute
 import app.cash.turbine.test
 import com.ulises.addevent.model.Actions
 import com.ulises.addevent.model.UiState
+import com.ulises.common.navigation.Screen
 import com.ulises.date_utils.zero
 import com.ulises.preview_data.getMockCountDown
 import com.ulises.usecase.countdown.AddEventUseCase
@@ -14,6 +16,7 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
+import io.mockk.mockkStatic
 import io.mockk.runs
 import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
@@ -34,20 +37,20 @@ class AddEventViewModelTest {
     private val addEventUseCase: AddEventUseCase = mockk()
     private val getEventUseCase: GetEventUseCase = mockk()
     private val editEventUseCase: EditEventUseCase = mockk()
-    private val savedStateHandle: SavedStateHandle = mockk()
+    private val savedStateHandle: SavedStateHandle = mockk(relaxed = true)
     private lateinit var viewModel: AddEventViewModel
 
     @Test
     fun `Should not call to get an event because is a new one`() = runTest {
         val todayDate = LocalDateTime.now().zero()
-        //
-        init(id = "null")
+        init(id = null)
+        assertEquals(viewModel.eventId, null)
         //
         viewModel.uiState.test {
             val item = awaitItem()
             assertTrue(item.dateTime?.compareWith(todayDate) == true)
         }
-
+        //
         verify(inverse = true) {
             getEventUseCase(any())
         }
@@ -64,7 +67,6 @@ class AddEventViewModelTest {
         viewModel.uiState.test {
             assertEquals(
                 UiState(
-                    eventName = event.name,
                     dateTime = event.dateToCountdown,
                     isLoading = false
                 ),
@@ -105,7 +107,6 @@ class AddEventViewModelTest {
         viewModel.uiState.test {
             skipItems(1)
             viewModel.onHandleAction(Actions.UpdateName(name))
-            assertEquals(awaitItem().eventName, name)
             viewModel.onHandleAction(Actions.SendData)
             assertTrue(awaitItem().goBack)
         }
@@ -116,13 +117,16 @@ class AddEventViewModelTest {
         return year == date.year && dayOfYear == date.dayOfYear
     }
 
-    private fun init(id: String) {
-        every { savedStateHandle.get<String>("item") } returns id
+    private fun init(id: String?) {
+        val mockModel = mockk<Screen.AddEditCountdown>()
+        mockkStatic("androidx.navigation.SavedStateHandleKt")
+        every { savedStateHandle.toRoute<Screen.AddEditCountdown>() } returns mockModel
+        every { mockModel.countdownId } returns id
         viewModel = AddEventViewModel(
             savedStateHandle = savedStateHandle,
             addEventUseCase = addEventUseCase,
             getEventUseCase = getEventUseCase,
-            editEventUseCase = editEventUseCase
+            editEventUseCase = editEventUseCase,
         )
     }
 }

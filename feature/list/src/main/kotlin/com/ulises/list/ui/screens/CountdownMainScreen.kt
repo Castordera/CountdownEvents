@@ -1,6 +1,5 @@
 package com.ulises.list.ui.screens
 
-import android.content.res.Configuration
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
@@ -30,9 +29,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import com.example.domain.models.CountdownDate
 import com.example.domain.models.YearsData
 import com.ulises.components.Loading
 import com.ulises.components.toolbars.Toolbar
@@ -49,8 +47,6 @@ import com.ulises.theme.CountdownAppTheme
 @Composable
 internal fun CountdownMainScreen(
     uiState: UiState,
-    onAddNewClick: () -> Unit = {},
-    onClickItem: (CountdownDate) -> Unit = {},
     onHandleAction: (Actions) -> Unit = {},
 ) {
     var bottomSheetVisible by remember { mutableStateOf(false) }
@@ -62,12 +58,12 @@ internal fun CountdownMainScreen(
     if (uiState.error != null) {
         LaunchedEffect(uiState.error) {
             snackBarHostState.showSnackbar(uiState.error)
-            onHandleAction(Actions.DismissError)
+            onHandleAction(Actions.Interaction.DismissError)
         }
     }
 
     if (uiState.isSelectionMode) {
-        BackHandler { onHandleAction(Actions.CancelSelection) }
+        BackHandler { onHandleAction(Actions.Interaction.CancelSelection) }
     }
 
     Scaffold(
@@ -78,13 +74,13 @@ internal fun CountdownMainScreen(
                     ToolbarItem(
                         imageVector = Icons.Filled.Add,
                         description = "Add",
-                        onClick = onAddNewClick,
+                        onClick = { onHandleAction(Actions.Navigation.AddItem) },
                     )
                     ToolbarItem(
                         iconRes = if (!uiState.isGrid) com.ulises.common.resources.R.drawable.ic_grid_view else com.ulises.common.resources.R.drawable.ic_view_list,
                         description = "Change View",
                         isVisible = emptyValues,
-                        onClick = { onHandleAction(Actions.ToggleListType) }
+                        onClick = { onHandleAction(Actions.Interaction.ToggleListType) }
                     )
                 }
             )
@@ -92,7 +88,7 @@ internal fun CountdownMainScreen(
         snackbarHost = { SnackbarHost(hostState = snackBarHostState) },
         floatingActionButton = {
             AnimatedVisibility(visible = uiState.isSelectionMode) {
-                FloatingActionButton(onClick = { onHandleAction(Actions.DeleteSelectedItems) }) {
+                FloatingActionButton(onClick = { onHandleAction(Actions.Interaction.DeleteSelectedItems) }) {
                     Icon(imageVector = Icons.Filled.Delete, contentDescription = null)
                 }
             }
@@ -120,7 +116,7 @@ internal fun CountdownMainScreen(
                     items(uiState.yearsData.items) {
                         FilterChip(
                             selected = uiState.yearsData.selected == it,
-                            onClick = { onHandleAction(Actions.ChangeSelectedYear(it)) },
+                            onClick = { onHandleAction(Actions.Interaction.ChangeSelectedYear(it)) },
                             label = { Text(text = it) }
                         )
                     }
@@ -128,8 +124,7 @@ internal fun CountdownMainScreen(
             }
             if (uiState.activeItems.isNullOrEmpty() && uiState.passedItems.isNullOrEmpty()) {
                 NoEventsScreen(modifier = Modifier.padding(padding))
-            }
-            else if (!uiState.isGrid) {
+            } else if (!uiState.isGrid) {
                 CountDownList(
                     items = uiState.activeItems.orEmpty(),
                     passedItems = uiState.passedItems.orEmpty(),
@@ -137,16 +132,16 @@ internal fun CountdownMainScreen(
                     isSelectionMode = uiState.isSelectionMode,
                     onClickItem = { event ->
                         if (uiState.isSelectionMode) {
-                            onHandleAction(Actions.AddSelectedItem(event.id))
+                            onHandleAction(Actions.Interaction.AddSelectedItem(event.id))
                         } else {
-                            onClickItem(event)
+                            onHandleAction(Actions.Navigation.DetailItem(event))
                         }
                     },
                     onLongClickItem = { event ->
-                        onHandleAction(Actions.AddSelectedItem(event.id))
+                        onHandleAction(Actions.Interaction.AddSelectedItem(event.id))
                     },
                     onCountdownClick = { event ->
-                        onHandleAction(Actions.ChangeTimeCalculation(event))
+                        onHandleAction(Actions.Interaction.ChangeTimeCalculation(event))
                     },
                 )
             } else {
@@ -157,16 +152,16 @@ internal fun CountdownMainScreen(
                     isSelectionMode = uiState.isSelectionMode,
                     onClickItem = { event ->
                         if (uiState.isSelectionMode) {
-                            onHandleAction(Actions.AddSelectedItem(event.id))
+                            onHandleAction(Actions.Interaction.AddSelectedItem(event.id))
                         } else {
-                            onClickItem(event)
+                            onHandleAction(Actions.Navigation.DetailItem(event))
                         }
                     },
                     onLongClickItem = { event ->
-                        onHandleAction(Actions.AddSelectedItem(event.id))
+                        onHandleAction(Actions.Interaction.AddSelectedItem(event.id))
                     },
                     onCountdownClick = { event ->
-                        onHandleAction(Actions.ChangeTimeCalculation(event))
+                        onHandleAction(Actions.Interaction.ChangeTimeCalculation(event))
                     },
                 )
             }
@@ -177,8 +172,7 @@ internal fun CountdownMainScreen(
     }
 }
 
-@Preview
-@Preview(name = "Dark", uiMode = Configuration.UI_MODE_NIGHT_YES)
+@PreviewLightDark
 @Composable
 private fun PrevCountDownScreen() {
     CountdownAppTheme {
@@ -195,8 +189,7 @@ private fun PrevCountDownScreen() {
     }
 }
 
-@Preview
-@Preview(name = "Dark", uiMode = Configuration.UI_MODE_NIGHT_YES)
+@PreviewLightDark
 @Composable
 private fun PrevCountDownScreenGrid() {
     CountdownAppTheme {
@@ -210,8 +203,7 @@ private fun PrevCountDownScreenGrid() {
     }
 }
 
-@Preview
-@Preview(name = "Dark", uiMode = Configuration.UI_MODE_NIGHT_YES)
+@PreviewLightDark
 @Composable
 private fun PrevCountDownScreenNoEvents() {
     CountdownAppTheme {

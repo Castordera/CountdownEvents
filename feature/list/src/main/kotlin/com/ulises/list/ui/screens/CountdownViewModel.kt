@@ -76,15 +76,15 @@ class CountdownViewModel @Inject constructor(
         initialValue = UiState()
     )
 
-    fun onHandleAction(action: Actions) {
+    fun onHandleAction(action: Actions.Interaction) {
         when (action) {
-            Actions.ToggleListType -> onListChangeAdapter()
-            Actions.DismissError -> onErrorMessageDisplayed()
-            is Actions.ChangeTimeCalculation -> onCountdownClickTypeChange(action.item)
-            Actions.CancelSelection -> onCancelSelection()
-            is Actions.AddSelectedItem -> onSelectEvent(action.item)
-            Actions.DeleteSelectedItems -> onDeleteEvents()
-            is Actions.ChangeSelectedYear -> onChangeSelectedYear(action.year)
+            Actions.Interaction.ToggleListType -> onListChangeAdapter()
+            Actions.Interaction.DismissError -> onErrorMessageDisplayed()
+            is Actions.Interaction.ChangeTimeCalculation -> onCountdownClickTypeChange(action.item)
+            Actions.Interaction.CancelSelection -> onCancelSelection()
+            is Actions.Interaction.AddSelectedItem -> onSelectEvent(action.item)
+            Actions.Interaction.DeleteSelectedItems -> onDeleteEvents()
+            is Actions.Interaction.ChangeSelectedYear -> onChangeSelectedYear(action.year)
         }
     }
 

@@ -38,7 +38,7 @@ class AddEventViewModel @Inject constructor(
     private val editEventUseCase: EditEventUseCase
 ) : ViewModel() {
 
-    private val eventId: String? = savedStateHandle.toRoute<Screen.AddEditCountdown>().countdownId
+    val eventId: String? = savedStateHandle.toRoute<Screen.AddEditCountdown>().countdownId
 
     private var event: CountdownDate? = null
     private var name by mutableStateOf("")

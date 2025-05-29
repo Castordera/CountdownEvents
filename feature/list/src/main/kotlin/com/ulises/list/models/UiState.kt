@@ -1,11 +1,9 @@
 package com.ulises.list.models
 
-import androidx.compose.runtime.Stable
-import com.example.domain.models.CountdownDate
 import com.example.domain.enums.CountdownSortType
+import com.example.domain.models.CountdownDate
 import com.example.domain.models.YearsData
 
-@Stable
 data class UiState(
     val loading: Boolean = true,
     val activeItems: List<CountdownDate>? = null,
