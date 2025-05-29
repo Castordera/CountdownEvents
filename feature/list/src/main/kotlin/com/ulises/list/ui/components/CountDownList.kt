@@ -78,7 +78,7 @@ private fun Prev_CountDownList() {
         Surface {
             CountDownList(
                 items = listItemsPreview,
-                passedItems = listItemsPreview,
+                passedItems = emptyList(),
                 selectedItems = emptySet(),
                 isSelectionMode = false,
             )

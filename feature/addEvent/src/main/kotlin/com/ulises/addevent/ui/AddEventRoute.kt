@@ -5,6 +5,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.ulises.addevent.model.Actions
 
 @Composable
 fun AddEventRoute(
@@ -22,7 +23,11 @@ fun AddEventRoute(
     AddEventScreen(
         uiState = { uiState },
         onGetTextFieldValue = viewModel::getTextFieldValue,
-        onBackPress = onBackPress,
-        onActionPerformed = viewModel::onHandleAction,
+        onHandleAction = {
+            when (it) {
+                is Actions.Navigation.BackPressed -> onBackPress()
+                is Actions.Interaction -> viewModel.onHandleAction(it)
+            }
+        }
     )
 }

@@ -49,12 +49,12 @@ class AddEventViewModel @Inject constructor(
         setInitialData()
     }
 
-    fun onHandleAction(action: Actions) {
+    fun onHandleAction(action: Actions.Interaction) {
         when (action) {
-            Actions.DismissError -> onErrorMessageDisplayed()
-            Actions.SendData -> onSaveEvent()
-            is Actions.UpdateName -> onEventNameChanged(action.name)
-            is Actions.DateSelection -> onDateSelected(action.time)
+            Actions.Interaction.DismissError -> onErrorMessageDisplayed()
+            Actions.Interaction.SendData -> onSaveEvent()
+            is Actions.Interaction.UpdateName -> onEventNameChanged(action.name)
+            is Actions.Interaction.DateSelection -> onDateSelected(action.time)
         }
     }
 

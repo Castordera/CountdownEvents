@@ -49,8 +49,7 @@ import java.time.LocalDateTime
 internal fun AddEventScreen(
     uiState: () -> UiState,
     onGetTextFieldValue: () -> String = { "" },
-    onBackPress: () -> Unit = {},
-    onActionPerformed: (Actions) -> Unit = {},
+    onHandleAction: (Actions) -> Unit = {},
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
     val isDataReady by remember {
@@ -61,7 +60,7 @@ internal fun AddEventScreen(
     if (uiState().error != null) {
         LaunchedEffect(uiState().error) {
             snackBarHostState.showSnackbar(uiState().error ?: "")
-            onActionPerformed(Actions.DismissError)
+            onHandleAction(Actions.Interaction.DismissError)
         }
     }
 
@@ -69,7 +68,7 @@ internal fun AddEventScreen(
         topBar = {
             Toolbar(
                 title = stringResource(id = com.ulises.common.resources.R.string.add_screen_title),
-                onBackPress = onBackPress,
+                onBackPress = { onHandleAction(Actions.Navigation.BackPressed) },
             )
         },
         snackbarHost = { SnackbarHost(hostState = snackBarHostState) }
@@ -90,7 +89,7 @@ internal fun AddEventScreen(
                     isVisible = isCalendarVisible,
                     onCancelClick = { isCalendarVisible = false },
                     onDateSelected = { time ->
-                        onActionPerformed(Actions.DateSelection(time))
+                        onHandleAction(Actions.Interaction.DateSelection(time))
                         isCalendarVisible = false
                     },
                 )
@@ -101,7 +100,7 @@ internal fun AddEventScreen(
             ) {
                 OutlinedTextField(
                     value = onGetTextFieldValue(),
-                    onValueChange = { text -> onActionPerformed(Actions.UpdateName(text)) },
+                    onValueChange = { text -> onHandleAction(Actions.Interaction.UpdateName(text)) },
                     label = { Text(stringResource(id = com.ulises.common.resources.R.string.add_screen_edit_text_event_name_placeholder)) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth()
@@ -126,7 +125,7 @@ internal fun AddEventScreen(
                     )
                 }
                 Button(
-                    onClick = { onActionPerformed(Actions.SendData) },
+                    onClick = { onHandleAction(Actions.Interaction.SendData) },
                     enabled = isDataReady,
                 ) {
                     Text(

@@ -6,6 +6,7 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
+import java.util.Locale
 
 fun Long.toLocalDateTime(): LocalDateTime {
     return Instant.ofEpochMilli(this).atZone(ZoneId.of("UTC")).toLocalDateTime()
@@ -25,14 +26,20 @@ fun LocalDateTime?.toHumanReadable(includeDay: Boolean = false): String {
     val format = if (includeDay) {
         DateTimeFormatter.ofPattern("EEE, dd MMM yyyy")
     } else {
-        DateTimeFormatter.ofPattern("dd MMM yyyy")
+        DateTimeFormatter.ofPattern("dd MMMM yyyy")
     }
-    return format(format)
+    return format(format).replaceFirstChar {
+        if (it.isLowerCase()) it.titlecase(Locale.getDefault())
+        else it.toString()
+    }
 }
 
 fun LocalDate?.toHumanReadable(pattern: String = "dd MMMM yyyy"): String {
     if (this == null) return "N/A"
-    return format(DateTimeFormatter.ofPattern(pattern))
+    return format(DateTimeFormatter.ofPattern(pattern)).replaceFirstChar {
+        if (it.isLowerCase()) it.titlecase(Locale.getDefault())
+        else it.toString()
+    }
 }
 
 fun LocalDate.daysTo(date: LocalDate): Int {

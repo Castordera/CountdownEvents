@@ -2,7 +2,6 @@
 
 package com.ulises.list.ui.components
 
-import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
@@ -38,7 +37,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.domain.models.CountdownDate
@@ -107,17 +106,17 @@ fun CountDownItemList(
             Column(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(horizontal = 8.dp)
+                    .padding(horizontal = 8.dp),
             ) {
                 Text(
                     text = item.name,
                     fontSize = 20.sp,
                     maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
                 )
                 Text(
                     text = item.dateToCountdown.toHumanReadable(true),
-                    fontStyle = FontStyle.Italic
+                    fontStyle = FontStyle.Italic,
                 )
             }
             if (dateHandler.isToday) {
@@ -253,8 +252,7 @@ fun getStringTimeLabel(dateHandler: DateHandler): String {
     }
 }
 
-@Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Preview
+@PreviewLightDark
 @Composable
 fun PrevCountDownItem() {
     CountdownAppTheme {
@@ -282,8 +280,7 @@ fun PrevCountDownItem() {
     }
 }
 
-@Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Preview
+@PreviewLightDark
 @Composable
 fun PrevCountDownItemGrid() {
     CountdownAppTheme {
