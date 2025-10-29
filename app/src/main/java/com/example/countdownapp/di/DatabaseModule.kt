@@ -22,7 +22,7 @@ object DatabaseModule {
         app,
         CountdownDatabase::class.java,
         databaseName
-    ).fallbackToDestructiveMigration().build()
+    ).fallbackToDestructiveMigration(false).build()
 
     @Provides
     @Singleton

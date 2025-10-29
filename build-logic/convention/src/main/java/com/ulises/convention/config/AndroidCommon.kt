@@ -9,7 +9,7 @@ internal fun Project.configureAndroidCommon(
     extension: CommonExtension<*, *, *, *, *, *>
 ) {
     extension.apply {
-        compileSdk = 35
+        compileSdk = 36
 
         defaultConfig {
             minSdk = 28
@@ -36,7 +36,7 @@ internal fun Project.configureAndroidAppCommon(
 ) {
     extension.apply {
         defaultConfig {
-            targetSdk = 34
+            targetSdk = 35
         }
     }
 }

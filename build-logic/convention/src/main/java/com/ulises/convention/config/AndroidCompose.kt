@@ -24,6 +24,7 @@ internal fun Project.configureAndroidCompose(
 //            implementation(libs.library("androidx-ui-animation"))
             debugImplementation(libs.library("androidx-ui-tooling"))
             implementation(libs.library("compose-material3"))
+            implementation(libs.library("compose-icons"))
         }
     }
 }
