@@ -1,26 +1,26 @@
-package com.ulises.event_detail.ui
+package com.ulises.event_detail
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.ulises.event_detail.models.Actions
+import com.ulises.event_detail.content.EventDetailContent
+import com.ulises.event_detail.ui.CountdownDetailViewModel
 
 @Composable
-fun CountdownDetailRoute(
+fun CountdownDetailScreen(
     viewModel: CountdownDetailViewModel = hiltViewModel(),
     onBackPress: () -> Unit,
     onEditItem: (String) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    CountDownDetailScreen(
-        uiState = { uiState },
-        onHandleAction = {
-            when (it) {
-                is Actions.Navigation.BackPressed -> onBackPress()
-                is Actions.Navigation.EditItem -> onEditItem(it.id)
-                is Actions.Interaction -> viewModel.onHandleAction(it)
+    EventDetailContent(
+        uiState = uiState,
+        onHandleAction = { action ->
+            when(action) {
+                Action.BackPressed -> onBackPress()
+                else -> viewModel.onHandleAction(action)
             }
         }
     )

@@ -1,4 +1,4 @@
-package com.ulises.list.ui.screens
+package com.ulises.list.ui.contents
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,9 +7,11 @@ import com.example.domain.models.CountdownDate
 import com.example.domain.models.YearsData
 import com.ulises.data.DataStorePreferences
 import com.ulises.datastore.KEY_STORED_VALUES
+import com.ulises.list.Action
 import com.ulises.list.models.Actions
 import com.ulises.list.models.UiState
 import com.ulises.list.utils.yearSelected
+import com.ulises.usecase.countdown.AddEventUseCase
 import com.ulises.usecase.countdown.DeleteEventUseCase
 import com.ulises.usecase.countdown.EditEventUseCase
 import com.ulises.usecase.countdown.GetAllEventsUseCase
@@ -25,13 +27,13 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.time.LocalDate
-import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
 class CountdownViewModel @Inject constructor(
     getAllEventsUseCase: GetAllEventsUseCase,
     getYearsWithDataUseCase: GetYearsWithDataUseCase,
+    private val addEventUseCase: AddEventUseCase,
     private val dataStore: DataStorePreferences<Boolean>,
     private val deleteEventUseCase: DeleteEventUseCase,
     private val editEventUseCase: EditEventUseCase,
@@ -43,6 +45,7 @@ class CountdownViewModel @Inject constructor(
     private data class LocalState(
         val error: String? = null,
         val selectedEvents: Set<String> = emptySet(),
+        val addSheetVisible: Boolean = false,
     )
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -61,13 +64,14 @@ class CountdownViewModel @Inject constructor(
             val items = events.handleEvents()
             UiState(
                 loading = false,
-                activeItems = items[true],
-                passedItems = items[false],
+                activeItems = items[true] ?: emptyList(),
+                passedItems = items[false] ?: emptyList(),
                 error = localState.error,
                 isGrid = isGrid,
                 isSelectionMode = localState.selectedEvents.isNotEmpty(),
                 selectedEvents = localState.selectedEvents,
                 yearsData = yearsData,
+                addSheetVisible = localState.addSheetVisible,
             )
         }
     }.stateIn(
@@ -75,6 +79,26 @@ class CountdownViewModel @Inject constructor(
         started = SharingStarted.WhileSubscribed(5_000),
         initialValue = UiState()
     )
+
+    fun onHandleAction(action: Action) = when (action) {
+        is Action.SelectedYearClicked -> onChangeSelectedYear(action.selection)
+        Action.DisplayAddEventSheet -> localState.update { it.copy(addSheetVisible = true) }
+        Action.DismissAddEventSheet -> localState.update { it.copy(addSheetVisible = false) }
+        is Action.AddEvent -> addEvent(action.event)
+        else -> {}
+    }
+
+    private fun addEvent(event: CountdownDate) {
+        viewModelScope.launch {
+            runCatching {
+                addEventUseCase(event)
+            }.onFailure {
+                Timber.e(it, "Error adding event")
+            }.onSuccess {
+                onHandleAction(Action.DismissAddEventSheet)
+            }
+        }
+    }
 
     fun onHandleAction(action: Actions.Interaction) {
         when (action) {
@@ -89,8 +113,8 @@ class CountdownViewModel @Inject constructor(
     }
 
     private fun List<CountdownDate>.handleEvents(): Map<Boolean, List<CountdownDate>> {
-        val currentDay = LocalDateTime.now().minusDays(1)
-        return this.groupBy { it.dateToCountdown > currentDay }
+        val currentDay = LocalDate.now().minusDays(1)
+        return this.groupBy { it.date > currentDay }
     }
 
     private fun onSelectEvent(eventId: String) {

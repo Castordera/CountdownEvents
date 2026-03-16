@@ -9,7 +9,7 @@ import com.ulises.common.database.entities.DateConverter
 import com.ulises.common.database.entities.DateDisplayConverter
 
 @Database(entities = [Countdown::class], version = 2, exportSchema = false)
-@TypeConverters(DateConverter::class, DateDisplayConverter::class)
+@TypeConverters(DateDisplayConverter::class, DateConverter::class)
 abstract class CountdownDatabase : RoomDatabase() {
     abstract fun counterDao(): CountdownDao
 }

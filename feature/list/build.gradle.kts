@@ -23,6 +23,7 @@ dependencies {
     implementation(project(":common:navigation"))
     implementation(project(":common:datastore"))
     implementation(project(":common:resources"))
+    implementation(project(":feature:addEvent"))
     //  Hilt
     implementation(libs.bundles.hilt.core)
     ksp(libs.hilt.compiler)

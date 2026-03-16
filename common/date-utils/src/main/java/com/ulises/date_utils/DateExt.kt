@@ -4,6 +4,7 @@ import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
+import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import java.util.Locale
@@ -15,6 +16,7 @@ fun Long.toLocalDateTime(): LocalDateTime {
 fun LocalDateTime.toMillis(): Long {
     return this.atZone(ZoneId.of("UTC")).toInstant().toEpochMilli()
 }
+
 fun LocalDateTime.zero(): LocalDateTime {
     return this.withHour(0)
         .withMinute(0)
@@ -45,4 +47,17 @@ fun LocalDate?.toHumanReadable(pattern: String = "dd MMMM yyyy"): String {
 fun LocalDate.daysTo(date: LocalDate): Int {
     //Period.between()
     return ChronoUnit.DAYS.between(this, date).toInt()
+}
+
+//V2
+fun LocalDate.format(format: String = "EEE, d MMMM yyyy"): String {
+    return this.format(DateTimeFormatter.ofPattern(format, Locale("es", "MX")))
+}
+
+fun LocalDate.toMillis(): Long {
+    return this.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli()
+}
+
+fun Long.toLocalDate(): LocalDate {
+    return Instant.ofEpochMilli(this).atZone(ZoneOffset.UTC).toLocalDate()
 }

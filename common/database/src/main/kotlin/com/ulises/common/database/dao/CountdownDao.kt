@@ -10,10 +10,10 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface CountdownDao {
 
-    @Query("SELECT * FROM Countdown ORDER BY selectedDate")
+    @Query("SELECT * FROM Countdown ORDER BY date")
     fun getAllCounters(): Flow<List<Countdown>>
 
-    @Query("SELECT * FROM Countdown WHERE selectedDate LIKE :yearQuery ORDER BY selectedDate")
+    @Query("SELECT * FROM Countdown WHERE date LIKE :yearQuery ORDER BY date")
     fun getEventsForYear(yearQuery: String): Flow<List<Countdown>>
 
     @Query("SELECT * FROM Countdown WHERE id = :id")
@@ -31,6 +31,6 @@ interface CountdownDao {
     @Query("DELETE FROM Countdown WHERE id IN (:items)")
     suspend fun deleteCountDowns(items: Set<String>)
 
-    @Query("SELECT DISTINCT substring(selectedDate, 1, 4) FROM Countdown ORDER BY selectedDate DESC")
+    @Query("SELECT DISTINCT substring(date, 1, 4) FROM Countdown ORDER BY date DESC")
     fun getYearsWithData(): Flow<List<String>>
 }

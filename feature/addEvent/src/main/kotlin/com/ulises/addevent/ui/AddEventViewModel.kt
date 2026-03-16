@@ -35,7 +35,7 @@ class AddEventViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val addEventUseCase: AddEventUseCase,
     private val getEventUseCase: GetEventUseCase,
-    private val editEventUseCase: EditEventUseCase
+    private val editEventUseCase: EditEventUseCase,
 ) : ViewModel() {
 
     val eventId: String? = savedStateHandle.toRoute<Screen.AddEditCountdown>().countdownId
@@ -80,12 +80,12 @@ class AddEventViewModel @Inject constructor(
                 .collect { event ->
                     Timber.d("Event received: $event")
                     this@AddEventViewModel.event = event
-                    _uiState.update {
-                        it.copy(
-                            dateTime = event.dateToCountdown,
-                            isLoading = false
-                        )
-                    }
+//                    _uiState.update {
+////                        it.copy(
+////                            dateTime = event.dateToCountdown,
+////                            isLoading = false
+////                        )
+//                    }
                     name = event.name
                 }
         }
@@ -119,42 +119,42 @@ class AddEventViewModel @Inject constructor(
     }
 
     private fun createNewEvent() {
-        viewModelScope.launch {
-            runCatching {
-                val event = CountdownDate(
-                    id = "${Date().time}",
-                    name = name.trim(),
-                    createdAt = LocalDate.now().format(DateTimeFormatter.ISO_DATE),
-                    dateToCountdown = _uiState.value.dateTime!!
-                )
-                Timber.d("Create Event: $event")
-                addEventUseCase(event)
-            }.onSuccess {
-                Timber.d("Event stored")
-                _uiState.update { state -> state.copy(goBack = true) }
-            }.onFailure { error ->
-                Timber.e(error, "Error adding event")
-                _uiState.update { it.copy(error = error.localizedMessage) }
-            }
-        }
+//        viewModelScope.launch {
+//            runCatching {
+//                val event = CountdownDate(
+//                    id = "${Date().time}",
+//                    name = name.trim(),
+//                    createdAt = LocalDate.now().format(DateTimeFormatter.ISO_DATE),
+//                    dateToCountdown = _uiState.value.dateTime!!
+//                )
+//                Timber.d("Create Event: $event")
+//                addEventUseCase(event)
+//            }.onSuccess {
+//                Timber.d("Event stored")
+//                _uiState.update { state -> state.copy(goBack = true) }
+//            }.onFailure { error ->
+//                Timber.e(error, "Error adding event")
+//                _uiState.update { it.copy(error = error.localizedMessage) }
+//            }
+//        }
     }
 
     private fun editEvent() {
         viewModelScope.launch {
-            runCatching {
-                checkNotNull(event)
-                val newEvent = event!!.copy(
-                    name = name.trim(),
-                    dateToCountdown = _uiState.value.dateTime!!
-                )
-                editEventUseCase(newEvent)
-            }.onFailure { error ->
-                Timber.e(error, "Error editing event")
-                _uiState.update { it.copy(error = error.localizedMessage) }
-            }.onSuccess {
-                Timber.d("Event edited success")
-                _uiState.update { state -> state.copy(goBack = true) }
-            }
+//            runCatching {
+//                checkNotNull(event)
+//                val newEvent = event!!.copy(
+//                    name = name.trim(),
+//                    dateToCountdown = _uiState.value.dateTime!!
+//                )
+//                editEventUseCase(newEvent)
+//            }.onFailure { error ->
+//                Timber.e(error, "Error editing event")
+//                _uiState.update { it.copy(error = error.localizedMessage) }
+//            }.onSuccess {
+//                Timber.d("Event edited success")
+//                _uiState.update { state -> state.copy(goBack = true) }
+//            }
         }
     }
 
