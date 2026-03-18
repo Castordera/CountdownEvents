@@ -11,13 +11,17 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,32 +31,59 @@ import androidx.compose.ui.unit.sp
 import com.ulises.components.backgroundColor
 import com.ulises.components.textColor
 import com.ulises.components.toolbars.AppTopBar
-import com.ulises.components.toolbars.AppTopBarIcon
+import com.ulises.components.toolbars.IconBtn
 import com.ulises.date_utils.format
 import com.ulises.date_utils.fromToday
 import com.ulises.event_detail.Action
 import com.ulises.event_detail.components.CountBlock
 import com.ulises.event_detail.components.StatCard
-import com.ulises.event_detail.models.DetailUiState
+import com.ulises.event_detail.models.UiState
 import com.ulises.preview_data.getMockCountDown
 import com.ulises.theme.CountdownAppTheme
 import kotlin.math.abs
 
 @Composable
 internal fun EventDetailContent(
-    uiState: DetailUiState,
+    uiState: UiState,
     onHandleAction: (Action) -> Unit = {},
 ) {
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    if (uiState.message != null) {
+        LaunchedEffect(uiState.message) {
+            snackbarHostState.showSnackbar(
+                message = uiState.message,
+                withDismissAction = true,
+            )
+        }
+    }
+
+    if (uiState.forceBack) {
+        onHandleAction(Action.BackPressed)
+    }
+
     Scaffold(
+        snackbarHost = {
+            SnackbarHost(snackbarHostState) { data ->
+                Snackbar(
+                    snackbarData = data,
+                    containerColor = MaterialTheme.colorScheme.onSurface,
+                    contentColor = MaterialTheme.colorScheme.surface,
+                    actionColor = MaterialTheme.colorScheme.secondary,
+                    shape = MaterialTheme.shapes.medium,
+                )
+            }
+        },
         topBar = {
             AppTopBar(
                 onBackPress = { onHandleAction(Action.BackPressed) },
                 actions = {
-                    AppTopBarIcon({}) {
-                        Icon(Icons.Filled.DateRange, null)
-                    }
-                    AppTopBarIcon({}) {
-                        Icon(Icons.Filled.Edit, null)
+                    IconBtn({ onHandleAction(Action.DeleteEvent) }) {
+                        Icon(
+                            imageVector = Icons.Filled.Delete,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.error
+                        )
                     }
                 }
             )
@@ -143,7 +174,7 @@ private fun EventDetailContentPreview() {
     CountdownAppTheme {
         EventDetailContent(
             uiState =
-                DetailUiState(
+                UiState(
                     countdownDate = getMockCountDown(
                         name = "This is a huge value to have as name",
                         realDate = "2023-12-08T"

@@ -5,7 +5,6 @@ import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ulises.event_detail.content.EventDetailContent
-import com.ulises.event_detail.ui.CountdownDetailViewModel
 
 @Composable
 fun CountdownDetailScreen(
