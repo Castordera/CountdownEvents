@@ -13,6 +13,7 @@ data class Countdown(
     val createdAt: String,
     val dateDisplayType: DateDisplayType,
     val date: LocalDate,
+    val emoji: String,
 )
 
 fun CountdownDate.toEntity() = Countdown(
@@ -21,6 +22,7 @@ fun CountdownDate.toEntity() = Countdown(
     createdAt = createdAt,
     dateDisplayType = dateDisplayType,
     date = date,
+    emoji = emoji,
 )
 
 fun Countdown.toDomain() = CountdownDate(
@@ -29,4 +31,5 @@ fun Countdown.toDomain() = CountdownDate(
     createdAt = createdAt,
     dateDisplayType = dateDisplayType,
     date = date,
+    emoji = emoji,
 )

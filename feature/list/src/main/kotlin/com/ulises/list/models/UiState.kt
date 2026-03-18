@@ -8,7 +8,7 @@ data class UiState(
     val loading: Boolean = true,
     val activeItems: List<CountdownDate> = emptyList(),
     val passedItems: List<CountdownDate> = emptyList(),
-    val error: String? = null,
+    val message: String = "",
     val isGrid: Boolean = false,
     val sortType: CountdownSortType = CountdownSortType.NORMAL,
     val selectedEvents: Set<String> = emptySet(),

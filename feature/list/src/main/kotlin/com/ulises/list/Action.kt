@@ -8,4 +8,6 @@ sealed interface Action {
     data class SelectedYearClicked(val selection: String) : Action
     data class GoToDetailScreen(val event: CountdownDate) : Action
     data class AddEvent(val event: CountdownDate) : Action
+    data class DeleteEvent(val event: CountdownDate) : Action
+    data object SnackBarDismissed : Action
 }

@@ -1,4 +1,4 @@
-package com.ulises.list.ui.contents
+package com.ulises.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,8 +7,6 @@ import com.example.domain.models.CountdownDate
 import com.example.domain.models.YearsData
 import com.ulises.data.DataStorePreferences
 import com.ulises.datastore.KEY_STORED_VALUES
-import com.ulises.list.Action
-import com.ulises.list.models.Actions
 import com.ulises.list.models.UiState
 import com.ulises.list.utils.yearSelected
 import com.ulises.usecase.countdown.AddEventUseCase
@@ -43,7 +41,7 @@ class CountdownViewModel @Inject constructor(
     private val selectedYearFlow = MutableStateFlow(LocalDate.now().year.toString())
 
     private data class LocalState(
-        val error: String? = null,
+        val message: String = "",
         val selectedEvents: Set<String> = emptySet(),
         val addSheetVisible: Boolean = false,
     )
@@ -66,7 +64,7 @@ class CountdownViewModel @Inject constructor(
                 loading = false,
                 activeItems = items[true] ?: emptyList(),
                 passedItems = items[false] ?: emptyList(),
-                error = localState.error,
+                message = localState.message,
                 isGrid = isGrid,
                 isSelectionMode = localState.selectedEvents.isNotEmpty(),
                 selectedEvents = localState.selectedEvents,
@@ -85,7 +83,22 @@ class CountdownViewModel @Inject constructor(
         Action.DisplayAddEventSheet -> localState.update { it.copy(addSheetVisible = true) }
         Action.DismissAddEventSheet -> localState.update { it.copy(addSheetVisible = false) }
         is Action.AddEvent -> addEvent(action.event)
+        is Action.DeleteEvent -> deleteEvent(action.event)
+        Action.SnackBarDismissed -> localState.update { it.copy(message = "") }
         else -> {}
+    }
+
+    private fun deleteEvent(event: CountdownDate) {
+        viewModelScope.launch {
+            runCatching {
+                deleteEventUseCase(event.id)
+            }.onFailure {
+                Timber.e(it, "Error deleting event")
+                localState.update { it.copy(message = "Problema al eliminar el evento") }
+            }.onSuccess {
+                Timber.d("Event deleted")
+            }
+        }
     }
 
     private fun addEvent(event: CountdownDate) {
@@ -94,21 +107,10 @@ class CountdownViewModel @Inject constructor(
                 addEventUseCase(event)
             }.onFailure {
                 Timber.e(it, "Error adding event")
+                localState.update { it.copy(message = "Problema al agregar el evento") }
             }.onSuccess {
                 onHandleAction(Action.DismissAddEventSheet)
             }
-        }
-    }
-
-    fun onHandleAction(action: Actions.Interaction) {
-        when (action) {
-            Actions.Interaction.ToggleListType -> onListChangeAdapter()
-            Actions.Interaction.DismissError -> onErrorMessageDisplayed()
-            is Actions.Interaction.ChangeTimeCalculation -> onCountdownClickTypeChange(action.item)
-            Actions.Interaction.CancelSelection -> onCancelSelection()
-            is Actions.Interaction.AddSelectedItem -> onSelectEvent(action.item)
-            Actions.Interaction.DeleteSelectedItems -> onDeleteEvents()
-            is Actions.Interaction.ChangeSelectedYear -> onChangeSelectedYear(action.year)
         }
     }
 
@@ -164,11 +166,11 @@ class CountdownViewModel @Inject constructor(
     }
 
     private fun onErrorMessageDisplayed() {
-        viewModelScope.launch { localState.update { it.copy(error = null) } }
+//        viewModelScope.launch { localState.update { it.copy(error = null) } }
     }
 
     private fun onCancelSelection() {
-        localState.update { it.copy(selectedEvents = emptySet()) }
+//        localState.update { it.copy(selectedEvents = emptySet()) }
     }
 
     private fun onChangeSelectedYear(selectedYear: String) {
