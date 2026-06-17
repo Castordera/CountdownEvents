@@ -20,9 +20,10 @@ interface CoroutineTest {
 }
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class TestCoroutineExtension: BeforeEachCallback, AfterEachCallback, TestInstancePostProcessor {
-
+class TestCoroutineExtension(
     val dispatcher: TestDispatcher = UnconfinedTestDispatcher()
+): BeforeEachCallback, AfterEachCallback, TestInstancePostProcessor {
+
     val testScope: TestScope = TestScope(dispatcher)
 
     override fun postProcessTestInstance(testInstance: Any?, context: ExtensionContext?) {

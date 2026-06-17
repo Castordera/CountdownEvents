@@ -33,6 +33,9 @@ dependencies {
     //  Tests
     testImplementation(libs.bundles.tests.unit)
     androidTestImplementation(libs.bundles.tests.compose)
+    androidTestImplementation("com.google.dagger:hilt-android-testing:2.51.1")
+    // ...with Kotlin.
+    kspAndroidTest("com.google.dagger:hilt-android-compiler:2.51.1")
 }
 
 tasks.withType<Test> {

@@ -16,6 +16,7 @@
             </builds>
           </compositeBuild>
         </compositeConfiguration>
+        <option name="testRunner" value="CHOOSE_PER_TEST" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="gradleJvm" value="#GRADLE_LOCAL_JAVA_HOME" />
         <option name="modules">
@@ -25,8 +26,13 @@
             <option value="$PROJECT_DIR$/build-logic" />
             <option value="$PROJECT_DIR$/build-logic/convention" />
             <option value="$PROJECT_DIR$/common" />
+            <option value="$PROJECT_DIR$/common/database" />
+            <option value="$PROJECT_DIR$/common/datastore" />
             <option value="$PROJECT_DIR$/common/date-utils" />
+            <option value="$PROJECT_DIR$/common/navigation" />
+            <option value="$PROJECT_DIR$/common/notification" />
             <option value="$PROJECT_DIR$/common/preview-data" />
+            <option value="$PROJECT_DIR$/common/resources" />
             <option value="$PROJECT_DIR$/data" />
             <option value="$PROJECT_DIR$/design" />
             <option value="$PROJECT_DIR$/design/components" />

@@ -22,7 +22,6 @@ import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
@@ -83,13 +82,13 @@ class AddEventViewModelTest {
         val error = "This is a message Error"
         coEvery { addEventUseCase(any()) } throws Exception(error)
         //
-        init("null")
+        init(null)
         //
         viewModel.uiState.test {
             skipItems(1)
-            viewModel.onHandleAction(Actions.SendData)
+            viewModel.onHandleAction(Actions.Interaction.SendData)
             assertEquals(awaitItem().error, error)
-            viewModel.onHandleAction(Actions.DismissError)
+            viewModel.onHandleAction(Actions.Interaction.DismissError)
             assertTrue(awaitItem().error == null)
         }
         coVerify {
@@ -102,12 +101,12 @@ class AddEventViewModelTest {
         val name = "This is a demo name"
         coEvery { addEventUseCase(any()) } just runs
         //
-        init("null")
+        init(null)
         //
         viewModel.uiState.test {
             skipItems(1)
-            viewModel.onHandleAction(Actions.UpdateName(name))
-            viewModel.onHandleAction(Actions.SendData)
+            viewModel.onHandleAction(Actions.Interaction.UpdateName(name))
+            viewModel.onHandleAction(Actions.Interaction.SendData)
             assertTrue(awaitItem().goBack)
         }
         coEvery { addEventUseCase(any()) }
