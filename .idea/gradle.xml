@@ -45,7 +45,6 @@
             <option value="$PROJECT_DIR$/usecase" />
           </set>
         </option>
-        <option name="resolveExternalAnnotations" value="false" />
       </GradleProjectSettings>
     </option>
   </component>

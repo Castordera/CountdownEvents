@@ -27,15 +27,17 @@ dependencies {
     //  Hilt
     implementation(libs.bundles.hilt.core)
     ksp(libs.hilt.compiler)
+    ksp(libs.kotlin.metadata.jvm)
     // Compose
     implementation(libs.compose.lifecycle.runtime)
     implementation(libs.compose.navigation)
     //  Tests
     testImplementation(libs.bundles.tests.unit)
     androidTestImplementation(libs.bundles.tests.compose)
-    androidTestImplementation("com.google.dagger:hilt-android-testing:2.51.1")
+    androidTestImplementation(libs.hilt.android.testing)
     // ...with Kotlin.
-    kspAndroidTest("com.google.dagger:hilt-android-compiler:2.51.1")
+    kspAndroidTest(libs.hilt.compiler)
+    kspAndroidTest(libs.kotlin.metadata.jvm)
 }
 
 tasks.withType<Test> {

@@ -1,21 +1,18 @@
-import com.android.build.api.dsl.ApplicationExtension
-import com.android.build.api.dsl.LibraryExtension
-import com.ulises.convention.config.configureAndroidKotlin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.findByType
+import org.gradle.kotlin.dsl.configure
+import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 
 class AndroidKotlinConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            pluginManager.apply("org.jetbrains.kotlin.android")
-            extensions.findByType<ApplicationExtension>()?.apply {
-                configureAndroidKotlin(this)
-            }
-
-            extensions.findByType<LibraryExtension>()?.apply {
-                configureAndroidKotlin(this)
-            }
+            configureJvmToolchain()
         }
+    }
+}
+
+private fun Project.configureJvmToolchain() {
+    extensions.configure<KotlinAndroidProjectExtension> {
+        jvmToolchain(21)
     }
 }

@@ -52,6 +52,7 @@ dependencies {
     //  Hilt
     implementation(libs.bundles.hilt.core)
     ksp(libs.hilt.compiler)
+    ksp(libs.kotlin.metadata.jvm)
     implementation(libs.kotlinx.serialization.json)
 
     implementation(project(":domain"))

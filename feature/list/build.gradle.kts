@@ -27,6 +27,7 @@ dependencies {
     //  Hilt
     implementation(libs.bundles.hilt.core)
     ksp(libs.hilt.compiler)
+    ksp(libs.kotlin.metadata.jvm)
     // Compose
     implementation(libs.compose.lifecycle.runtime)
     //
