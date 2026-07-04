@@ -3,6 +3,7 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 
+@Suppress("unused")
 class AndroidKotlinConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
