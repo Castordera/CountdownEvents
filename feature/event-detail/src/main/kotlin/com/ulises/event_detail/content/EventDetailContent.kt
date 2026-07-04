@@ -34,7 +34,7 @@ import com.ulises.components.toolbars.AppTopBar
 import com.ulises.components.toolbars.IconBtn
 import com.ulises.date_utils.format
 import com.ulises.date_utils.fromToday
-import com.ulises.event_detail.Action
+import com.ulises.event_detail.models.Action
 import com.ulises.event_detail.components.CountBlock
 import com.ulises.event_detail.components.StatCard
 import com.ulises.event_detail.models.UiState

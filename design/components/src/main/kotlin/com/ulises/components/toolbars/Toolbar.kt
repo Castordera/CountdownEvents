@@ -132,7 +132,7 @@ fun PrevToolbarBack() {
             AppTopBar(
                 onBackPress = {},
             ) {
-                AppTopBarIcon({ }) {
+                IconBtn({ }) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Default.ArrowBack,
                         contentDescription = null,

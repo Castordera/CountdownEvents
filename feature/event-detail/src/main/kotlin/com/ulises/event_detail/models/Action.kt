@@ -1,4 +1,4 @@
-package com.ulises.event_detail
+package com.ulises.event_detail.models
 
 sealed interface Action {
     data object BackPressed : Action

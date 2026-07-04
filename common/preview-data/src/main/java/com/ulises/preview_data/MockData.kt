@@ -2,7 +2,6 @@ package com.ulises.preview_data
 
 import com.example.domain.models.CountdownDate
 import java.time.LocalDate
-import java.time.LocalDateTime
 
 val listItemsPreview = listOf(
     getMockCountDown(

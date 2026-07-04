@@ -1,61 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--  Main Screen  -->
-    <string name="main_screen_title">Events</string>
     <string name="main_screen_empty_events_message">Ups, we could not find any event</string>
-    <string name="main_screen_label_passed_events">Passed events</string>
-    <string name="main_screen_label_today">Today</string>
     <!--  Add Event  -->
-    <string name="add_screen_title">Add new date</string>
-    <string name="add_screen_edit_text_event_name_placeholder">Date name</string>
-    <string name="add_screen_button_change_date">Select day</string>
-    <string name="add_screen_button_save_date">Save</string>
     <!--  Detail  -->
-    <string name="detail_screen_label_time_remaining">Remaining</string>
-    <string name="detail_screen_label_time_ago">Ago</string>
-    <string name="detail_screen_label_time_passed"/>
-    <string name="detail_screen_label_time_bottom">%s Ago</string>
     <!--  Dialogs  -->
-    <string name="dialog_delete_event_title">Delete</string>
-    <string name="dialog_delete_event_message">Are you sure you want to delete this item?</string>
-    <string name="dialog_delete_event_positive_text">Delete</string>
-    <string name="dialog_delete_event_negative_text">Cancel</string>
     <!--  Basic Dialog  -->
     <string name="dialog_button_positive">Save</string>
     <string name="dialog_button_cancel">Cancel</string>
     <!--  Calculation  -->
-    <string name="main_screen_today_label">Today is</string>
-    <string name="main_screen_week_label">Weeks</string>
-    <string name="main_screen_week_content">Current: %d, Left: %d</string>
-    <string name="main_screen_month_label">Month</string>
-    <string name="main_screen_month_content">Current day of the month: %d, Days left: %d</string>
-    <string name="main_screen_year_label">Days in year</string>
-    <string name="main_screen_year_content">Current day: %d, Days Left: %d</string>
-    <string name="main_screen_season_label">Seasons</string>
-    <string name="main_screen_season_content">Current: %s, Days left: %d</string>
     <!--  Other  -->
-    <plurals name="time_label_ago">
-        <item quantity="other">%s</item>
-        <item quantity="one">%s ago</item>
-    </plurals>
-    <plurals name="time_label_year">
-        <item quantity="one">Year</item>
-        <item quantity="other">Years</item>
-    </plurals>
-    <plurals name="time_label_week">
-        <item quantity="one">Week</item>
-        <item quantity="other">Weaks</item>
-    </plurals>
-    <plurals name="time_label_day">
-        <item quantity="one">Day</item>
-        <item quantity="other">Days</item>
-    </plurals>
-    <plurals name="time_label_hour">
-        <item quantity="one">Hour</item>
-        <item quantity="other">Hours</item>
-    </plurals>
-    <plurals name="time_label_minute">
-        <item quantity="one">Minute</item>
-        <item quantity="other">Minutes</item>
-    </plurals>
 </resources>

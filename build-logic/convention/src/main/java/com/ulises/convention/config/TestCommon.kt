@@ -33,7 +33,7 @@ fun Project.configureAndroidTest(
     }
 }
 
-fun Project.configureUnitTest(
+fun configureUnitTest(
     commonExtension: CommonExtension,
 ) {
 //    commonExtension.apply {
