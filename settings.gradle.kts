@@ -4,7 +4,7 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
     }
-    includeBuild("build-logic")
+    includeBuild("../build-logic")
 }
 plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
@@ -16,10 +16,8 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-includeBuild("build-logic")
 
 rootProject.name = "CountdownApp"
-gradle.startParameter.excludedTaskNames.addAll(listOf(":build-logic:convention:testClasses"))
 include(":app")
 include(":domain")
 include(":usecase")
