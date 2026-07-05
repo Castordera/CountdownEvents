@@ -100,10 +100,8 @@ google-services = { id = "com.google.gms.google-services", version = "4.4.2" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 firebase-crashlytics = { id = "com.google.firebase.crashlytics", version = "3.0.2" }
 #   Build Logic
-castorena-bl-app-compose = { id = "castorena.android.app.compose", version = "unespecific" }
-castorena-bl-lib-compose = { id = "castorena.android.library.compose", version = "unespecific" }
-castorena-bl-kotlin = { id = "castorena.android.kotlin", version = "unespecific" }
-castorena-bl-common = { id = "castorena.android.common", version = "unespecific" }
+castorena-bl-compose-app = { id = "castorena.android.app.compose", version = "unespecific" }
+castorena-bl-compose-lib = { id = "castorena.android.library.compose", version = "unespecific" }
 castorena-bl-kotlin-lib = { id = "castorena.kotlin.library", version = "unespecific" }
 castorena-bl-test-android = { id = "castorena.android.test", version = "unespecific" }
 castorena-bl-test-unit = { id = "castorena.test", version = "unespecific" }

@@ -1,7 +1,5 @@
 plugins {
-    alias(libs.plugins.castorena.bl.app.compose)
-    alias(libs.plugins.castorena.bl.kotlin)
-    alias(libs.plugins.castorena.bl.common)
+    alias(libs.plugins.castorena.bl.compose.app)
     alias(libs.plugins.castorena.bl.test.unit)
     alias(libs.plugins.google.services)
     alias(libs.plugins.hilt)
