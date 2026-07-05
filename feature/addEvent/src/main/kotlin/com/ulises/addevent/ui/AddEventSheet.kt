@@ -12,7 +12,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -32,6 +31,9 @@ import com.ulises.addevent.ui.components.DatePickerDialog
 import com.ulises.addevent.ui.components.EmojiField
 import com.ulises.addevent.ui.components.NameField
 import com.ulises.theme.CountdownAppTheme
+import com.ulises.theme.colors
+import com.ulises.theme.shapes
+import com.ulises.theme.typography
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Date
@@ -42,7 +44,6 @@ fun AddEventSheet(
     onSaveEvent: (CountdownDate) -> Unit,
     onDismiss: () -> Unit,
 ) {
-    val cs = MaterialTheme.colorScheme
     val availableEmojis = listOf("🐶", "🎂", "✈️", "💒", "🎉", "🎓", "🏖️", "💼", "🎵", "🏆", "❤️", "🎄", "🌎")
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     var name by remember { mutableStateOf("") }
@@ -64,15 +65,15 @@ fun AddEventSheet(
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
-        containerColor = MaterialTheme.colorScheme.surface,
+        containerColor = colors.surface,
         dragHandle = {
             Box(
                 modifier = Modifier
                     .padding(top = 12.dp, bottom = 4.dp)
                     .width(36.dp)
                     .height(4.dp)
-                    .clip(MaterialTheme.shapes.large)
-                    .background(MaterialTheme.colorScheme.outlineVariant)
+                    .clip(shapes.large)
+                    .background(colors.outlineVariant)
             )
         },
     ) {
@@ -85,11 +86,11 @@ fun AddEventSheet(
         ) {
             Text(
                 text = "Nuevo evento",
-                style = MaterialTheme.typography.titleMedium,
-                color = cs.onSurface,
+                style = typography.titleMedium,
+                color = colors.onSurface,
                 modifier = Modifier.padding(bottom = 2.dp),
             )
-            HorizontalDivider(color = cs.outlineVariant, thickness = 0.5.dp)
+            HorizontalDivider(color = colors.outlineVariant, thickness = 0.5.dp)
             NameField(name) { name = it }
             EmojiField(selectedEmoji = emoji, availableEmojis = availableEmojis) { emoji = it }
             DateField(date) { showDatePicker = true }
@@ -110,16 +111,16 @@ fun AddEventSheet(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(48.dp),
-                shape = MaterialTheme.shapes.medium,
+                shape = shapes.medium,
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = cs.primary,
-                    contentColor = cs.onPrimary,
+                    containerColor = colors.primary,
+                    contentColor = colors.onPrimary,
                 ),
                 enabled = name.isNotBlank(),
             ) {
                 Text(
                     text = "Guardar evento",
-                    style = MaterialTheme.typography.labelMedium,
+                    style = typography.labelMedium,
                 )
             }
         }

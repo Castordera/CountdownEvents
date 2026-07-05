@@ -1,5 +1,6 @@
 package com.ulises.addevent.ui.components
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -15,7 +16,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -26,6 +26,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ulises.date_utils.format
+import com.ulises.theme.colors
+import com.ulises.theme.shapes
+import com.ulises.theme.typography
 import java.time.LocalDate
 
 @Composable
@@ -33,8 +36,6 @@ internal fun NameField(
     value: String,
     onValueChange: (String) -> Unit
 ) {
-    val cs = MaterialTheme.colorScheme
-
     Column {
         LabelField("Nombre")
         OutlinedTextField(
@@ -43,20 +44,20 @@ internal fun NameField(
             placeholder = {
                 Text(
                     text = "Ej: Cumpleaños, viaje, boda…",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = cs.onSurfaceVariant,
+                    style = typography.bodySmall,
+                    color = colors.onSurfaceVariant,
                 )
             },
             singleLine = true,
             modifier = Modifier.fillMaxWidth(),
-            shape = MaterialTheme.shapes.medium,
+            shape = shapes.medium,
             colors = OutlinedTextFieldDefaults.colors(
-                unfocusedContainerColor = cs.background,
-                focusedContainerColor = cs.background,
-                unfocusedBorderColor = cs.outlineVariant,
-                focusedBorderColor = cs.outline,
+                unfocusedContainerColor = colors.background,
+                focusedContainerColor = colors.background,
+                unfocusedBorderColor = colors.outlineVariant,
+                focusedBorderColor = colors.outline,
             ),
-            textStyle = MaterialTheme.typography.titleMedium.copy(color = cs.onSurface),
+            textStyle = typography.titleMedium.copy(color = colors.onSurface),
         )
     }
 }
@@ -67,22 +68,24 @@ internal fun EmojiField(
     availableEmojis: List<String>,
     onEmojiClick: (String) -> Unit
 ) {
-    val cs = MaterialTheme.colorScheme
-
     Column {
         LabelField("Ícono")
-        LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
             items(availableEmojis) { emoji ->
                 val isSelected = emoji == selectedEmoji
                 Box(
                     modifier = Modifier
-                        .size(40.dp)
-                        .clip(MaterialTheme.shapes.small)
-                        .background(if (isSelected) cs.outlineVariant else cs.background)
+                        .size(if (isSelected) 45.dp else 40.dp)
+                        .animateContentSize()
+                        .clip(shapes.small)
+                        .background(if (isSelected) colors.outlineVariant else colors.background)
                         .border(
                             width = if (isSelected) 1.dp else 0.5.dp,
-                            color = if (isSelected) cs.onSurface else cs.outlineVariant,
-                            shape = MaterialTheme.shapes.small,
+                            color = if (isSelected) colors.onSurface else colors.outlineVariant,
+                            shape = shapes.small,
                         )
                         .clickable { onEmojiClick(emoji) },
                     contentAlignment = Alignment.Center,
@@ -99,16 +102,14 @@ internal fun DateField(
     date: LocalDate,
     onClick: () -> Unit
 ) {
-    val cs = MaterialTheme.colorScheme
-
     Column {
         LabelField("Fecha")
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .clip(MaterialTheme.shapes.medium)
-                .background(cs.background)
-                .border(0.5.dp, cs.outlineVariant, MaterialTheme.shapes.medium)
+                .clip(shapes.medium)
+                .background(colors.background)
+                .border(0.5.dp, colors.outlineVariant, shapes.medium)
                 .clickable { onClick() }
                 .padding(horizontal = 14.dp, vertical = 13.dp),
             verticalAlignment = Alignment.CenterVertically,
@@ -117,13 +118,13 @@ internal fun DateField(
             Icon(
                 imageVector = Icons.Default.DateRange,
                 contentDescription = null,
-                tint = cs.onSurfaceVariant,
+                tint = colors.onSurfaceVariant,
                 modifier = Modifier.size(16.dp),
             )
             Text(
                 text = date.format("d 'de' MMMM 'de' yyyy"),
-                style = MaterialTheme.typography.titleMedium,
-                color = cs.onSurface,
+                style = typography.titleMedium,
+                color = colors.onSurface,
             )
         }
     }
