@@ -1,5 +1,5 @@
 plugins {
-    id("countdown.kotlin.library")
+    alias(libs.plugins.castorena.bl.kotlin.lib)
 }
 
 dependencies {

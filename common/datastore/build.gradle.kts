@@ -1,9 +1,9 @@
 plugins {
-    id("countdown.android.library.compose")
-    id("countdown.android.kotlin")
-    id("countdown.android.common")
-    id("countdown.android.test")
-    id("countdown.test")
+    alias(libs.plugins.castorena.bl.lib.compose)
+    alias(libs.plugins.castorena.bl.kotlin)
+    alias(libs.plugins.castorena.bl.common)
+    alias(libs.plugins.castorena.bl.test.android)
+    alias(libs.plugins.castorena.bl.test.unit)
 }
 
 android {
