@@ -1,6 +1,6 @@
 plugins {
     alias(libs.plugins.castorena.bl.compose.lib)
-    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.castorena.bl.serialization)
     alias(libs.plugins.ksp)
 }
 
@@ -15,11 +15,6 @@ dependencies {
     //  Room
     implementation(libs.bundles.room.core)
     ksp(libs.room.coompiler)
-    implementation(libs.kotlinx.serialization.json)
     //  Others
     implementation(libs.javax.inject)
-    //
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.espresso.core)
 }

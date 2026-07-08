@@ -1,5 +1,6 @@
 package com.ulises.common.notification
 
+import android.annotation.SuppressLint
 import android.app.Notification
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -7,6 +8,7 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import timber.log.Timber
 
+@SuppressLint("MissingFirebaseInstanceTokenRefresh")
 class FcmService: FirebaseMessagingService() {
 
     override fun onMessageReceived(message: RemoteMessage) {
@@ -14,9 +16,14 @@ class FcmService: FirebaseMessagingService() {
         createNotification(message)
     }
 
-    override fun onNewToken(token: String) {
-        super.onNewToken(token)
-        Timber.d("New token generated $token")
+    override fun onRegistered(installationId: String) {
+        super.onRegistered(installationId)
+        Timber.d("onRegistered $installationId")
+    }
+
+    override fun onUnregistered(installationId: String) {
+        super.onUnregistered(installationId)
+        Timber.d("onUnregistered $installationId")
     }
 
     private fun createNotification(message: RemoteMessage) {

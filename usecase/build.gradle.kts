@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.castorena.bl.kotlin.lib)
+    alias(libs.plugins.castorena.bl.test.unit)
 }
 
 dependencies {
@@ -8,8 +9,6 @@ dependencies {
 
     implementation(libs.javax.inject)
     implementation(libs.coroutines.core)
-    //
-    testImplementation(libs.bundles.tests.unit)
 }
 
 tasks.withType<Test> {

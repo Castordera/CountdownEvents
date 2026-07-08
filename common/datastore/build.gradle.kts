@@ -1,7 +1,5 @@
 plugins {
     alias(libs.plugins.castorena.bl.compose.lib)
-    alias(libs.plugins.castorena.bl.test.android)
-    alias(libs.plugins.castorena.bl.test.unit)
 }
 
 android {

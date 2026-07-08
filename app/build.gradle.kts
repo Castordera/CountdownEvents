@@ -3,8 +3,7 @@ plugins {
     alias(libs.plugins.castorena.bl.test.unit)
     alias(libs.plugins.google.services)
     alias(libs.plugins.hilt)
-    id("kotlin-parcelize")
-    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.castorena.bl.serialization)
     alias(libs.plugins.firebase.crashlytics)
     alias(libs.plugins.ksp)
 }
@@ -52,7 +51,6 @@ dependencies {
     implementation(libs.bundles.hilt.core)
     ksp(libs.hilt.compiler)
     ksp(libs.kotlin.metadata.jvm)
-    implementation(libs.kotlinx.serialization.json)
 
     implementation(project(":domain"))
     implementation(project(":data"))

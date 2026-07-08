@@ -2,15 +2,11 @@ plugins {
     alias(libs.plugins.castorena.bl.compose.lib)
     alias(libs.plugins.castorena.bl.test.android)
     alias(libs.plugins.castorena.bl.test.unit)
-    id("com.google.devtools.ksp")
+    alias(libs.plugins.ksp)
 }
 
 android {
     namespace = "com.ulises.addevent"
-
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
 }
 
 dependencies {
@@ -29,13 +25,6 @@ dependencies {
     // Compose
     implementation(libs.compose.lifecycle.runtime)
     implementation(libs.compose.navigation)
-    //  Tests
-    testImplementation(libs.bundles.tests.unit)
-    androidTestImplementation(libs.bundles.tests.compose)
-    androidTestImplementation(libs.hilt.android.testing)
-    // ...with Kotlin.
-    kspAndroidTest(libs.hilt.compiler)
-    kspAndroidTest(libs.kotlin.metadata.jvm)
 }
 
 tasks.withType<Test> {

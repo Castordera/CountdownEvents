@@ -35,18 +35,21 @@ android-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime
 # Compose
 compose-activity = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
 compose-navigation = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+#   Compose BOM
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-ui-animation = { group = "androidx.compose.ui", name = "animation" }
+#   Material 3
 compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
+#   Compose Extras
 compose-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycleRuntimeCompose" }
 compose-icons = { module = "androidx.compose.material:material-icons-extended-android", version = "1.7.8" }
 # Firebase
-firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 firebase-messaging = { module = "com.google.firebase:firebase-messaging" }
 # Room
@@ -85,8 +88,6 @@ coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 room-core = ["room-runtime", "room-ktx"]
 hilt-core = ["hilt-android", "hilt-navigation-compose"]
 coil = ["coil-core", "coil-compose"]
-tests-unit = ["junit5", "mockk", "coroutines-test", "turbine"]
-tests-compose = ["androidx-ui-test-junit4", "junit5"]
 
 [plugins]
 android-app = { id = "com.android.application", version.ref = "agp" }
@@ -104,3 +105,4 @@ castorena-bl-compose-lib = { id = "castorena.android.library.compose", version =
 castorena-bl-kotlin-lib = { id = "castorena.kotlin.library", version = "unespecific" }
 castorena-bl-test-android = { id = "castorena.android.test", version = "unespecific" }
 castorena-bl-test-unit = { id = "castorena.test", version = "unespecific" }
+castorena-bl-serialization = { id = "castorena.serialization", version = "unespecific" }
